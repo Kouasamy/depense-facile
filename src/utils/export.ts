@@ -103,7 +103,7 @@ function addFooter(doc: jsPDF, pageNumber: number) {
   doc.setTextColor(...COLORS.gray)
   doc.setFontSize(8)
   doc.setFont('helvetica', 'normal')
-  doc.text(`GereTonDjai - Genere le ${new Date().toLocaleDateString('fr-FR')}`, 20, pageHeight - 10)
+  doc.text(`GereTonDjai - Genere le ${new Date().toLocaleDateString('fr-FR')} | by Sam_k`, 20, pageHeight - 10)
   doc.text(`Page ${pageNumber}`, pageWidth - 20, pageHeight - 10, { align: 'right' })
 }
 

@@ -242,6 +242,13 @@
   color: var(--color-text-muted);
 }
 
+.auth-footer-credit {
+  font-size: 0.625rem;
+  opacity: 0.4;
+  margin-top: var(--space-1);
+  font-style: italic;
+}
+
 /* Spinning animation */
 @keyframes spin {
   from { transform: rotate(0deg); }

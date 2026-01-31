@@ -70,6 +70,7 @@ function AppContent() {
             <p>Chargement...</p>
           </div>
         </div>
+        <p className="loading-credit">by Sam_k</p>
       </div>
     )
   }

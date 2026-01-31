@@ -198,6 +198,7 @@ export function AuthPage() {
         {/* Footer */}
         <footer className="auth-footer">
           <p>© 2024 GèreTonDjai - Fièrement conçu pour la Côte d'Ivoire</p>
+          <p className="auth-footer-credit">by Sam_k</p>
         </footer>
       </div>
     </div>

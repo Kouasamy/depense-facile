@@ -329,6 +329,13 @@
   color: var(--color-text-muted);
 }
 
+.notifications-footer-credit {
+  font-size: 0.5625rem;
+  opacity: 0.35;
+  margin-top: var(--space-1);
+  font-style: italic;
+}
+
 /* ==================== NOTIFICATION DETAIL MODAL ==================== */
 .notification-modal-overlay {
   position: fixed;

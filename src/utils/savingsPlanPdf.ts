@@ -464,7 +464,7 @@ export async function downloadSavingsPlanPDF(plan: SavingsPlan): Promise<void> {
     doc.setFontSize(8)
     doc.setTextColor(...COLORS.textMuted)
     doc.setFont('helvetica', 'normal')
-    doc.text('Depense Facile - Votre assistant financier personnel', 15, pageHeight - 8)
+    doc.text('GereTonDjai - Votre assistant financier personnel | by Sam_k', 15, pageHeight - 8)
     doc.text('Page ' + i + ' / ' + (pageCount - 1), pageWidth - 15, pageHeight - 8, { align: 'right' })
   }
 

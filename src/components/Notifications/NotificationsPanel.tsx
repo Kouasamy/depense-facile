@@ -217,6 +217,7 @@ export function NotificationsPanel({ isOpen, onClose }: NotificationsPanelProps)
         {/* Footer */}
         <div className="notifications-footer">
           <p>GèreTonDjai - Gère ton djai comme un boss ! 🇨🇮</p>
+          <p className="notifications-footer-credit">by Sam_k</p>
         </div>
       </div>
 

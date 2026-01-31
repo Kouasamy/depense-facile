@@ -258,8 +258,9 @@ export function SettingsPage() {
 
         {/* Footer */}
         <footer className="settings-footer">
-          <p>© 2024 GèreTonDjai - Made for Côte d'Ivoire</p>
-          <p>Version 1.0.0</p>
+          <p>© 2024 GèreTonDjai - Made with ❤️ for Côte d'Ivoire</p>
+          <p className="settings-footer-version">Version 1.0.0</p>
+          <p className="settings-footer-credit">Crafted by Sam_k</p>
         </footer>
       </div>
 

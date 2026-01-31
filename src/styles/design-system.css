@@ -1250,6 +1250,17 @@ img {
   color: var(--color-text-muted);
 }
 
+.loading-credit {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5625rem;
+  color: var(--color-text-muted);
+  opacity: 0.3;
+  font-style: italic;
+}
+
 /* ==================== APP MAIN ==================== */
 .app-main {
   min-height: 100vh;

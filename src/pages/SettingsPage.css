@@ -408,3 +408,14 @@
   margin-bottom: var(--space-1);
 }
 
+.settings-footer-version {
+  opacity: 0.7;
+}
+
+.settings-footer-credit {
+  font-size: 0.625rem;
+  opacity: 0.5;
+  margin-top: var(--space-2);
+  font-style: italic;
+}
+
