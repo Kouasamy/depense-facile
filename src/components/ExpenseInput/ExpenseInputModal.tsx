@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useExpenseStore } from '../../stores/expenseStore'
-import { useAuthStore } from '../../stores/authStore'
 import { useVoiceRecognition } from '../../hooks/useVoiceRecognition'
 import { parseExpenseText, formatAmount } from '../../core/nlp/parser'
 import { 
@@ -19,7 +18,6 @@ interface ExpenseInputModalProps {
 
 export function ExpenseInputModal({ isOpen, onClose }: ExpenseInputModalProps) {
   const { addNewExpense, refreshData } = useExpenseStore()
-  const { user } = useAuthStore()
   const { isRecording, transcript, startRecording, stopRecording, resetTranscript, isAvailable } = useVoiceRecognition()
 
   // Form state
@@ -108,12 +106,7 @@ export function ExpenseInputModal({ isOpen, onClose }: ExpenseInputModalProps) {
         category,
         paymentMethod,
         description: description || categoryMeta[category].label,
-        date: new Date(),
-        userId: user?.id || '',
-        localId: crypto.randomUUID(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        syncStatus: 'pending'
+        date: new Date()
       })
 
       await refreshData()

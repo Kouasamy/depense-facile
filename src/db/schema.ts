@@ -555,8 +555,9 @@ export async function updateUserProfile(odId: string, updates: Partial<Pick<User
 
 // Get user by ID
 export async function getUserById(odId: string): Promise<UserAccount | null> {
-  return db.userAccounts
+  const user = await db.userAccounts
     .where('odId')
     .equals(odId)
-    .first() || null
+    .first()
+  return user ?? null
 }

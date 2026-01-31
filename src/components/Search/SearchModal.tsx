@@ -66,7 +66,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     navigate(action.path)
   }
 
-  const handleResultClick = (expense: any) => {
+  const handleResultClick = () => {
     onClose()
     navigate('/history')
   }
@@ -126,14 +126,14 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     {results.length} résultat{results.length > 1 ? 's' : ''}
                   </p>
                   {results.map((expense) => {
-                    const catMeta = categoryMeta[expense.category]
+                    const catMeta = categoryMeta[expense.category as keyof typeof categoryMeta]
                     const expDate = new Date(expense.date)
                     
                     return (
                       <button
                         key={expense.id}
                         className="search-result-item"
-                        onClick={() => handleResultClick(expense)}
+                        onClick={handleResultClick}
                       >
                         <div 
                           className="search-result-icon"

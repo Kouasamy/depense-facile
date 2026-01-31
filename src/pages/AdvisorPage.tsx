@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useExpenseStore } from '../stores/expenseStore'
 import { formatAmount } from '../core/nlp/parser'
-import { categoryMeta, type ExpenseCategory } from '../db/schema'
+import { categoryMeta } from '../db/schema'
 import {
   generateFinancialAdvice,
   generateBudgetRecommendations,

@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { 
-  db,
   addExpense, 
   addIncome,
   deleteExpenseById,

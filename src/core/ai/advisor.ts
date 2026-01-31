@@ -96,12 +96,11 @@ export function generateBudgetRecommendations(
 // Generate personalized financial advice
 export function generateFinancialAdvice(
   monthlyIncome: number,
-  monthlyExpenses: number,
+  _monthlyExpenses: number, // Unused but kept for API compatibility
   categorySpending: Record<ExpenseCategory, number>,
   savingsRate: number // percentage of income saved
 ): FinancialAdvice[] {
   const advice: FinancialAdvice[] = []
-  const expenseRatio = monthlyExpenses / monthlyIncome
   
   // Advice based on savings rate
   if (savingsRate < 0) {
