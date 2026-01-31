@@ -1,4 +1,4 @@
-# Dépense Facile 💰
+# Gère Ton Djai 💰
 
 Application Web Progressive (PWA) de gestion de dépenses pour les Ivoiriens, avec saisie vocale intelligente et compréhension du Nouchi.
 
