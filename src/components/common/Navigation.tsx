@@ -103,7 +103,7 @@ export function Navigation() {
 
       {/* Mobile Bottom Navigation */}
       <nav className="nav-bottom">
-        {navItems.slice(0, 2).map((item) => (
+        {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
@@ -115,21 +115,17 @@ export function Navigation() {
             <span className="nav-bottom-label">{item.label}</span>
           </NavLink>
         ))}
-
-        <div className="nav-bottom-spacer" />
-
-        {navItems.slice(2, 4).map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              `nav-bottom-item ${isActive ? 'active' : ''}`
-            }
-          >
-            <span className="material-symbols-outlined">{item.icon}</span>
-            <span className="nav-bottom-label">{item.label}</span>
-          </NavLink>
-        ))}
+        
+        {/* Paramètres */}
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `nav-bottom-item ${isActive ? 'active' : ''}`
+          }
+        >
+          <span className="material-symbols-outlined">settings</span>
+          <span className="nav-bottom-label">Paramètres</span>
+        </NavLink>
       </nav>
     </>
   )

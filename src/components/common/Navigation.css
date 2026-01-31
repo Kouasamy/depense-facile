@@ -206,16 +206,25 @@
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - var(--space-8));
-  max-width: 400px;
+  max-width: 600px;
   height: 64px;
   background-color: #181411;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 0 var(--space-4);
+  justify-content: flex-start;
+  padding: 0 var(--space-3);
   z-index: 100;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  gap: var(--space-1);
+}
+
+.nav-bottom::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .dark .nav-bottom {
@@ -234,11 +243,12 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  min-width: 56px;
+  min-width: 60px;
+  flex-shrink: 0;
   position: relative;
 }
 
@@ -281,10 +291,6 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-}
-
-.nav-bottom-spacer {
-  width: 72px;
-  height: 72px;
+  white-space: nowrap;
 }
 
