@@ -1,0 +1,329 @@
+/* ==================== HISTORY PAGE ==================== */
+.history-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+  padding-top: 72px;
+  padding-bottom: 120px;
+}
+
+@media (min-width: 1024px) {
+  .history-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    margin-left: 80px;
+  }
+}
+
+.history-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .history-container {
+    padding: 0 var(--space-6);
+  }
+}
+
+/* Header */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.history-header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.history-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.history-icon .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.history-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.history-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Filters */
+.history-filters {
+  margin-bottom: var(--space-6);
+}
+
+.history-filters-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .history-filters-row {
+    flex-direction: row;
+  }
+}
+
+.history-search {
+  flex: 1;
+  position: relative;
+}
+
+.history-search-clear {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.history-search-clear:hover {
+  color: var(--color-primary);
+}
+
+.history-search-clear .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.history-filter-buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.filter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.history-sort {
+  position: relative;
+}
+
+.history-sort .form-select {
+  min-width: 140px;
+  padding-right: 40px;
+}
+
+/* Category Pills */
+.history-category-pills {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.history-pills-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.history-pills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.history-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.history-pill:hover {
+  border-color: var(--color-primary);
+}
+
+.history-pill.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* List */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Group */
+.history-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.history-group-header .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--color-text-muted);
+}
+
+.history-group-date {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.history-group-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.history-group-total {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-danger);
+  white-space: nowrap;
+}
+
+.history-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Transaction Item */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+}
+
+.transaction-item:hover {
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.transaction-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.transaction-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-title {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.transaction-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.transaction-amount {
+  font-weight: 800;
+  font-size: 0.9375rem;
+}
+
+.transaction-delete {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.transaction-item:hover .transaction-delete {
+  opacity: 1;
+}
+
+.transaction-delete:hover {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.transaction-delete .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* Empty State */
+.history-empty {
+  padding: var(--space-12);
+  text-align: center;
+}
+

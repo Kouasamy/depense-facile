@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f48c25;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e07a15;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="coinGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="192" height="192" rx="40" fill="url(#bgGrad192)"/>
+  
+  <!-- Inner glow -->
+  <rect x="12" y="12" width="168" height="168" rx="32" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+  
+  <!-- Djai Symbol -->
+  <text x="96" y="130" 
+        font-family="Arial Black, sans-serif" 
+        font-size="100" 
+        font-weight="900" 
+        fill="white" 
+        text-anchor="middle"
+        style="filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.3))">
+    D
+  </text>
+  
+  <!-- Coin accent -->
+  <circle cx="142" cy="52" r="24" fill="url(#coinGrad192)" stroke="white" stroke-width="4"/>
+  <text x="142" y="60" 
+        font-family="Arial, sans-serif" 
+        font-size="22" 
+        font-weight="bold"
+        fill="#8B4513" 
+        text-anchor="middle">
+    F
+  </text>
+  
+  <!-- Sparkles -->
+  <circle cx="48" cy="56" r="6" fill="white" opacity="0.6"/>
+  <circle cx="156" cy="140" r="4" fill="white" opacity="0.5"/>
+  <circle cx="38" cy="125" r="4" fill="white" opacity="0.4"/>
+</svg>

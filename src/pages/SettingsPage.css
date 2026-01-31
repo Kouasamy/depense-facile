@@ -1,0 +1,410 @@
+/* ==================== SETTINGS PAGE ==================== */
+.settings-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+  padding-top: 72px;
+  padding-bottom: 120px;
+}
+
+@media (min-width: 1024px) {
+  .settings-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    margin-left: 80px;
+  }
+}
+
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .settings-container {
+    padding: 0 var(--space-6);
+  }
+}
+
+/* Header */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.settings-header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.settings-icon .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.settings-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.settings-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Section */
+.settings-section {
+  margin-bottom: var(--space-6);
+}
+
+.settings-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.settings-section-header .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--color-primary);
+}
+
+.settings-section-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* Profile */
+.settings-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.settings-profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.settings-profile-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.settings-profile-email {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.settings-profile-badges {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Income */
+.settings-income {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+}
+
+.settings-income-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.settings-income-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* Options */
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.settings-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings-option-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.settings-option-info .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--color-text-muted);
+}
+
+/* Theme Selector */
+.settings-theme-selector {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.settings-theme-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settings-theme-btn:hover {
+  border-color: var(--color-primary);
+}
+
+.settings-theme-btn.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-alpha-10);
+  color: var(--color-primary);
+}
+
+.settings-theme-btn .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.settings-theme-btn span:last-child {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Export */
+.settings-export-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.settings-export-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .settings-export-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.settings-export-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settings-export-btn:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-alpha-10);
+}
+
+.settings-export-btn .material-symbols-outlined {
+  font-size: 24px;
+  color: var(--color-primary);
+}
+
+.settings-export-btn span:last-child {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Sync */
+.settings-sync-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings-sync-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+}
+
+.settings-sync-indicator.online {
+  background-color: var(--color-success);
+}
+
+.settings-sync-indicator.offline {
+  background-color: var(--color-danger);
+}
+
+/* Legal */
+.settings-legal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.settings-legal-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.settings-legal-link:hover {
+  background-color: var(--color-bg-elevated);
+}
+
+.settings-legal-link .material-symbols-outlined:first-child {
+  font-size: 20px;
+  color: var(--color-text-muted);
+}
+
+.settings-legal-link span:nth-child(2) {
+  flex: 1;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.settings-legal-link .material-symbols-outlined:last-child {
+  font-size: 18px;
+  color: var(--color-text-muted);
+}
+
+/* Danger */
+.settings-danger {
+  padding: var(--space-4);
+  border: 2px solid var(--color-danger-bg);
+  background-color: rgba(231, 16, 8, 0.05);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-6);
+}
+
+.settings-danger-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.settings-danger h3 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-danger);
+  margin-bottom: var(--space-1);
+}
+
+.settings-danger p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.settings-danger-btn {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.settings-danger-btn:hover {
+  background-color: var(--color-danger-bg);
+}
+
+/* Logout */
+.settings-logout {
+  background-color: var(--color-primary-alpha-10);
+  border-color: var(--color-primary-alpha-20);
+}
+
+.settings-logout-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.settings-logout h3 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+.settings-logout p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* Footer */
+.settings-footer {
+  text-align: center;
+  padding: var(--space-8) 0;
+}
+
+.settings-footer p {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+

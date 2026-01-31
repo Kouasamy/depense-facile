@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f48c25;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e07a15;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="coinGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow512" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="4" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.35)"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="url(#bgGrad512)"/>
+  
+  <!-- Inner glow ring -->
+  <rect x="30" y="30" width="452" height="452" rx="80" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="6"/>
+  
+  <!-- Djai Symbol (Big D) -->
+  <text x="256" y="345" 
+        font-family="Arial Black, sans-serif" 
+        font-size="260" 
+        font-weight="900" 
+        fill="white" 
+        text-anchor="middle"
+        filter="url(#shadow512)">
+    D
+  </text>
+  
+  <!-- Coin accent -->
+  <circle cx="380" cy="130" r="60" fill="url(#coinGrad512)" stroke="white" stroke-width="8"/>
+  <text x="380" y="148" 
+        font-family="Arial, sans-serif" 
+        font-size="55" 
+        font-weight="bold"
+        fill="#8B4513" 
+        text-anchor="middle">
+    F
+  </text>
+  
+  <!-- Sparkle effects -->
+  <circle cx="120" cy="140" r="15" fill="white" opacity="0.6"/>
+  <circle cx="420" cy="380" r="10" fill="white" opacity="0.5"/>
+  <circle cx="100" cy="340" r="10" fill="white" opacity="0.4"/>
+  <circle cx="90" cy="420" r="8" fill="white" opacity="0.3"/>
+  <circle cx="430" cy="440" r="6" fill="white" opacity="0.35"/>
+</svg>

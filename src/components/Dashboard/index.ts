@@ -1,0 +1,2 @@
+export { AddIncomeModal } from './AddIncomeModal'
+

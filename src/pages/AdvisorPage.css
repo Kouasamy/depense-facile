@@ -1,0 +1,594 @@
+/* ==================== ADVISOR PAGE ==================== */
+.advisor-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+  padding-top: 72px;
+  padding-bottom: 120px;
+}
+
+@media (min-width: 1024px) {
+  .advisor-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    margin-left: 80px;
+  }
+}
+
+.advisor-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .advisor-container {
+    padding: 0 var(--space-6);
+  }
+}
+
+/* Header */
+.advisor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.advisor-header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.advisor-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.advisor-icon .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.advisor-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.advisor-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Health Card */
+.advisor-health-card {
+  margin-bottom: var(--space-6);
+}
+
+.advisor-health-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .advisor-health-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Score Circle */
+.advisor-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.advisor-score-circle {
+  position: relative;
+  width: 128px;
+  height: 128px;
+}
+
+.advisor-score-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.advisor-score-progress {
+  transition: stroke-dasharray 1s ease-out;
+}
+
+.advisor-score-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.advisor-score-number {
+  font-size: 1.875rem;
+  font-weight: 800;
+}
+
+.advisor-score-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.advisor-health-badge {
+  margin-top: var(--space-3);
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Summary */
+.advisor-health-summary {
+  flex: 1;
+}
+
+.advisor-health-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.advisor-health-text {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+.advisor-improvements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.advisor-improvements-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.advisor-improvement-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.advisor-improvement-item .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+/* Quick Stats */
+.advisor-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .advisor-quick-stats {
+    width: 224px;
+  }
+}
+
+.advisor-stat-box {
+  padding: var(--space-3);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-xl);
+}
+
+.advisor-stat-box .material-symbols-outlined {
+  font-size: 18px;
+  margin-bottom: var(--space-1);
+}
+
+.advisor-stat-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.advisor-stat-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* Limit Card */
+.advisor-limit-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  background-color: var(--color-primary-alpha-10);
+  border-color: var(--color-primary-alpha-30);
+}
+
+.advisor-limit-icon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.advisor-limit-icon .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.advisor-limit-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.advisor-limit-amount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .advisor-limit-amount {
+    font-size: 1.875rem;
+  }
+}
+
+.advisor-limit-amount span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.advisor-limit-explanation {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* Tabs */
+.advisor-tabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.advisor-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.advisor-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.advisor-tab:hover {
+  border-color: var(--color-primary);
+}
+
+.advisor-tab.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.advisor-tab .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Advice List */
+.advisor-advice-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.advisor-advice-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  border-left: 4px solid;
+}
+
+.advisor-advice-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.advisor-advice-icon .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.advisor-advice-content {
+  flex: 1;
+}
+
+.advisor-advice-title {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.advisor-advice-message {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.advisor-advice-action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+}
+
+.advisor-advice-action .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--color-primary);
+}
+
+.advisor-advice-action span:last-child {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* Empty State */
+.advisor-empty {
+  text-align: center;
+  padding: var(--space-12);
+}
+
+.advisor-empty-icon {
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-success-bg);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+}
+
+.advisor-empty-icon .material-symbols-outlined {
+  font-size: 32px;
+  color: var(--color-success);
+}
+
+.advisor-empty-title {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.advisor-empty-text {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* Budget Section */
+.advisor-budget-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.advisor-budget-intro {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.advisor-budget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .advisor-budget-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.advisor-budget-card {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.advisor-budget-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.advisor-budget-emoji {
+  font-size: 1.5rem;
+}
+
+.advisor-budget-info {
+  flex: 1;
+}
+
+.advisor-budget-name {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.advisor-budget-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.advisor-budget-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.advisor-budget-reasoning {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+
+/* Tips Section */
+.advisor-tips-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.advisor-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (max-width: 768px) {
+  .advisor-tips-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.advisor-tip-card {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.advisor-tip-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.advisor-lifestyle-tips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.advisor-lifestyle-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+  border-color: rgba(236, 72, 153, 0.2);
+}
+
+.advisor-lifestyle-tip .material-symbols-outlined {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.advisor-lifestyle-tip p {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+/* Rule Card */
+.advisor-rule-card {
+  background-color: var(--color-primary-alpha-10);
+  border-color: var(--color-primary-alpha-20);
+}
+
+.advisor-rule-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.advisor-rule-title .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--color-primary);
+}
+
+.advisor-rule-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.advisor-rule-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+}
+
+.advisor-rule-percent {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.advisor-rule-percent.primary { color: var(--color-primary); }
+.advisor-rule-percent.warning { color: var(--color-warning); }
+.advisor-rule-percent.success { color: var(--color-success); }
+
+.advisor-rule-label {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.advisor-rule-desc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
