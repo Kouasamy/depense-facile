@@ -6,8 +6,7 @@ import {
   signOut as supabaseSignOut,
   getCurrentUser,
   getUserProfile,
-  onAuthStateChange,
-  type Database
+  onAuthStateChange
 } from '../lib/supabase'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
@@ -24,7 +23,7 @@ export interface User {
 async function toUser(supabaseUser: SupabaseUser): Promise<User | null> {
   const profile = await getUserProfile(supabaseUser.id)
   
-  if (!profile) {
+  if (!profile || typeof profile !== 'object') {
     // Fallback to email if profile doesn't exist yet
     return {
       id: supabaseUser.id,
@@ -35,12 +34,14 @@ async function toUser(supabaseUser: SupabaseUser): Promise<User | null> {
     }
   }
 
+  const profileData = profile as { name: string; avatar: string | null; created_at: string }
+  
   return {
     id: supabaseUser.id,
     email: supabaseUser.email || '',
-    name: profile.name,
-    avatar: profile.avatar || undefined,
-    createdAt: new Date(profile.created_at)
+    name: profileData.name,
+    avatar: profileData.avatar || undefined,
+    createdAt: new Date(profileData.created_at)
   }
 }
 
@@ -252,14 +253,15 @@ export const useAuthStore = create<AuthState>((set, get) => {
       if (!client) return
       
       try {
-        const { error } = await client
+        const updateData: Record<string, unknown> = {}
+        if (updates.name !== undefined) updateData.name = updates.name
+        if (updates.avatar !== undefined) updateData.avatar = updates.avatar
+        updateData.updated_at = new Date().toISOString()
+        
+        const { error } = await (client
           .from('user_profiles')
-          .update({
-            name: updates.name,
-            avatar: updates.avatar,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', user.id)
+          .update(updateData as unknown as never)
+          .eq('id', user.id) as unknown as Promise<{ error: any }>)
         
         if (error) {
           console.error('Update profile error:', error)

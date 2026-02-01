@@ -1,6 +1,5 @@
-import { db, type SyncQueue, type Expense, type Income, type Budget } from './schema'
+import { db, type SyncQueue, type Expense } from './schema'
 import { getSupabaseClient, isSupabaseConfigured } from '../lib/supabase'
-import type { Database } from '../lib/supabase'
 
 export interface SyncResult {
   success: boolean
@@ -145,26 +144,29 @@ async function syncCreate(
   let error
   
   switch (table) {
-    case 'expenses':
-      const { error: expenseError } = await client
+    case 'expenses': {
+      const result = await (client
         .from('expenses')
-        .insert(supabaseData as Database['public']['Tables']['expenses']['Insert'])
-      error = expenseError
+        .insert(supabaseData as unknown as never) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
-    case 'incomes':
-      const { error: incomeError } = await client
+    case 'incomes': {
+      const result = await (client
         .from('incomes')
-        .insert(supabaseData as Database['public']['Tables']['incomes']['Insert'])
-      error = incomeError
+        .insert(supabaseData as unknown as never) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
-    case 'budgets':
-      const { error: budgetError } = await client
+    case 'budgets': {
+      const result = await (client
         .from('budgets')
-        .insert(supabaseData as Database['public']['Tables']['budgets']['Insert'])
-      error = budgetError
+        .insert(supabaseData as unknown as never) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
     default:
       throw new Error(`Table inconnue: ${table}`)
@@ -191,29 +193,32 @@ async function syncUpdate(
   let error
   
   switch (table) {
-    case 'expenses':
-      const { error: expenseError } = await client
+    case 'expenses': {
+      const result = await (client
         .from('expenses')
-        .update(supabaseData as Database['public']['Tables']['expenses']['Update'])
-        .eq('local_id', localId)
-      error = expenseError
+        .update(supabaseData as unknown as never)
+        .eq('local_id', localId) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
-    case 'incomes':
-      const { error: incomeError } = await client
+    case 'incomes': {
+      const result = await (client
         .from('incomes')
-        .update(supabaseData as Database['public']['Tables']['incomes']['Update'])
-        .eq('local_id', localId)
-      error = incomeError
+        .update(supabaseData as unknown as never)
+        .eq('local_id', localId) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
-    case 'budgets':
-      const { error: budgetError } = await client
+    case 'budgets': {
+      const result = await (client
         .from('budgets')
-        .update(supabaseData as Database['public']['Tables']['budgets']['Update'])
-        .eq('local_id', localId)
-      error = budgetError
+        .update(supabaseData as unknown as never)
+        .eq('local_id', localId) as unknown as Promise<{ error: any }>)
+      error = result.error
       break
+    }
       
     default:
       throw new Error(`Table inconnue: ${table}`)
@@ -396,12 +401,8 @@ export async function syncFromServer(): Promise<SyncResult> {
   }
 
   try {
-    // Pull expenses, incomes, and budgets from server
-    const [expenses, incomes, budgets] = await Promise.all([
-      pullFromServer('expenses'),
-      pullFromServer('incomes'),
-      pullFromServer('budgets')
-    ])
+    // Pull expenses from server
+    const expenses = await pullFromServer('expenses')
 
     // Convert and store in local database
     // This is a simplified version - you might want to handle conflicts more carefully

@@ -335,14 +335,17 @@ export async function getUserOnboardingStatus(userId: string): Promise<boolean> 
     const client = getSupabaseClient()
     if (client) {
       try {
-        const { data: profile } = await client
+        const { data: profile, error } = await client
           .from('user_profiles')
           .select('onboarding_completed')
           .eq('id', userId)
           .single()
         
-        if (profile) {
-          return profile.onboarding_completed
+        if (!error && profile) {
+          const profileData = profile as { onboarding_completed?: boolean }
+          if (profileData.onboarding_completed !== undefined) {
+            return profileData.onboarding_completed
+          }
         }
       } catch (error) {
         console.error('Error fetching onboarding from Supabase:', error)
@@ -365,22 +368,26 @@ export async function setUserOnboardingCompleted(userId: string): Promise<void> 
     const client = getSupabaseClient()
     if (client) {
       try {
-        await client
+        const updateData = {
+          onboarding_completed: true,
+          onboarding_completed_at: new Date().toISOString()
+        }
+        
+        await (client
           .from('user_profiles')
-          .update({
-            onboarding_completed: true,
-            onboarding_completed_at: new Date().toISOString()
-          })
-          .eq('id', userId)
+          .update(updateData as unknown as never)
+          .eq('id', userId) as unknown as Promise<{ error: any }>)
         
         // Also update local onboarding table
-        await client
+        const onboardingData = {
+          user_id: userId,
+          completed: true,
+          completed_at: new Date().toISOString()
+        }
+        
+        await (client
           .from('user_onboarding')
-          .upsert({
-            user_id: userId,
-            completed: true,
-            completed_at: new Date().toISOString()
-          })
+          .upsert(onboardingData as unknown as never) as unknown as Promise<{ error: any }>)
       } catch (error) {
         console.error('Error updating onboarding in Supabase:', error)
       }

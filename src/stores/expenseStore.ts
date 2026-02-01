@@ -396,7 +396,7 @@ export const useExpenseStore = create<ExpenseState>((set, get) => ({
     
     try {
       // First, sync local changes to server
-      const syncResult = await processSyncQueue()
+      await processSyncQueue()
       
       // Then, pull any changes from server
       await syncFromServer()
@@ -436,7 +436,7 @@ export const useExpenseStore = create<ExpenseState>((set, get) => ({
     window.addEventListener('offline', handleOffline)
     
     // Setup auto-sync on connection restore
-    const cleanupAutoSync = setupAutoSync((result) => {
+    setupAutoSync((result) => {
       console.log('Auto-sync completed:', result)
       const userId = getCurrentUserId()
       if (userId) {
