@@ -17,6 +17,7 @@ import {
   type PaymentMethod 
 } from '../db/schema'
 import { useAuthStore } from './authStore'
+import { processSyncQueue, setupAutoSync, syncFromServer } from '../db/sync'
 
 // Parsed expense from NLP
 export interface ParsedExpense {
@@ -391,21 +392,71 @@ export const useExpenseStore = create<ExpenseState>((set, get) => ({
   
   // Sync with server
   syncNow: async () => {
-    // Sync functionality disabled for now
-    set({ isSyncing: false })
+    set({ isSyncing: true })
+    
+    try {
+      // First, sync local changes to server
+      const syncResult = await processSyncQueue()
+      
+      // Then, pull any changes from server
+      await syncFromServer()
+      
+      // Refresh data after sync
+      await get().refreshData()
+      
+      // Update sync status
+      const userId = getCurrentUserId()
+      if (userId) {
+        const count = await getSyncQueueCount(userId)
+        set({ 
+          pendingSyncCount: count,
+          lastSyncAt: new Date(),
+          isSyncing: false
+        })
+      } else {
+        set({ isSyncing: false })
+      }
+    } catch (error) {
+      console.error('Sync error:', error)
+      set({ isSyncing: false })
+    }
   },
   
   // Initialize store for current user
   initializeStore: async () => {
     // Set up online/offline listeners
-    const handleOnline = () => set({ isOnline: true })
+    const handleOnline = () => {
+      set({ isOnline: true })
+      // Auto-sync when connection is restored
+      get().syncNow()
+    }
     const handleOffline = () => set({ isOnline: false })
     
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
     
+    // Setup auto-sync on connection restore
+    const cleanupAutoSync = setupAutoSync((result) => {
+      console.log('Auto-sync completed:', result)
+      const userId = getCurrentUserId()
+      if (userId) {
+        getSyncQueueCount(userId).then(count => {
+          set({ pendingSyncCount: count })
+        })
+      }
+    })
+    
     // Check onboarding status for current user
     await get().checkOnboardingStatus()
+    
+    // Try to sync from server first (if online)
+    if (navigator.onLine) {
+      try {
+        await syncFromServer()
+      } catch (error) {
+        console.error('Error syncing from server on init:', error)
+      }
+    }
     
     // Load initial data
     await get().refreshData()
@@ -416,5 +467,8 @@ export const useExpenseStore = create<ExpenseState>((set, get) => ({
       const count = await getSyncQueueCount(userId)
       set({ pendingSyncCount: count })
     }
+    
+    // Cleanup on unmount (if needed)
+    // Note: This is a simplified version - in a real app you'd want to track cleanup
   }
 }))

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:prod": "vite build --mode production",
+    "preview": "vite preview",
+    "check:config": "node -e \"console.log('Supabase URL:', process.env.VITE_SUPABASE_URL ? '✅ Configured' : '❌ Missing'); console.log('Supabase Key:', process.env.VITE_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Missing')\""
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.2",
@@ -17,6 +19,7 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.93.3",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "dexie": "^4.3.0",

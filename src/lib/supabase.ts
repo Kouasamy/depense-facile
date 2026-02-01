@@ -1,6 +1,8 @@
 // Supabase Client Configuration
 // This file sets up the Supabase client for authentication and database operations
 
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
@@ -8,6 +10,233 @@ export interface SupabaseConfig {
   url: string
   anonKey: string
   isConfigured: boolean
+}
+
+// Database types
+export interface Database {
+  public: {
+    Tables: {
+      expenses: {
+        Row: {
+          id: string
+          local_id: string
+          user_id: string
+          amount: number
+          category: string
+          subcategory: string | null
+          description: string
+          payment_method: string
+          date: string
+          created_at: string
+          updated_at: string
+          sync_status: string
+          synced_at: string | null
+        }
+        Insert: {
+          id?: string
+          local_id: string
+          user_id: string
+          amount: number
+          category: string
+          subcategory?: string | null
+          description: string
+          payment_method: string
+          date: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+          synced_at?: string | null
+        }
+        Update: {
+          id?: string
+          local_id?: string
+          user_id?: string
+          amount?: number
+          category?: string
+          subcategory?: string | null
+          description?: string
+          payment_method?: string
+          date?: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+          synced_at?: string | null
+        }
+      }
+      incomes: {
+        Row: {
+          id: string
+          local_id: string
+          user_id: string
+          amount: number
+          source: string
+          description: string
+          date: string
+          created_at: string
+          updated_at: string
+          sync_status: string
+          synced_at: string | null
+        }
+        Insert: {
+          id?: string
+          local_id: string
+          user_id: string
+          amount: number
+          source: string
+          description: string
+          date: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+          synced_at?: string | null
+        }
+        Update: {
+          id?: string
+          local_id?: string
+          user_id?: string
+          amount?: number
+          source?: string
+          description?: string
+          date?: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+          synced_at?: string | null
+        }
+      }
+      budgets: {
+        Row: {
+          id: string
+          local_id: string
+          user_id: string
+          category: string
+          amount: number
+          period: 'daily' | 'weekly' | 'monthly'
+          start_date: string
+          end_date: string
+          created_at: string
+          updated_at: string
+          sync_status: string
+        }
+        Insert: {
+          id?: string
+          local_id: string
+          user_id: string
+          category: string
+          amount: number
+          period: 'daily' | 'weekly' | 'monthly'
+          start_date: string
+          end_date: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+        }
+        Update: {
+          id?: string
+          local_id?: string
+          user_id?: string
+          category?: string
+          amount?: number
+          period?: 'daily' | 'weekly' | 'monthly'
+          start_date?: string
+          end_date?: string
+          created_at?: string
+          updated_at?: string
+          sync_status?: string
+        }
+      }
+      user_profiles: {
+        Row: {
+          id: string
+          name: string
+          avatar: string | null
+          onboarding_completed: boolean
+          onboarding_completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          name: string
+          avatar?: string | null
+          onboarding_completed?: boolean
+          onboarding_completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          avatar?: string | null
+          onboarding_completed?: boolean
+          onboarding_completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      user_onboarding: {
+        Row: {
+          id: string
+          user_id: string
+          completed: boolean
+          completed_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+        }
+      }
+    }
+  }
+}
+
+// Create Supabase client
+let supabaseClient: SupabaseClient<Database> | null = null
+
+export function getSupabaseClient(): SupabaseClient<Database> | null {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    if (import.meta.env.DEV) {
+      console.warn('⚠️ Supabase not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY')
+    }
+    return null
+  }
+
+  if (!supabaseClient) {
+    supabaseClient = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      },
+      // Production optimizations
+      db: {
+        schema: 'public'
+      },
+      global: {
+        headers: {
+          'x-client-info': 'geretondjai@1.0.0'
+        }
+      }
+    })
+    
+    // Log connection in development only
+    if (import.meta.env.DEV) {
+      console.log('✅ Supabase client initialized')
+    }
+  }
+
+  return supabaseClient
 }
 
 // Get Supabase configuration
@@ -24,177 +253,104 @@ export function isSupabaseConfigured(): boolean {
   return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY)
 }
 
-// Simple fetch wrapper for Supabase REST API
-// We use this instead of the full Supabase client to keep the bundle small
-export async function supabaseFetch<T>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<{ data: T | null; error: string | null }> {
-  if (!isSupabaseConfigured()) {
-    return { data: null, error: 'Supabase not configured' }
-  }
+// Get current user from Supabase
+export async function getCurrentUser() {
+  const client = getSupabaseClient()
+  if (!client) return null
 
-  try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        ...options.headers
-      }
-    })
+  const { data: { user }, error } = await client.auth.getUser()
+  if (error || !user) return null
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      return { data: null, error: errorText || response.statusText }
-    }
-
-    // Check if response has content
-    const contentType = response.headers.get('content-type')
-    if (contentType?.includes('application/json')) {
-      const data = await response.json()
-      return { data, error: null }
-    }
-
-    return { data: null, error: null }
-  } catch (error) {
-    return { 
-      data: null, 
-      error: error instanceof Error ? error.message : 'Network error' 
-    }
-  }
+  return user
 }
 
-// Supabase Auth helpers (minimal implementation)
-export interface AuthUser {
-  id: string
-  email: string
-}
+// Get user profile
+export async function getUserProfile(userId: string) {
+  const client = getSupabaseClient()
+  if (!client) return null
 
-export interface AuthSession {
-  access_token: string
-  refresh_token: string
-  user: AuthUser
-}
+  const { data, error } = await client
+    .from('user_profiles')
+    .select('*')
+    .eq('id', userId)
+    .single()
 
-let currentSession: AuthSession | null = null
-
-// Store session in localStorage
-function saveSession(session: AuthSession | null): void {
-  if (session) {
-    localStorage.setItem('supabase_session', JSON.stringify(session))
-  } else {
-    localStorage.removeItem('supabase_session')
-  }
-  currentSession = session
-}
-
-// Load session from localStorage
-export function loadSession(): AuthSession | null {
-  if (currentSession) return currentSession
-  
-  const stored = localStorage.getItem('supabase_session')
-  if (stored) {
-    try {
-      currentSession = JSON.parse(stored)
-      return currentSession
-    } catch {
-      localStorage.removeItem('supabase_session')
-    }
-  }
-  return null
-}
-
-// Get current user
-export function getCurrentUser(): AuthUser | null {
-  const session = loadSession()
-  return session?.user || null
+  if (error || !data) return null
+  return data
 }
 
 // Sign up with email
-export async function signUp(email: string, password: string): Promise<{ user: AuthUser | null; error: string | null }> {
-  if (!isSupabaseConfigured()) {
+export async function signUp(email: string, password: string, name: string) {
+  const client = getSupabaseClient()
+  if (!client) {
     return { user: null, error: 'Supabase not configured' }
   }
 
-  try {
-    const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY
-      },
-      body: JSON.stringify({ email, password })
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      return { user: null, error: data.msg || data.error_description || 'Sign up failed' }
-    }
-
-    if (data.access_token) {
-      const session: AuthSession = {
-        access_token: data.access_token,
-        refresh_token: data.refresh_token,
-        user: { id: data.user.id, email: data.user.email }
+  const { data, error } = await client.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name
       }
-      saveSession(session)
-      return { user: session.user, error: null }
     }
+  })
 
-    return { user: null, error: null } // Email confirmation required
-  } catch (error) {
-    return { user: null, error: error instanceof Error ? error.message : 'Network error' }
+  if (error) {
+    return { user: null, error: error.message }
   }
+
+  return { user: data.user, error: null }
 }
 
 // Sign in with email
-export async function signIn(email: string, password: string): Promise<{ user: AuthUser | null; error: string | null }> {
-  if (!isSupabaseConfigured()) {
+export async function signIn(email: string, password: string) {
+  const client = getSupabaseClient()
+  if (!client) {
     return { user: null, error: 'Supabase not configured' }
   }
 
-  try {
-    const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY
-      },
-      body: JSON.stringify({ email, password })
-    })
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password
+  })
 
-    const data = await response.json()
-
-    if (!response.ok) {
-      return { user: null, error: data.msg || data.error_description || 'Sign in failed' }
-    }
-
-    const session: AuthSession = {
-      access_token: data.access_token,
-      refresh_token: data.refresh_token,
-      user: { id: data.user.id, email: data.user.email }
-    }
-    saveSession(session)
-    return { user: session.user, error: null }
-  } catch (error) {
-    return { user: null, error: error instanceof Error ? error.message : 'Network error' }
+  if (error) {
+    return { user: null, error: error.message }
   }
+
+  return { user: data.user, error: null }
 }
 
 // Sign out
-export function signOut(): void {
-  saveSession(null)
+export async function signOut() {
+  const client = getSupabaseClient()
+  if (!client) return
+
+  await client.auth.signOut()
 }
 
-// Get auth header for API requests
-export function getAuthHeader(): Record<string, string> {
-  const session = loadSession()
-  if (session?.access_token) {
-    return { 'Authorization': `Bearer ${session.access_token}` }
+// Get current session
+export async function getSession() {
+  const client = getSupabaseClient()
+  if (!client) return null
+
+  const { data: { session }, error } = await client.auth.getSession()
+  if (error || !session) return null
+
+  return session
+}
+
+// Listen to auth state changes
+export function onAuthStateChange(callback: (event: string, session: any) => void) {
+  const client = getSupabaseClient()
+  if (!client) return () => {}
+
+  const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
+    callback(event, session)
+  })
+
+  return () => {
+    subscription.unsubscribe()
   }
-  return { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
 }
-

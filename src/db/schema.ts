@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
+import { getSupabaseClient, isSupabaseConfigured } from '../lib/supabase'
 
 // Types for our data models
 export interface Expense {
@@ -329,6 +330,27 @@ export async function getAllIncomes(userId: string): Promise<Income[]> {
 // ==================== ONBOARDING FUNCTIONS ====================
 
 export async function getUserOnboardingStatus(userId: string): Promise<boolean> {
+  // Try Supabase first if configured
+  if (isSupabaseConfigured()) {
+    const client = getSupabaseClient()
+    if (client) {
+      try {
+        const { data: profile } = await client
+          .from('user_profiles')
+          .select('onboarding_completed')
+          .eq('id', userId)
+          .single()
+        
+        if (profile) {
+          return profile.onboarding_completed
+        }
+      } catch (error) {
+        console.error('Error fetching onboarding from Supabase:', error)
+      }
+    }
+  }
+  
+  // Fallback to local database
   const onboarding = await db.userOnboarding
     .where('userId')
     .equals(userId)
@@ -338,6 +360,34 @@ export async function getUserOnboardingStatus(userId: string): Promise<boolean> 
 }
 
 export async function setUserOnboardingCompleted(userId: string): Promise<void> {
+  // Update Supabase if configured
+  if (isSupabaseConfigured()) {
+    const client = getSupabaseClient()
+    if (client) {
+      try {
+        await client
+          .from('user_profiles')
+          .update({
+            onboarding_completed: true,
+            onboarding_completed_at: new Date().toISOString()
+          })
+          .eq('id', userId)
+        
+        // Also update local onboarding table
+        await client
+          .from('user_onboarding')
+          .upsert({
+            user_id: userId,
+            completed: true,
+            completed_at: new Date().toISOString()
+          })
+      } catch (error) {
+        console.error('Error updating onboarding in Supabase:', error)
+      }
+    }
+  }
+  
+  // Update local database
   const existing = await db.userOnboarding
     .where('userId')
     .equals(userId)

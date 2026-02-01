@@ -37,23 +37,43 @@ npm run dev
 npm run build
 ```
 
-## Configuration (optionnelle)
+## Configuration Supabase (Recommandée)
 
-Pour activer la synchronisation cloud, créez un fichier `.env` à la racine :
+L'application utilise maintenant **Supabase** comme base de données principale pour une sécurité et une synchronisation optimales.
+
+### Étapes de configuration
+
+1. **Créer un projet Supabase**
+   - Allez sur [supabase.com](https://supabase.com)
+   - Créez un nouveau projet
+   - Notez votre URL et votre clé anonyme (anon key)
+
+2. **Configurer la base de données**
+   - Dans votre projet Supabase, allez dans l'éditeur SQL
+   - Exécutez le script complet dans `supabase/migrations/001_initial_schema.sql`
+   - Ce script crée toutes les tables nécessaires avec Row Level Security (RLS) activé
+
+3. **Configurer les variables d'environnement**
+   - Créez un fichier `.env` à la racine du projet
+   - Ajoutez vos credentials Supabase :
 
 ```env
-VITE_SUPABASE_URL=votre_url_supabase
-VITE_SUPABASE_ANON_KEY=votre_clé_anon
-
-# Pour la reconnaissance vocale améliorée (optionnel)
-VITE_OPENAI_API_KEY=votre_clé_openai
+VITE_SUPABASE_URL=https://votre-projet-id.supabase.co
+VITE_SUPABASE_ANON_KEY=votre-clé-anon-ici
 ```
 
-### Configuration Supabase
+4. **Sécurité**
+   - Les données sont protégées par Row Level Security (RLS)
+   - Chaque utilisateur ne peut accéder qu'à ses propres données
+   - L'authentification est gérée par Supabase Auth
+   - Les mots de passe sont hashés et sécurisés
 
-1. Créez un projet sur [supabase.com](https://supabase.com)
-2. Exécutez le script SQL dans `supabase/migrations/001_initial_schema.sql`
-3. Ajoutez les variables d'environnement
+### Fonctionnalités de synchronisation
+
+- ✅ **Synchronisation automatique** : Les données sont synchronisées automatiquement avec Supabase
+- ✅ **Mode hors ligne** : Fonctionne hors ligne avec IndexedDB, synchronise quand la connexion revient
+- ✅ **Sécurité** : Toutes les données sont protégées par RLS
+- ✅ **Authentification sécurisée** : Utilise Supabase Auth avec gestion de session
 
 ## Utilisation
 

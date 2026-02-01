@@ -51,6 +51,26 @@ CREATE TABLE IF NOT EXISTS budgets (
     sync_status TEXT DEFAULT 'synced'
 );
 
+-- User profiles table (extends auth.users)
+CREATE TABLE IF NOT EXISTS user_profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    avatar TEXT,
+    onboarding_completed BOOLEAN DEFAULT FALSE,
+    onboarding_completed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- User onboarding table (for tracking onboarding status)
+CREATE TABLE IF NOT EXISTS user_onboarding (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE,
+    completed BOOLEAN DEFAULT FALSE,
+    completed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_expenses_user_date ON expenses(user_id, date DESC);
 CREATE INDEX IF NOT EXISTS idx_expenses_category ON expenses(user_id, category);
@@ -58,11 +78,15 @@ CREATE INDEX IF NOT EXISTS idx_expenses_local_id ON expenses(local_id);
 CREATE INDEX IF NOT EXISTS idx_incomes_user_date ON incomes(user_id, date DESC);
 CREATE INDEX IF NOT EXISTS idx_incomes_local_id ON incomes(local_id);
 CREATE INDEX IF NOT EXISTS idx_budgets_user_category ON budgets(user_id, category);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_id ON user_profiles(id);
+CREATE INDEX IF NOT EXISTS idx_user_onboarding_user_id ON user_onboarding(user_id);
 
 -- Row Level Security (RLS) Policies
 ALTER TABLE expenses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE incomes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE budgets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_onboarding ENABLE ROW LEVEL SECURITY;
 
 -- Expenses policies
 CREATE POLICY "Users can view their own expenses"
@@ -115,6 +139,32 @@ CREATE POLICY "Users can delete their own budgets"
     ON budgets FOR DELETE
     USING (auth.uid() = user_id);
 
+-- User profiles policies
+CREATE POLICY "Users can view their own profile"
+    ON user_profiles FOR SELECT
+    USING (auth.uid() = id);
+
+CREATE POLICY "Users can insert their own profile"
+    ON user_profiles FOR INSERT
+    WITH CHECK (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile"
+    ON user_profiles FOR UPDATE
+    USING (auth.uid() = id);
+
+-- User onboarding policies
+CREATE POLICY "Users can view their own onboarding"
+    ON user_onboarding FOR SELECT
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own onboarding"
+    ON user_onboarding FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own onboarding"
+    ON user_onboarding FOR UPDATE
+    USING (auth.uid() = user_id);
+
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -139,4 +189,30 @@ CREATE TRIGGER update_budgets_updated_at
     BEFORE UPDATE ON budgets
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_user_profiles_updated_at
+    BEFORE UPDATE ON user_profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Function to automatically create user profile on signup
+CREATE OR REPLACE FUNCTION handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.user_profiles (id, name, onboarding_completed)
+    VALUES (
+        NEW.id,
+        COALESCE(NEW.raw_user_meta_data->>'name', NEW.email),
+        FALSE
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to create profile on user signup
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW
+    EXECUTE FUNCTION handle_new_user();
 
