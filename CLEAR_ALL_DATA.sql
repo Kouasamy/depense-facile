@@ -48,16 +48,17 @@ SELECT
 -- ============================================
 -- ÉTAPE 3 : Supprimer les utilisateurs de Supabase Auth
 -- ============================================
--- NOTE : Cette partie doit être faite manuellement dans le dashboard Supabase
--- car elle nécessite des privilèges admin
---
--- Pour supprimer les utilisateurs :
+-- ⚠️ IMPORTANT : Cette commande nécessite les privilèges ADMIN (service_role key)
+-- Si tu as une erreur de permissions, utilise le Dashboard Supabase à la place :
 -- 1. Va dans Supabase Dashboard → Authentication → Users
 -- 2. Sélectionne tous les utilisateurs
--- 3. Clique sur "Delete" ou utilise l'API Admin
---
--- OU utilise cette commande dans le SQL Editor (nécessite service_role key) :
--- DELETE FROM auth.users;
+-- 3. Clique sur "Delete"
+
+-- Supprimer TOUS les utilisateurs Auth (nécessite service_role)
+DELETE FROM auth.users;
+
+-- Vérifier que les utilisateurs sont supprimés
+SELECT COUNT(*) as remaining_users FROM auth.users;
 
 -- ============================================
 -- RÉINITIALISER LES SÉQUENCES (optionnel)
