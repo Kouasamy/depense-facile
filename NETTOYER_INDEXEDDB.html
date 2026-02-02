@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nettoyer IndexedDB - GèreTonDjai</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #f48c25; }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        button {
+            background: linear-gradient(135deg, #f48c25, #ff6b35);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { transform: translateY(-2px); }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+            min-height: 50px;
+        }
+        .success { color: #10b981; font-weight: 600; }
+        .error { color: #ef4444; font-weight: 600; }
+        .info { color: #3b82f6; }
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Nettoyer IndexedDB et Cache</h1>
+        <p>Ce script va supprimer <strong>TOUTES</strong> les données locales stockées dans IndexedDB, localStorage, sessionStorage et les caches.</p>
+        
+        <div class="warning">
+            ⚠️ <strong>Important :</strong> Cette action supprimera toutes les données locales. Les données Supabase ne seront pas affectées.
+        </div>
+        
+        <button onclick="checkIndexedDB()">🔍 Vérifier IndexedDB</button>
+        <button onclick="cleanAll()">🧹 Nettoyer TOUT</button>
+        <button onclick="cleanIndexedDBOnly()">🗄️ Nettoyer IndexedDB seulement</button>
+        
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        async function checkIndexedDB() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p class="info">🔍 Vérification en cours...</p>';
+            
+            try {
+                // Vérifier si IndexedDB existe
+                const dbExists = await new Promise((resolve) => {
+                    const req = indexedDB.open('DepenseFacileDB');
+                    req.onsuccess = () => {
+                        req.result.close();
+                        resolve(true);
+                    };
+                    req.onerror = () => resolve(false);
+                    req.onblocked = () => resolve('blocked');
+                });
+                
+                let info = '<h3>État actuel :</h3><ul>';
+                
+                if (dbExists === true) {
+                    info += '<li>✅ IndexedDB "DepenseFacileDB" existe</li>';
+                    
+                    // Essayer de compter les données
+                    const db = await new Promise((resolve, reject) => {
+                        const req = indexedDB.open('DepenseFacileDB');
+                        req.onsuccess = () => resolve(req.result);
+                        req.onerror = () => reject(req.error);
+                    });
+                    
+                    const stores = ['expenses', 'incomes', 'budgets', 'userAccounts', 'userSessions', 'userOnboarding', 'syncQueue'];
+                    for (const storeName of stores) {
+                        try {
+                            if (db.objectStoreNames.contains(storeName)) {
+                                const count = await new Promise((resolve) => {
+                                    const transaction = db.transaction([storeName], 'readonly');
+                                    const store = transaction.objectStore(storeName);
+                                    const countReq = store.count();
+                                    countReq.onsuccess = () => resolve(countReq.result);
+                                    countReq.onerror = () => resolve(0);
+                                });
+                                if (count > 0) {
+                                    info += `<li>📊 ${storeName}: ${count} enregistrement(s)</li>`;
+                                }
+                            }
+                        } catch (e) {
+                            // Ignorer les erreurs
+                        }
+                    }
+                    db.close();
+                } else if (dbExists === 'blocked') {
+                    info += '<li>⚠️ IndexedDB est bloqué (ferme tous les onglets de l\'application)</li>';
+                } else {
+                    info += '<li>ℹ️ IndexedDB "DepenseFacileDB" n\'existe pas</li>';
+                }
+                
+                // Vérifier localStorage
+                const localStorageKeys = Object.keys(localStorage);
+                info += `<li>📦 LocalStorage: ${localStorageKeys.length} clé(s)</li>`;
+                if (localStorageKeys.length > 0) {
+                    info += '<pre>' + localStorageKeys.slice(0, 10).join('\n') + (localStorageKeys.length > 10 ? '\n...' : '') + '</pre>';
+                }
+                
+                // Vérifier sessionStorage
+                const sessionStorageKeys = Object.keys(sessionStorage);
+                info += `<li>📦 SessionStorage: ${sessionStorageKeys.length} clé(s)</li>`;
+                
+                // Vérifier les caches
+                const cacheNames = await caches.keys();
+                info += `<li>💾 Caches: ${cacheNames.length} cache(s)</li>`;
+                
+                info += '</ul>';
+                result.innerHTML = info;
+                
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Erreur : ${error.message}</p>`;
+            }
+        }
+        
+        async function cleanIndexedDBOnly() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p class="info">🗄️ Suppression d\'IndexedDB...</p>';
+            
+            try {
+                await new Promise((resolve, reject) => {
+                    const deleteReq = indexedDB.deleteDatabase('DepenseFacileDB');
+                    deleteReq.onsuccess = () => {
+                        result.innerHTML = '<p class="success">✅ IndexedDB supprimé avec succès !</p><p>Recharge la page pour réinitialiser.</p>';
+                        resolve();
+                    };
+                    deleteReq.onerror = () => {
+                        result.innerHTML = `<p class="error">❌ Erreur : ${deleteReq.error}</p>`;
+                        reject(deleteReq.error);
+                    };
+                    deleteReq.onblocked = () => {
+                        result.innerHTML = '<p class="error">⚠️ IndexedDB est bloqué. Ferme tous les onglets de l\'application et réessaye.</p>';
+                    };
+                });
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Erreur : ${error.message}</p>`;
+            }
+        }
+        
+        async function cleanAll() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p class="info">🧹 Nettoyage complet en cours...</p>';
+            
+            const steps = [];
+            
+            try {
+                // 1. Supprimer IndexedDB
+                try {
+                    await new Promise((resolve, reject) => {
+                        const deleteReq = indexedDB.deleteDatabase('DepenseFacileDB');
+                        deleteReq.onsuccess = () => {
+                            steps.push('✅ IndexedDB supprimé');
+                            resolve();
+                        };
+                        deleteReq.onerror = () => {
+                            steps.push('⚠️ IndexedDB : ' + deleteReq.error);
+                            resolve();
+                        };
+                        deleteReq.onblocked = () => {
+                            steps.push('⚠️ IndexedDB : Ferme tous les onglets');
+                            resolve();
+                        };
+                    });
+                } catch (e) {
+                    steps.push('⚠️ IndexedDB : ' + e.message);
+                }
+                
+                // 2. Supprimer les caches
+                try {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                    steps.push(`✅ ${cacheNames.length} cache(s) supprimé(s)`);
+                } catch (e) {
+                    steps.push('⚠️ Caches : ' + e.message);
+                }
+                
+                // 3. Supprimer localStorage
+                try {
+                    const localStorageKeys = Object.keys(localStorage);
+                    localStorage.clear();
+                    steps.push(`✅ LocalStorage nettoyé (${localStorageKeys.length} clé(s))`);
+                } catch (e) {
+                    steps.push('⚠️ LocalStorage : ' + e.message);
+                }
+                
+                // 4. Supprimer sessionStorage
+                try {
+                    const sessionStorageKeys = Object.keys(sessionStorage);
+                    sessionStorage.clear();
+                    steps.push(`✅ SessionStorage nettoyé (${sessionStorageKeys.length} clé(s))`);
+                } catch (e) {
+                    steps.push('⚠️ SessionStorage : ' + e.message);
+                }
+                
+                // 5. Supprimer les cookies
+                try {
+                    const cookies = document.cookie.split(";");
+                    cookies.forEach(c => {
+                        const eqPos = c.indexOf("=");
+                        const name = eqPos > -1 ? c.substr(0, eqPos).trim() : c.trim();
+                        if (name) {
+                            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+                            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + window.location.hostname;
+                        }
+                    });
+                    steps.push(`✅ Cookies supprimés`);
+                } catch (e) {
+                    steps.push('⚠️ Cookies : ' + e.message);
+                }
+                
+                // Afficher les résultats
+                result.innerHTML = '<h3>Résultats :</h3><ul>' + 
+                    steps.map(s => `<li>${s}</li>`).join('') + 
+                    '</ul><p class="success"><strong>✅ Nettoyage terminé !</strong></p>' +
+                    '<p>La page va se recharger automatiquement dans 3 secondes...</p>';
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+                
+            } catch (error) {
+                result.innerHTML = `<p class="error">❌ Erreur : ${error.message}</p>`;
+                console.error('Erreur de nettoyage:', error);
+            }
+        }
+        
+        // Vérifier automatiquement au chargement
+        window.onload = () => {
+            checkIndexedDB();
+        };
+    </script>
+</body>
+</html>
+
