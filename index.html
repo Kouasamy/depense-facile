@@ -69,11 +69,55 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     
-    <!-- Google Fonts - Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Google Fonts - Plus Jakarta Sans (optimisé avec font-display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
     
-    <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Material Symbols (optimisé avec font-display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" /></noscript>
+    
+    <!-- Critical CSS inline pour améliorer le First Paint -->
+    <style>
+      /* Font display optimization */
+      @font-face {
+        font-family: 'Plus Jakarta Sans';
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Material Symbols Outlined';
+        font-display: swap;
+      }
+      
+      /* Performance optimizations for mobile */
+      @media (max-width: 768px) {
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Reduce repaints on scroll */
+        body {
+          will-change: auto;
+        }
+        
+        /* Optimize rendering */
+        .landing-page,
+        .home-page,
+        .dashboard-page {
+          contain: layout style paint;
+        }
+      }
+      
+      /* Preload critical resources */
+      #root {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+      }
+    </style>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="modulepreload" href="/src/App.tsx" />
     
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">

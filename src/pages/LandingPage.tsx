@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { useAuthStore } from '../stores/authStore'
@@ -13,14 +13,29 @@ export function LandingPage() {
   const featuresRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
   
+  // Detect mobile and reduce animations for better performance
+  const [reduceMotion, setReduceMotion] = React.useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      setReduceMotion(mobile || prefersReducedMotion)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
   const { scrollYProgress } = useScroll()
   // Disable parallax on mobile for better performance
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '0%' : '50%'])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, isMobile ? 1 : 0])
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', reduceMotion ? '0%' : '50%'])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, reduceMotion ? 1 : 0])
   
-  const featuresInView = useInView(featuresRef, { once: true, margin: '-100px' })
-  const statsInView = useInView(statsRef, { once: true, margin: '-100px' })
+  const featuresInView = useInView(featuresRef, { once: true, margin: reduceMotion ? '0px' : '-100px' })
+  const statsInView = useInView(statsRef, { once: true, margin: reduceMotion ? '0px' : '-100px' })
 
   // Redirect if already authenticated (but only after auth check is complete)
   // Add a small delay to ensure auth check is complete

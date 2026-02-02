@@ -62,5 +62,44 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
+  },
+  build: {
+    // Code splitting optimisé
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Séparer les grandes bibliothèques
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'framer-motion': ['framer-motion'],
+          'supabase': ['@supabase/supabase-js'],
+          'utils': ['dexie', 'zustand'],
+          'pdf': ['jspdf', 'jspdf-autotable']
+        },
+        // Optimiser les noms de chunks pour le cache
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    },
+    // Optimisations de build
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Supprimer console.log en production
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug']
+      }
+    },
+    // Augmenter la limite de warning pour les chunks
+    chunkSizeWarningLimit: 600,
+    // Optimiser les assets
+    assetsInlineLimit: 4096, // Inline les petits assets (<4KB)
+    cssCodeSplit: true,
+    sourcemap: false // Désactiver les sourcemaps en production pour réduire la taille
+  },
+  // Optimisations pour le développement
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: ['framer-motion'] // Charger dynamiquement
   }
 })

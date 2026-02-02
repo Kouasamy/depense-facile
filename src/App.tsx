@@ -1,26 +1,38 @@
-import { useEffect } from 'react'
+import { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Navigation } from './components/common/Navigation'
-import { 
-  HomePage, 
-  DashboardPage, 
-  HistoryPage, 
-  OnboardingPage, 
-  SettingsPage, 
-  BudgetsPage, 
-  AnalyticsPage, 
-  AuthPage, 
-  TermsPage, 
-  PrivacyPage, 
-  AdvisorPage, 
-  ChatBotPage,
-  LandingPage
-} from './pages'
 import { useExpenseStore } from './stores/expenseStore'
 import { useThemeStore } from './stores/themeStore'
 import { useAuthStore } from './stores/authStore'
 import { useNotificationStore } from './stores/notificationStore'
 import './index.css'
+
+// Lazy load pages for better performance (especially on mobile)
+const LandingPage = lazy(() => import('./pages/LandingPage').then(m => ({ default: m.LandingPage })))
+const AuthPage = lazy(() => import('./pages/AuthPage').then(m => ({ default: m.AuthPage })))
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })))
+const DashboardPage = lazy(() => import('./pages/DashboardPage').then(m => ({ default: m.DashboardPage })))
+const HistoryPage = lazy(() => import('./pages/HistoryPage').then(m => ({ default: m.HistoryPage })))
+const BudgetsPage = lazy(() => import('./pages/BudgetsPage').then(m => ({ default: m.BudgetsPage })))
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage').then(m => ({ default: m.AnalyticsPage })))
+const AdvisorPage = lazy(() => import('./pages/AdvisorPage').then(m => ({ default: m.AdvisorPage })))
+const ChatBotPage = lazy(() => import('./pages/ChatBotPage').then(m => ({ default: m.ChatBotPage })))
+const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })))
+const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })))
+const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })))
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })))
+
+// Loading component optimisé pour mobile
+const PageLoader = () => (
+  <div className="loading-screen">
+    <div className="loading-content animate-fade-in">
+      <span className="material-symbols-outlined spinning" style={{ fontSize: '32px', color: 'var(--color-primary)' }}>
+        progress_activity
+      </span>
+      <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Chargement...</p>
+    </div>
+  </div>
+)
 
 function AppContent() {
   const { isAuthenticated, checkAuth } = useAuthStore()
@@ -62,13 +74,15 @@ function AppContent() {
   // This ensures landing page is shown first, not auth page
   if (!isAuthenticated) {
     return (
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
-        <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
+          <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     )
   }
 
@@ -88,7 +102,11 @@ function AppContent() {
 
   // Onboarding flow
   if (!hasCompletedOnboarding) {
-    return <OnboardingPage />
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <OnboardingPage />
+      </Suspense>
+    )
   }
 
   // Main app with navigation
@@ -96,19 +114,21 @@ function AppContent() {
     <>
       <Navigation />
       <main className="app-main">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/budgets" element={<BudgetsPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="/advisor" element={<AdvisorPage />} />
-          <Route path="/chatbot" element={<ChatBotPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
-          <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/budgets" element={<BudgetsPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/advisor" element={<AdvisorPage />} />
+            <Route path="/chatbot" element={<ChatBotPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
+            <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
     </>
   )

@@ -3,6 +3,31 @@
    Direction Artistique: Orange Abidjan
    ============================================ */
 
+/* ==================== PERFORMANCE OPTIMIZATIONS ==================== */
+/* Reduce animations on mobile and low-end devices */
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ==================== CSS VARIABLES ==================== */
 :root,
 .light {
