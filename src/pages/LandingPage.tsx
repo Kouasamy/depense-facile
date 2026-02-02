@@ -20,10 +20,10 @@ export function LandingPage() {
   const featuresInView = useInView(featuresRef, { once: true, margin: '-100px' })
   const statsInView = useInView(statsRef, { once: true, margin: '-100px' })
 
-  // Redirect if already authenticated
+  // Redirect if already authenticated (but only after auth check is complete)
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/')
+      navigate('/dashboard')
     }
   }, [isAuthenticated, navigate])
 
