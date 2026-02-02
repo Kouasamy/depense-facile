@@ -3,7 +3,7 @@ import { useExpenseStore } from '../stores/expenseStore'
 import { useBudgetStore } from '../stores/budgetStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
-import { BackButton } from '../components/common'
+import { BackButton, AnimatedIcon } from '../components/common'
 import './BudgetsPage.css'
 
 export function BudgetsPage() {
@@ -102,7 +102,7 @@ export function BudgetsPage() {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="budgets-alert-header">
-                      <span className="budgets-alert-emoji">{meta?.icon}</span>
+                      <AnimatedIcon emoji={meta?.icon} size={24} animation="pulse" />
                       <span className="budgets-alert-name">{meta?.label}</span>
                     </div>
                     <p className={`budgets-alert-amount ${isOver ? 'text-danger' : 'text-warning'}`}>
@@ -269,7 +269,7 @@ export function BudgetsPage() {
               {editingCategory && (
                 <>
                   <div className="budgets-modal-selected">
-                    <span className="budgets-modal-emoji">{categoryMeta[editingCategory]?.icon}</span>
+                    <AnimatedIcon emoji={categoryMeta[editingCategory]?.icon} size={32} animation="scale" />
                     <span className="budgets-modal-name">{categoryMeta[editingCategory]?.label}</span>
                   </div>
 

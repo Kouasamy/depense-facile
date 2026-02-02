@@ -19,8 +19,8 @@ export const transportTerms: DictionaryEntry = {
   terms: [
     // Gbaka - Minibus collectif
     'gbaka', 'baka', 'le gbaka',
-    // Woro-woro - Taxi collectif
-    'woro-woro', 'woro woro', 'woroworo', 'woro',
+    // Woro-woro - Taxi collectif (et variantes simplifiées)
+    'woro-woro', 'woro woro', 'woroworo', 'woro', 'warren', 'waren',
     // Pinasse/Pirogue
     'pinasse', 'pirogue',
     // Taxi

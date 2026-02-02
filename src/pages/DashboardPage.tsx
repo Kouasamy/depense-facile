@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/authStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
 import { AddIncomeModal } from '../components/Dashboard/AddIncomeModal'
-import { BackButton } from '../components/common'
+import { BackButton, AnimatedIcon } from '../components/common'
 import { SEO } from '../components/SEO'
 import './DashboardPage.css'
 
@@ -248,7 +248,7 @@ export function DashboardPage() {
                   >
                     <div className="alert-card-header">
                       <div className="alert-card-category">
-                        <span className="alert-card-emoji">{meta?.icon}</span>
+                        <AnimatedIcon emoji={meta?.icon} size={24} animation="pulse" />
                         <span className="font-bold">{meta?.label}</span>
                       </div>
                       <span className={`font-extrabold ${isOver ? 'text-danger' : 'text-warning'}`}>

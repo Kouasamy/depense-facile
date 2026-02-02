@@ -12,7 +12,7 @@ import {
   type FinancialAdvice,
   type FinancialHealth
 } from '../core/ai/advisor'
-import { BackButton } from '../components/common'
+import { BackButton, AnimatedIcon } from '../components/common'
 import './AdvisorPage.css'
 
 export function AdvisorPage() {
@@ -280,7 +280,7 @@ export function AdvisorPage() {
                 return (
                   <div key={rec.category} className="advisor-budget-card card" style={{ animationDelay: `${index * 50}ms` }}>
                     <div className="advisor-budget-header">
-                      <span className="advisor-budget-emoji">{meta.icon}</span>
+                      <AnimatedIcon emoji={meta.icon} size={24} animation="float" />
                       <div className="advisor-budget-info">
                         <h3 className="advisor-budget-name">{meta.label}</h3>
                         <span className={`badge ${rec.priority === 'essential' ? 'badge-danger' : rec.priority === 'important' ? 'badge-warning' : 'badge-primary'}`}>

@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { useAuthStore } from '../stores/authStore'
 import { SEO } from '../components/SEO'
+import { AnimatedIcon } from '../components/common/AnimatedIcon'
 import './LandingPage.css'
 
 export function LandingPage() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuthStore()
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const heroRef = useRef<HTMLDivElement>(null)
   const featuresRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
@@ -19,18 +19,6 @@ export function LandingPage() {
   
   const featuresInView = useInView(featuresRef, { once: true, margin: '-100px' })
   const statsInView = useInView(statsRef, { once: true, margin: '-100px' })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20
-      })
-    }
-    
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -94,12 +82,6 @@ export function LandingPage() {
       color: '#96ceb4'
     },
     {
-      icon: '📱',
-      title: 'PWA Installable',
-      description: 'Installe l\'app sur ton téléphone et utilise-la hors ligne. Fonctionne même sans internet, synchronise quand la connexion revient.',
-      color: '#ffeaa7'
-    },
-    {
       icon: '🤖',
       title: 'Conseiller IA Woro',
       description: 'Ton coach financier personnel. Obtiens des conseils personnalisés, des plans d\'épargne adaptés et des astuces pour mieux gérer ton argent.',
@@ -114,7 +96,7 @@ export function LandingPage() {
   ]
 
   const stats = [
-    { number: '100%', label: 'Gratuit', icon: '💰' },
+    { number: '100%', label: 'Gratuit', icon: 'FCFA', iconType: 'text' },
     { number: '24/7', label: 'Disponible', icon: '⏰' },
     { number: '100%', label: 'Hors ligne', icon: '📱' },
     { number: '∞', label: 'Illimité', icon: '♾️' }
@@ -136,19 +118,6 @@ export function LandingPage() {
         <div className="landing-bg-blob landing-bg-blob-3"></div>
       </div>
 
-      {/* Cursor Follower */}
-      <motion.div
-        className="landing-cursor"
-        animate={{
-          x: mousePosition.x,
-          y: mousePosition.y
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 50,
-          damping: 15
-        }}
-      />
 
       {/* Navigation */}
       <motion.nav
@@ -226,9 +195,9 @@ export function LandingPage() {
             className="landing-hero-subtitle"
             variants={itemVariants}
           >
-            L'application de gestion de dépenses intelligente pour les Ivoiriens.
+            La plateforme qui t'aide à maîtriser tes dépenses par des conseils personnalisés.
             <br />
-            Parle, enregistre, analyse. C'est tout simple.
+            Épargne plus, dépense mieux. C'est ton coach financier ivoirien.
           </motion.p>
 
           <motion.div
@@ -269,7 +238,11 @@ export function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 + index * 0.1 }}
               >
-                <span className="landing-stat-icon">{stat.icon}</span>
+                {stat.iconType === 'text' ? (
+                  <span style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-primary)' }}>FCFA</span>
+                ) : (
+                  <AnimatedIcon emoji={stat.icon} size={32} animation="float" delay={index * 0.1} />
+                )}
                 <div>
                   <div className="landing-stat-number">{stat.number}</div>
                   <div className="landing-stat-label">{stat.label}</div>
@@ -325,11 +298,11 @@ export function LandingPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="landing-section-title">
-              Tout ce dont tu as besoin pour{' '}
-              <span className="landing-title-highlight">gérer ton argent</span>
+              Maîtrise tes dépenses et{' '}
+              <span className="landing-title-highlight">épargne plus</span>
             </h2>
             <p className="landing-section-subtitle">
-              Une application complète, intuitive et 100% ivoirienne
+              Des conseils personnalisés pour t'aider à mieux gérer ton argent et atteindre tes objectifs d'épargne
             </p>
           </motion.div>
 
@@ -349,7 +322,9 @@ export function LandingPage() {
                   '--feature-color': feature.color
                 } as React.CSSProperties}
               >
-                <div className="landing-feature-icon">{feature.icon}</div>
+                <div className="landing-feature-icon">
+                  <AnimatedIcon emoji={feature.icon} size={48} color={feature.color} animation="pulse" delay={index * 0.1} />
+                </div>
                 <h3 className="landing-feature-title">{feature.title}</h3>
                 <p className="landing-feature-description">{feature.description}</p>
                 <div className="landing-feature-glow"></div>
@@ -408,7 +383,9 @@ export function LandingPage() {
                 whileHover={{ y: -10, scale: 1.02 }}
               >
                 <div className="landing-step-number">{step.step}</div>
-                <div className="landing-step-icon">{step.icon}</div>
+                <div className="landing-step-icon">
+                  <AnimatedIcon emoji={step.icon} size={48} animation="bounce" delay={index * 0.2} />
+                </div>
                 <h3 className="landing-step-title">{step.title}</h3>
                 <p className="landing-step-description">{step.description}</p>
               </motion.div>
@@ -433,7 +410,13 @@ export function LandingPage() {
                 variants={itemVariants}
                 whileHover={{ scale: 1.1, rotate: 5 }}
               >
-                <div className="landing-stat-icon-large">{stat.icon}</div>
+                <div className="landing-stat-icon-large">
+                  {stat.iconType === 'text' ? (
+                    <span style={{ fontSize: '48px', fontWeight: 'bold', color: 'var(--color-primary)' }}>FCFA</span>
+                  ) : (
+                    <AnimatedIcon emoji={stat.icon} size={64} animation="float" delay={index * 0.1} />
+                  )}
+                </div>
                 <motion.div
                   className="landing-stat-number-large"
                   initial={{ scale: 0 }}
@@ -454,6 +437,145 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section className="landing-benefits">
+        <div className="landing-container">
+          <motion.div
+            className="landing-section-header"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="landing-section-title">
+              Pourquoi choisir <span className="landing-title-highlight">GèreTonDjai</span> ?
+            </h2>
+            <p className="landing-section-subtitle">
+              Une plateforme conçue pour t'aider à maîtriser tes dépenses et épargner grâce à des conseils personnalisés
+            </p>
+          </motion.div>
+
+          <div className="landing-benefits-grid">
+            {[
+              {
+                icon: '🇨🇮',
+                title: '100% Ivoirien',
+                description: 'Conçu spécialement pour les Ivoiriens. Comprend le Nouchi, les expressions locales, et les habitudes de consommation ivoiriennes.',
+                details: ['Reconnaissance du Nouchi', 'Expressions locales (Gbaka, Garba, Woro-woro)', 'Adapté aux réalités ivoiriennes']
+              },
+              {
+                icon: '🎤',
+                title: 'Saisie Vocale Ultra-Sensible',
+                description: 'Le micro le plus sensible du marché. Capture même les voix douces et comprend le français ivoirien avec accent.',
+                details: ['Micro ultra-sensible', 'Comprend les voix douces', 'Reconnaissance du français ivoirien']
+              },
+              {
+                icon: '💳',
+                title: 'Tous les Mobile Money',
+                description: 'Support complet pour Orange Money, MTN Money, Moov Money et Wave. Gère tous tes moyens de paiement en un seul endroit.',
+                details: ['Orange Money', 'MTN Money', 'Moov Money', 'Wave']
+              },
+              {
+                icon: '🤖',
+                title: 'Conseiller IA Woro',
+                description: 'Ton coach financier personnel 24/7. Obtiens des conseils personnalisés, des plans d\'épargne et des astuces adaptées à ta situation.',
+                details: ['Conseils personnalisés', 'Plans d\'épargne adaptés', 'Astuces quotidiennes']
+              },
+              {
+                icon: '💰',
+                title: 'Conseils pour Épargner',
+                description: 'Reçois des conseils personnalisés basés sur tes habitudes de dépenses. Apprends à réduire tes dépenses inutiles et à épargner efficacement.',
+                details: ['Conseils personnalisés', 'Plans d\'épargne adaptés', 'Astuces quotidiennes']
+              },
+              {
+                icon: '🔒',
+                title: '100% Sécurisé',
+                description: 'Tes données sont protégées dans une base de données sécurisée Supabase avec chiffrement et sauvegarde cloud automatique.',
+                details: ['Base de données sécurisée', 'Chiffrement des données', 'Sauvegarde cloud']
+              }
+            ].map((benefit, index) => (
+              <motion.div
+                key={index}
+                className="landing-benefit-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+              >
+                <div className="landing-benefit-icon">
+                  <AnimatedIcon emoji={benefit.icon} size={48} animation="scale" delay={index * 0.1} />
+                </div>
+                <h3 className="landing-benefit-title">{benefit.title}</h3>
+                <p className="landing-benefit-description">{benefit.description}</p>
+                <ul className="landing-benefit-details">
+                  {benefit.details.map((detail, i) => (
+                    <li key={i}>{detail}</li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="landing-faq">
+        <div className="landing-container">
+          <motion.div
+            className="landing-section-header"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="landing-section-title">
+              Questions <span className="landing-title-highlight">fréquentes</span>
+            </h2>
+            <p className="landing-section-subtitle">
+              Tout ce que tu veux savoir sur GèreTonDjai
+            </p>
+          </motion.div>
+
+          <div className="landing-faq-grid">
+            {[
+              {
+                question: 'GèreTonDjai est-il vraiment gratuit ?',
+                answer: 'Oui, la version actuelle (V1) est 100% gratuite ! Aucun abonnement, aucune carte bancaire requise. Toutes les fonctionnalités sont disponibles gratuitement. La version 2 (V2) sera payante mais pas chère, avec des fonctionnalités premium supplémentaires.'
+              },
+              {
+                question: 'Mes données sont-elles sécurisées ?',
+                answer: 'Absolument ! Tes données sont stockées dans une base de données sécurisée Supabase avec chiffrement. Seul toi peux accéder à tes informations.'
+              },
+              {
+                question: 'L\'application fonctionne-t-elle sans internet ?',
+                answer: 'Oui ! Installe l\'app sur ton téléphone (PWA) et utilise-la hors ligne. Tes données se synchroniseront automatiquement quand tu auras internet.'
+              },
+              {
+                question: 'Le micro comprend-il vraiment le Nouchi ?',
+                answer: 'Oui ! Le système de reconnaissance vocale comprend le Nouchi et les expressions ivoiriennes comme "Gbaka", "Garba", "Woro-woro", "Warren", etc.'
+              },
+              {
+                question: 'Comment fonctionne le conseiller IA Woro ?',
+                answer: 'Woro analyse tes dépenses et revenus pour te donner des conseils personnalisés, créer des plans d\'épargne et t\'aider à atteindre tes objectifs financiers.'
+              }
+            ].map((faq, index) => (
+              <motion.div
+                key={index}
+                className="landing-faq-item"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <h3 className="landing-faq-question">{faq.question}</h3>
+                <p className="landing-faq-answer">{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="landing-cta-section">
         <div className="landing-container">
@@ -465,18 +587,21 @@ export function LandingPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="landing-cta-title">
-              Prêt à mieux gérer ton <span className="landing-title-highlight">argent</span> ?
+              Prêt à maîtriser tes dépenses et <span className="landing-title-highlight">épargner plus</span> ?
             </h2>
             <p className="landing-cta-subtitle">
-              Rejoins des milliers d'Ivoiriens qui font confiance à GèreTonDjai
+              Rejoins des milliers d'Ivoiriens qui utilisent GèreTonDjai pour mieux gérer leurs finances grâce à des conseils personnalisés
             </p>
             <Link
               to="/auth"
               className="landing-btn landing-btn-cta"
             >
-              <span>Commencer maintenant</span>
+              <span>Commencer maintenant - C'est gratuit !</span>
               <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
+            <p style={{ marginTop: '20px', fontSize: '14px', color: 'var(--color-text-muted)' }}>
+              ✅ Aucune carte bancaire requise • ✅ Inscription en 30 secondes • ✅ 100% gratuit
+            </p>
           </motion.div>
         </div>
       </section>

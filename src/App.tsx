@@ -23,7 +23,7 @@ import { useNotificationStore } from './stores/notificationStore'
 import './index.css'
 
 function AppContent() {
-  const { isAuthenticated, isLoading: isAuthLoading, checkAuth } = useAuthStore()
+  const { isAuthenticated, checkAuth } = useAuthStore()
   const { initializeStore, hasCompletedOnboarding, isLoadingOnboarding } = useExpenseStore()
   const { theme, initTheme } = useThemeStore()
   const { initNotifications } = useNotificationStore()
@@ -57,26 +57,8 @@ function AppContent() {
     }
   }, [theme])
 
-  // Loading state - Auth check
-  if (isAuthLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-content animate-fade-in">
-          <div className="loading-icon">
-            <span className="material-symbols-outlined">account_balance_wallet</span>
-            <div className="loading-pulse"></div>
-          </div>
-          <div className="loading-text">
-            <h1>GèreTonDjai</h1>
-            <p>Chargement...</p>
-          </div>
-        </div>
-        <p className="loading-credit">by Sam_k</p>
-      </div>
-    )
-  }
-
   // Not authenticated - Show landing or auth page
+  // Always show landing page first, even during auth check to avoid redirect to auth
   if (!isAuthenticated) {
     return (
       <Routes>

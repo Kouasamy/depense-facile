@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useExpenseStore } from '../stores/expenseStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
-import { BackButton } from '../components/common'
+import { BackButton, AnimatedIcon } from '../components/common'
 import './AnalyticsPage.css'
 
 type Period = '3m' | '6m' | '12m'
@@ -205,7 +205,7 @@ export function AnalyticsPage() {
                   <div key={category} className="analytics-category-item" style={{ animationDelay: `${(index + 2) * 50}ms` }}>
                     <div className="analytics-category-header">
                       <div className="analytics-category-info">
-                        <span className="analytics-category-emoji">{meta?.icon}</span>
+                        <AnimatedIcon emoji={meta?.icon} size={24} animation="scale" />
                         <span className="analytics-category-name">{meta?.label}</span>
                       </div>
                       <div className="analytics-category-stats">

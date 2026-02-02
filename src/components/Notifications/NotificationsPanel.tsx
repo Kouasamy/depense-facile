@@ -4,6 +4,7 @@ import { useNotificationStore, checkBudgetAlerts, checkSavingsAlerts, type Notif
 import { useExpenseStore } from '../../stores/expenseStore'
 import { useBudgetStore } from '../../stores/budgetStore'
 import { categoryMeta } from '../../db/schema'
+import { AnimatedIcon } from '../common'
 import './NotificationsPanel.css'
 
 interface NotificationsPanelProps {
@@ -247,11 +248,31 @@ export function NotificationsPanel({ isOpen, onClose }: NotificationsPanelProps)
               <div className="notification-modal-meta">
                 {selectedNotification.category && (
                   <span className="notification-modal-category">
-                    {selectedNotification.category === 'budget' && '💰 Budget'}
-                    {selectedNotification.category === 'savings' && '🏦 Épargne'}
-                    {selectedNotification.category === 'tip' && '💡 Conseil'}
-                    {selectedNotification.category === 'achievement' && '🏆 Succès'}
-                    {selectedNotification.category === 'system' && '⚙️ Système'}
+                    {selectedNotification.category === 'budget' && (
+                      <>
+                        <AnimatedIcon emoji="💰" size={20} animation="pulse" /> Budget
+                      </>
+                    )}
+                    {selectedNotification.category === 'savings' && (
+                      <>
+                        <AnimatedIcon emoji="🏦" size={20} animation="pulse" /> Épargne
+                      </>
+                    )}
+                    {selectedNotification.category === 'tip' && (
+                      <>
+                        <AnimatedIcon emoji="💡" size={20} animation="pulse" /> Conseil
+                      </>
+                    )}
+                    {selectedNotification.category === 'achievement' && (
+                      <>
+                        <AnimatedIcon emoji="🏆" size={20} animation="pulse" /> Succès
+                      </>
+                    )}
+                    {selectedNotification.category === 'system' && (
+                      <>
+                        <AnimatedIcon emoji="⚙️" size={20} animation="rotate" /> Système
+                      </>
+                    )}
                   </span>
                 )}
                 <span className="notification-modal-time">
