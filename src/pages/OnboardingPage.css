@@ -782,6 +782,206 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .onboarding-header {
+    padding: 8px;
+  }
+
+  .onboarding-logo-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .onboarding-logo-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .onboarding-logo-text {
+    font-size: 0.85rem;
+  }
+
+  .onboarding-main {
+    padding: 12px 8px;
+  }
+
+  .onboarding-illustration {
+    height: 120px;
+  }
+
+  .onboarding-content {
+    padding: 12px;
+  }
+
+  .onboarding-title {
+    font-size: 1rem;
+  }
+
+  .onboarding-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .onboarding-feature-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .onboarding-feature-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .onboarding-feature-title {
+    font-size: 0.7rem;
+  }
+
+  .onboarding-feature-desc {
+    font-size: 0.6rem;
+  }
+
+  .onboarding-cta {
+    height: 40px;
+    font-size: 0.85rem;
+  }
+
+  .onboarding-income-entry {
+    padding: 8px;
+  }
+
+  .onboarding-income-delete {
+    width: 20px;
+    height: 20px;
+  }
+
+  .onboarding-income-delete .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .onboarding-type-btn {
+    padding: 3px;
+  }
+
+  .onboarding-type-btn .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .onboarding-total {
+    padding: 8px;
+  }
+
+  .onboarding-total-value {
+    font-size: 1rem;
+  }
+
+  .onboarding-total-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .onboarding-total-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .onboarding-header {
+    padding: 6px;
+  }
+
+  .onboarding-logo-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .onboarding-logo-icon .material-symbols-outlined {
+    font-size: 10px;
+  }
+
+  .onboarding-logo-text {
+    font-size: 0.8rem;
+  }
+
+  .onboarding-main {
+    padding: 10px 6px;
+  }
+
+  .onboarding-illustration {
+    height: 100px;
+  }
+
+  .onboarding-content {
+    padding: 10px;
+  }
+
+  .onboarding-title {
+    font-size: 0.95rem;
+  }
+
+  .onboarding-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .onboarding-feature-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .onboarding-feature-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .onboarding-feature-title {
+    font-size: 0.65rem;
+  }
+
+  .onboarding-feature-desc {
+    font-size: 0.55rem;
+  }
+
+  .onboarding-cta {
+    height: 36px;
+    font-size: 0.8rem;
+  }
+
+  .onboarding-income-entry {
+    padding: 6px;
+  }
+
+  .onboarding-income-delete {
+    width: 18px;
+    height: 18px;
+  }
+
+  .onboarding-income-delete .material-symbols-outlined {
+    font-size: 10px;
+  }
+
+  .onboarding-type-btn {
+    padding: 2px;
+  }
+
+  .onboarding-type-btn .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .onboarding-total {
+    padding: 6px;
+  }
+
+  .onboarding-total-value {
+    font-size: 0.95rem;
+  }
+
+  .onboarding-total-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .onboarding-total-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+}
+
 /* Spinning animation */
 @keyframes spin {
   from { transform: rotate(0deg); }

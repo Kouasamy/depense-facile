@@ -323,6 +323,114 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .budgets-page {
+    padding-top: 32px;
+    padding-bottom: 70px;
+  }
+
+  .budgets-container {
+    padding: 0 8px;
+  }
+
+  .budgets-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .budgets-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .budgets-title {
+    font-size: 0.95rem;
+  }
+
+  .budgets-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .budgets-grid {
+    gap: 8px;
+  }
+
+  .budgets-card-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .budgets-card-name {
+    font-size: 0.8rem;
+  }
+
+  .budgets-card-amount {
+    font-size: 0.9rem;
+  }
+
+  .budgets-action-btn {
+    width: 20px;
+    height: 20px;
+  }
+
+  .budgets-action-btn .material-symbols-outlined {
+    font-size: 10px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .budgets-page {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .budgets-container {
+    padding: 0 6px;
+  }
+
+  .budgets-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .budgets-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .budgets-title {
+    font-size: 0.9rem;
+  }
+
+  .budgets-subtitle {
+    font-size: 0.55rem;
+  }
+
+  .budgets-grid {
+    gap: 6px;
+  }
+
+  .budgets-card-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.95rem;
+  }
+
+  .budgets-card-name {
+    font-size: 0.75rem;
+  }
+
+  .budgets-card-amount {
+    font-size: 0.85rem;
+  }
+
+  .budgets-action-btn {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 @media (min-width: 1024px) {
   .budgets-page {
     padding-top: var(--space-8);

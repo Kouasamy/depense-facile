@@ -1731,6 +1731,425 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .landing-nav {
+    padding: 4px 0;
+  }
+
+  .landing-nav-container {
+    padding: 0 8px;
+  }
+
+  .landing-logo {
+    font-size: 0.9rem;
+  }
+
+  .landing-logo .material-symbols-outlined {
+    font-size: 1.125rem;
+  }
+
+  .landing-btn-primary {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  .landing-hero {
+    padding: 40px 8px 24px;
+  }
+
+  .landing-hero-badge {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+
+  .landing-hero-title {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    margin-bottom: 8px;
+  }
+
+  .landing-hero-subtitle {
+    font-size: 0.75rem;
+    margin-bottom: 16px;
+  }
+
+  .landing-hero-cta {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .landing-btn-hero,
+  .landing-btn-secondary {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .landing-hero-stats {
+    gap: 6px;
+  }
+
+  .landing-stat-preview {
+    padding: 6px;
+    gap: 3px;
+  }
+
+  .landing-stat-number {
+    font-size: 0.85rem;
+  }
+
+  .landing-stat-label {
+    font-size: 0.55rem;
+  }
+
+  .landing-hero-visual {
+    max-width: 130px;
+  }
+
+  .landing-phone-mockup {
+    width: 120px;
+    height: 240px;
+    padding: 6px;
+  }
+
+  .landing-features,
+  .landing-how-it-works,
+  .landing-stats-section,
+  .landing-benefits,
+  .landing-use-cases,
+  .landing-faq,
+  .landing-cta-section {
+    padding: 24px 8px;
+  }
+
+  .landing-section-header {
+    margin-bottom: 20px;
+  }
+
+  .landing-section-title {
+    font-size: clamp(1.125rem, 4vw, 1.375rem);
+    margin-bottom: 8px;
+  }
+
+  .landing-section-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .landing-features-grid,
+  .landing-benefits-grid,
+  .landing-use-cases-grid,
+  .landing-faq-grid {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .landing-steps {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .landing-stats-grid {
+    gap: 6px;
+  }
+
+  .landing-stat-card {
+    padding: 12px;
+  }
+
+  .landing-stat-icon-large {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .landing-stat-number-large {
+    font-size: 1.25rem;
+  }
+
+  .landing-stat-label-large {
+    font-size: 0.75rem;
+  }
+
+  .landing-feature-card,
+  .landing-benefit-card,
+  .landing-use-case-card,
+  .landing-step-card,
+  .landing-faq-item {
+    padding: 12px;
+  }
+
+  .landing-feature-icon,
+  .landing-benefit-icon,
+  .landing-use-case-icon {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .landing-step-icon {
+    font-size: 1.5rem;
+    margin: 8px 0;
+  }
+
+  .landing-step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+    top: -8px;
+  }
+
+  .landing-feature-title,
+  .landing-benefit-title,
+  .landing-use-case-title,
+  .landing-step-title {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+
+  .landing-feature-description,
+  .landing-benefit-description,
+  .landing-use-case-description,
+  .landing-step-description {
+    font-size: 0.7rem;
+  }
+
+  .landing-benefit-details li {
+    font-size: 0.65rem;
+    padding: 1px 0;
+    padding-left: 12px;
+  }
+
+  .landing-faq-question {
+    font-size: 0.8rem;
+  }
+
+  .landing-faq-answer {
+    font-size: 0.7rem;
+  }
+
+  .landing-cta-title {
+    font-size: clamp(1.125rem, 4vw, 1.375rem);
+  }
+
+  .landing-cta-subtitle {
+    font-size: 0.75rem;
+    margin-bottom: 16px;
+  }
+
+  .landing-btn-cta {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .landing-footer {
+    padding: 20px 8px;
+  }
+
+  .landing-footer-brand {
+    font-size: 1rem;
+  }
+
+  .landing-footer-brand .material-symbols-outlined {
+    font-size: 1.25rem;
+  }
+
+  .landing-footer-text {
+    font-size: 0.75rem;
+  }
+
+  .landing-footer-links a {
+    font-size: 0.75rem;
+  }
+
+  .landing-footer-credit {
+    font-size: 0.65rem;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .landing-nav-container {
+    padding: 0 6px;
+  }
+
+  .landing-logo {
+    font-size: 0.85rem;
+  }
+
+  .landing-logo .material-symbols-outlined {
+    font-size: 1rem;
+  }
+
+  .landing-btn-primary {
+    padding: 3px 6px;
+    font-size: 0.65rem;
+  }
+
+  .landing-hero {
+    padding: 32px 6px 20px;
+  }
+
+  .landing-hero-badge {
+    font-size: 0.55rem;
+    padding: 2px 6px;
+  }
+
+  .landing-hero-title {
+    font-size: clamp(1rem, 4.5vw, 1.375rem);
+  }
+
+  .landing-hero-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .landing-btn-hero,
+  .landing-btn-secondary {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .landing-hero-stats {
+    gap: 4px;
+  }
+
+  .landing-stat-preview {
+    padding: 4px;
+  }
+
+  .landing-stat-number {
+    font-size: 0.8rem;
+  }
+
+  .landing-stat-label {
+    font-size: 0.5rem;
+  }
+
+  .landing-hero-visual {
+    max-width: 110px;
+  }
+
+  .landing-phone-mockup {
+    width: 100px;
+    height: 200px;
+    padding: 4px;
+  }
+
+  .landing-features,
+  .landing-how-it-works,
+  .landing-stats-section,
+  .landing-benefits,
+  .landing-use-cases,
+  .landing-faq,
+  .landing-cta-section {
+    padding: 20px 6px;
+  }
+
+  .landing-section-title {
+    font-size: clamp(1rem, 3.5vw, 1.25rem);
+  }
+
+  .landing-section-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .landing-features-grid,
+  .landing-benefits-grid,
+  .landing-use-cases-grid,
+  .landing-faq-grid {
+    gap: 8px;
+  }
+
+  .landing-stat-card {
+    padding: 10px;
+  }
+
+  .landing-stat-icon-large {
+    font-size: 1.125rem;
+  }
+
+  .landing-stat-number-large {
+    font-size: 1.125rem;
+  }
+
+  .landing-stat-label-large {
+    font-size: 0.7rem;
+  }
+
+  .landing-feature-card,
+  .landing-benefit-card,
+  .landing-use-case-card,
+  .landing-step-card,
+  .landing-faq-item {
+    padding: 10px;
+  }
+
+  .landing-feature-icon,
+  .landing-benefit-icon,
+  .landing-use-case-icon {
+    font-size: 1.125rem;
+  }
+
+  .landing-step-icon {
+    font-size: 1.375rem;
+  }
+
+  .landing-step-number {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .landing-feature-title,
+  .landing-benefit-title,
+  .landing-use-case-title,
+  .landing-step-title {
+    font-size: 0.8rem;
+  }
+
+  .landing-feature-description,
+  .landing-benefit-description,
+  .landing-use-case-description,
+  .landing-step-description {
+    font-size: 0.65rem;
+  }
+
+  .landing-benefit-details li {
+    font-size: 0.6rem;
+    padding-left: 10px;
+  }
+
+  .landing-faq-question {
+    font-size: 0.75rem;
+  }
+
+  .landing-faq-answer {
+    font-size: 0.65rem;
+  }
+
+  .landing-cta-title {
+    font-size: clamp(1rem, 3.5vw, 1.25rem);
+  }
+
+  .landing-cta-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .landing-btn-cta {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .landing-footer {
+    padding: 16px 6px;
+  }
+
+  .landing-footer-brand {
+    font-size: 0.95rem;
+  }
+
+  .landing-footer-brand .material-symbols-outlined {
+    font-size: 1.125rem;
+  }
+}
+
 /* Fix for mobile viewport issues */
 @media (max-width: 768px) {
   .landing-page {

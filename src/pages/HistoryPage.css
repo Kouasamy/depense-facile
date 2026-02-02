@@ -246,6 +246,124 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .history-page {
+    padding-top: 32px;
+    padding-bottom: 70px;
+  }
+
+  .history-container {
+    padding: 0 8px;
+  }
+
+  .history-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .history-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .history-title {
+    font-size: 0.95rem;
+  }
+
+  .history-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .history-pill {
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+
+  .transaction-item {
+    padding: 8px;
+  }
+
+  .transaction-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .transaction-title {
+    font-size: 0.75rem;
+  }
+
+  .transaction-amount {
+    font-size: 0.75rem;
+  }
+
+  .transaction-delete {
+    width: 20px;
+    height: 20px;
+  }
+
+  .transaction-delete .material-symbols-outlined {
+    font-size: 10px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .history-page {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .history-container {
+    padding: 0 6px;
+  }
+
+  .history-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .history-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .history-title {
+    font-size: 0.9rem;
+  }
+
+  .history-subtitle {
+    font-size: 0.55rem;
+  }
+
+  .history-pill {
+    padding: 2px 6px;
+    font-size: 0.55rem;
+  }
+
+  .transaction-item {
+    padding: 6px;
+  }
+
+  .transaction-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .transaction-title {
+    font-size: 0.7rem;
+  }
+
+  .transaction-amount {
+    font-size: 0.7rem;
+  }
+
+  .transaction-delete {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 @media (min-width: 1024px) {
   .history-page {
     padding-top: var(--space-8);

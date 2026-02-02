@@ -167,3 +167,91 @@
   }
 }
 
+/* ==================== ULTRA SMALL MOBILE (≤375px) ==================== */
+@media (max-width: 375px) {
+  .card {
+    padding: 12px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .btn-sm {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .btn-lg {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-card-value {
+    font-size: 1.25rem;
+  }
+
+  .stat-card-label {
+    font-size: 0.8rem;
+  }
+
+  button, a, .clickable {
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* ==================== EXTRA SMALL MOBILE (≤320px) ==================== */
+@media (max-width: 320px) {
+  .card {
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .btn-sm {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+  }
+
+  .btn-lg {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .stat-card {
+    padding: 10px;
+  }
+
+  .stat-card-value {
+    font-size: 1.125rem;
+  }
+
+  .stat-card-label {
+    font-size: 0.75rem;
+  }
+
+  button, a, .clickable {
+    min-height: 32px;
+    min-width: 32px;
+  }
+}
+

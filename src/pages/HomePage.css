@@ -398,6 +398,196 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .home-page {
+    padding-top: 32px;
+    padding-bottom: 80px;
+  }
+
+  .home-container {
+    padding: 0 8px;
+  }
+
+  .home-greeting {
+    font-size: 1rem;
+  }
+
+  .home-subtext {
+    font-size: 0.75rem;
+  }
+
+  .home-header-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .home-header-btn .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .home-hero-card {
+    padding: 12px;
+  }
+
+  .home-hero-amount {
+    font-size: 1.5rem;
+  }
+
+  .home-hero-currency {
+    font-size: 1rem;
+  }
+
+  .home-hero-stat-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .home-hero-stat-value {
+    font-size: 0.8rem;
+  }
+
+  .home-stats-grid {
+    gap: 8px;
+  }
+
+  .home-transaction-card {
+    min-width: 180px;
+    padding: 8px;
+  }
+
+  .quick-action-btn {
+    padding: 8px;
+    font-size: 0.7rem;
+  }
+
+  .quick-action-btn .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .home-transaction-item {
+    padding: 8px;
+  }
+
+  .home-fab-voice,
+  .home-fab-add {
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-fab-voice .material-symbols-outlined,
+  .home-fab-add .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .confirm-expense-card {
+    padding: 8px;
+  }
+
+  .confirm-expense-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
+  }
+
+  .confirm-expense-amount {
+    font-size: 1.125rem;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .home-page {
+    padding-top: 24px;
+    padding-bottom: 70px;
+  }
+
+  .home-container {
+    padding: 0 6px;
+  }
+
+  .home-greeting {
+    font-size: 0.95rem;
+  }
+
+  .home-subtext {
+    font-size: 0.7rem;
+  }
+
+  .home-header-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .home-header-btn .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .home-hero-card {
+    padding: 10px;
+  }
+
+  .home-hero-amount {
+    font-size: 1.375rem;
+  }
+
+  .home-hero-currency {
+    font-size: 0.95rem;
+  }
+
+  .home-hero-stat-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .home-hero-stat-value {
+    font-size: 0.75rem;
+  }
+
+  .home-stats-grid {
+    gap: 6px;
+  }
+
+  .home-transaction-card {
+    min-width: 160px;
+    padding: 6px;
+  }
+
+  .quick-action-btn {
+    padding: 6px;
+    font-size: 0.65rem;
+  }
+
+  .quick-action-btn .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .home-transaction-item {
+    padding: 6px;
+  }
+
+  .home-fab-voice,
+  .home-fab-add {
+    width: 36px;
+    height: 36px;
+  }
+
+  .home-fab-voice .material-symbols-outlined,
+  .home-fab-add .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .confirm-expense-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .confirm-expense-amount {
+    font-size: 1rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .home-page {
     padding-top: var(--space-8);

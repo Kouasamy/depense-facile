@@ -487,6 +487,88 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .auth-page {
+    padding: 8px;
+  }
+
+  .auth-logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .auth-logo-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .auth-logo-text {
+    font-size: 0.95rem;
+  }
+
+  .auth-illustration {
+    height: 100px;
+  }
+
+  .auth-form-content {
+    padding: 12px;
+  }
+
+  .auth-title {
+    font-size: 1.125rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .auth-submit-btn {
+    height: 40px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .auth-page {
+    padding: 6px;
+  }
+
+  .auth-logo-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .auth-logo-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .auth-logo-text {
+    font-size: 0.9rem;
+  }
+
+  .auth-illustration {
+    height: 90px;
+  }
+
+  .auth-form-content {
+    padding: 10px;
+  }
+
+  .auth-title {
+    font-size: 1rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .auth-submit-btn {
+    height: 36px;
+    font-size: 0.8rem;
+  }
+}
+
 /* Spinning animation */
 @keyframes spin {
   from { transform: rotate(0deg); }

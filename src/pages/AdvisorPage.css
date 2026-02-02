@@ -105,6 +105,82 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .advisor-page {
+    padding-top: 32px;
+    padding-bottom: 70px;
+  }
+
+  .advisor-container {
+    padding: 0 8px;
+  }
+
+  .advisor-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .advisor-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .advisor-title {
+    font-size: 0.95rem;
+  }
+
+  .advisor-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .advisor-tab {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+
+  .advice-card {
+    padding: 12px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .advisor-page {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .advisor-container {
+    padding: 0 6px;
+  }
+
+  .advisor-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .advisor-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .advisor-title {
+    font-size: 0.9rem;
+  }
+
+  .advisor-subtitle {
+    font-size: 0.55rem;
+  }
+
+  .advisor-tab {
+    font-size: 0.65rem;
+    padding: 3px 6px;
+  }
+
+  .advice-card {
+    padding: 10px;
+  }
+}
+
 @media (min-width: 1024px) {
   .advisor-page {
     padding-top: var(--space-8);

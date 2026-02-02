@@ -91,6 +91,74 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .chatbot-header-content {
+    padding: 8px;
+  }
+
+  .chatbot-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .chatbot-avatar .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .chatbot-title {
+    font-size: 0.95rem;
+  }
+
+  .chatbot-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .chatbot-input-area {
+    padding: 8px;
+  }
+
+  .chatbot-bubble {
+    max-width: 90%;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .chatbot-header-content {
+    padding: 6px;
+  }
+
+  .chatbot-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .chatbot-avatar .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .chatbot-title {
+    font-size: 0.9rem;
+  }
+
+  .chatbot-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .chatbot-input-area {
+    padding: 6px;
+  }
+
+  .chatbot-bubble {
+    max-width: 92%;
+    padding: 6px;
+    font-size: 0.75rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .chatbot-page {
     margin-left: 80px;

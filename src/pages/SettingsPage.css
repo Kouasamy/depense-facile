@@ -88,6 +88,80 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .settings-page {
+    padding-top: 32px;
+    padding-bottom: 70px;
+  }
+
+  .settings-container {
+    padding: 0 8px;
+  }
+
+  .settings-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .settings-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .settings-title {
+    font-size: 0.95rem;
+  }
+
+  .settings-subtitle {
+    font-size: 0.6rem;
+  }
+
+  .settings-section {
+    padding: 12px;
+  }
+
+  .settings-item {
+    padding: 8px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .settings-page {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .settings-container {
+    padding: 0 6px;
+  }
+
+  .settings-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .settings-icon .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .settings-title {
+    font-size: 0.9rem;
+  }
+
+  .settings-subtitle {
+    font-size: 0.55rem;
+  }
+
+  .settings-section {
+    padding: 10px;
+  }
+
+  .settings-item {
+    padding: 6px;
+  }
+}
+
 @media (min-width: 1024px) {
   .settings-page {
     padding-top: var(--space-8);

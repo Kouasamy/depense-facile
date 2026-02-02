@@ -221,6 +221,110 @@
   }
 }
 
+/* Responsive - Ultra Small Mobile (≤375px) */
+@media (max-width: 375px) {
+  .dashboard-page {
+    padding-top: 32px;
+    padding-bottom: 70px;
+  }
+
+  .dashboard-container {
+    padding: 0 8px;
+  }
+
+  .dashboard-title {
+    font-size: 1.125rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .dashboard-stats-row {
+    gap: 6px;
+  }
+
+  .dashboard-health-badge {
+    padding: 8px 12px;
+  }
+
+  .dashboard-section-title {
+    font-size: 0.95rem;
+  }
+
+  .dashboard-budget-grid {
+    gap: 8px;
+  }
+
+  .budget-card-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .budget-card-name {
+    font-size: 0.8rem;
+  }
+
+  .budget-card-amount {
+    font-size: 0.9rem;
+  }
+
+  .alert-card {
+    padding: 8px;
+  }
+}
+
+/* Responsive - Extra Small Mobile (≤320px) */
+@media (max-width: 320px) {
+  .dashboard-page {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .dashboard-container {
+    padding: 0 6px;
+  }
+
+  .dashboard-title {
+    font-size: 1rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .dashboard-stats-row {
+    gap: 4px;
+  }
+
+  .dashboard-health-badge {
+    padding: 6px 10px;
+  }
+
+  .dashboard-section-title {
+    font-size: 0.9rem;
+  }
+
+  .budget-card-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .budget-card-name {
+    font-size: 0.75rem;
+  }
+
+  .budget-card-amount {
+    font-size: 0.85rem;
+  }
+
+  .alert-card {
+    padding: 6px;
+  }
+}
+
 @media (min-width: 1024px) {
   .dashboard-page {
     padding-top: var(--space-8);
