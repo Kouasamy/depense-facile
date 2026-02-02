@@ -6,32 +6,243 @@
   padding-bottom: 120px;
 }
 
-@media (max-width: 480px) {
+/* Responsive - Mobile */
+@media (max-width: 768px) {
   .history-page {
-    padding-top: 60px;
+    padding-top: 50px;
     padding-bottom: 100px;
   }
   
   .history-container {
-    padding: 0 var(--space-3);
+    padding: 0 var(--space-2);
+  }
+
+  .history-header {
+    margin-bottom: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .history-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .history-icon .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .history-title {
+    font-size: 1.125rem;
+  }
+
+  .history-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .history-filters {
+    margin-bottom: var(--space-4);
+  }
+
+  .history-filters-row {
+    gap: var(--space-2);
+  }
+
+  .history-search-clear {
+    right: var(--space-3);
+    width: 20px;
+    height: 20px;
+  }
+
+  .history-search-clear .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .history-filter-buttons {
+    gap: var(--space-1);
+  }
+
+  .history-sort .form-select {
+    min-width: 120px;
+    padding-right: 32px;
+    font-size: 0.875rem;
+  }
+
+  .history-category-pills {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+  }
+
+  .history-pills-label {
+    font-size: 0.625rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .history-pills-list {
+    gap: var(--space-1);
+  }
+
+  .history-pill {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.7rem;
+  }
+
+  .history-list {
+    gap: var(--space-4);
+  }
+
+  .history-group-header {
+    margin-bottom: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .history-group-header .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .history-group-date {
+    font-size: 0.8rem;
+  }
+
+  .history-group-total {
+    font-size: 0.8rem;
+  }
+
+  .history-group-items {
+    gap: var(--space-1);
+  }
+
+  .transaction-item {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .transaction-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+
+  .transaction-title {
+    font-size: 0.875rem;
+  }
+
+  .transaction-meta {
+    font-size: 0.7rem;
+    gap: var(--space-1);
+  }
+
+  .transaction-amount {
+    font-size: 0.875rem;
+  }
+
+  .transaction-delete {
+    width: 28px;
+    height: 28px;
+  }
+
+  .transaction-delete .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .history-empty {
+    padding: var(--space-8);
+  }
+}
+
+@media (max-width: 480px) {
+  .history-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
   }
   
+  .history-container {
+    padding: 0 var(--space-2);
+  }
+
   .history-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .history-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .history-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .history-title {
+    font-size: 1rem;
+  }
+
+  .history-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .history-filters-row {
+    gap: var(--space-2);
+  }
+
+  .history-sort .form-select {
+    min-width: 100px;
+    font-size: 0.8rem;
+  }
+
+  .history-pill {
+    padding: 4px var(--space-2);
+    font-size: 0.65rem;
+  }
+
+  .history-list {
     gap: var(--space-3);
   }
-  
-  .history-filters {
-    width: 100%;
+
+  .history-group-date {
+    font-size: 0.75rem;
   }
-  
-  .expense-card {
-    padding: var(--space-3);
+
+  .history-group-total {
+    font-size: 0.75rem;
   }
-  
-  .expense-card-amount {
-    font-size: 1.25rem;
+
+  .transaction-item {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .transaction-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .transaction-title {
+    font-size: 0.8rem;
+  }
+
+  .transaction-meta {
+    font-size: 0.65rem;
+  }
+
+  .transaction-amount {
+    font-size: 0.8rem;
+  }
+
+  .transaction-delete {
+    width: 24px;
+    height: 24px;
+  }
+
+  .transaction-delete .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .history-empty {
+    padding: var(--space-6);
   }
 }
 

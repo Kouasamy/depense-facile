@@ -6,24 +6,320 @@
   padding-bottom: 120px;
 }
 
-@media (max-width: 480px) {
+/* Responsive - Mobile */
+@media (max-width: 768px) {
   .budgets-page {
-    padding-top: 60px;
+    padding-top: 50px;
     padding-bottom: 100px;
   }
   
   .budgets-container {
-    padding: 0 var(--space-3);
+    padding: 0 var(--space-2);
+  }
+
+  .budgets-header {
+    margin-bottom: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .budgets-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .budgets-icon .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .budgets-title {
+    font-size: 1.125rem;
+  }
+
+  .budgets-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .budgets-alerts {
+    margin-bottom: var(--space-4);
+  }
+
+  .budgets-alerts-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .budgets-alerts-header .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .budgets-alerts-header h2 {
+    font-size: 1rem;
+  }
+
+  .budgets-alerts-grid {
+    gap: var(--space-2);
+  }
+
+  .budgets-alert-item {
+    padding: var(--space-3);
+  }
+
+  .budgets-alert-emoji {
+    font-size: 1.125rem;
+  }
+
+  .budgets-alert-name {
+    font-size: 0.875rem;
+  }
+
+  .budgets-alert-amount {
+    font-size: 0.8rem;
+  }
+
+  .budgets-grid {
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .budgets-card-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .budgets-card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .budgets-card-name {
+    font-size: 0.9rem;
+  }
+
+  .budgets-card-status {
+    font-size: 0.7rem;
+  }
+
+  .budgets-card-status .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .budgets-action-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .budgets-action-btn .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .budgets-card-stats {
+    font-size: 0.8rem;
+  }
+
+  .budgets-card-remaining {
+    font-size: 0.7rem;
+    margin-top: var(--space-2);
+  }
+
+  .budgets-empty {
+    padding: var(--space-8);
+    margin-bottom: var(--space-4);
+  }
+
+  .budgets-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: var(--space-3);
+  }
+
+  .budgets-empty-icon .material-symbols-outlined {
+    font-size: 28px;
+  }
+
+  .budgets-empty-title {
+    font-size: 1rem;
+  }
+
+  .budgets-empty-text {
+    font-size: 0.8rem;
+  }
+
+  .budgets-tips-header .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .budgets-tips-header h3 {
+    font-size: 1rem;
+  }
+
+  .budgets-tips-list {
+    gap: var(--space-2);
+  }
+
+  .budgets-tips-list li {
+    font-size: 0.8rem;
+  }
+
+  .budgets-category-grid {
+    gap: var(--space-2);
+    max-height: 200px;
+  }
+
+  .budgets-category-btn {
+    padding: var(--space-2);
+  }
+
+  .budgets-category-btn span:first-child {
+    font-size: 1.125rem;
+  }
+
+  .budgets-category-btn span:last-child {
+    font-size: 0.8rem;
+  }
+
+  .budgets-modal-selected {
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .budgets-modal-emoji {
+    font-size: 1.25rem;
+  }
+
+  .budgets-modal-name {
+    font-size: 0.9rem;
+  }
+
+  .budgets-modal-preview {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .budgets-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
   }
   
+  .budgets-container {
+    padding: 0 var(--space-2);
+  }
+
   .budgets-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
   }
-  
-  .budget-card {
-    padding: var(--space-4);
+
+  .budgets-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .budgets-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .budgets-title {
+    font-size: 1rem;
+  }
+
+  .budgets-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .budgets-alerts-header h2 {
+    font-size: 0.95rem;
+  }
+
+  .budgets-alert-item {
+    padding: var(--space-2);
+  }
+
+  .budgets-alert-emoji {
+    font-size: 1rem;
+  }
+
+  .budgets-alert-name {
+    font-size: 0.8rem;
+  }
+
+  .budgets-alert-amount {
+    font-size: 0.75rem;
+  }
+
+  .budgets-grid {
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .budgets-card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
+  }
+
+  .budgets-card-name {
+    font-size: 0.85rem;
+  }
+
+  .budgets-card-status {
+    font-size: 0.65rem;
+  }
+
+  .budgets-action-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .budgets-action-btn .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .budgets-card-stats {
+    font-size: 0.75rem;
+  }
+
+  .budgets-card-remaining {
+    font-size: 0.65rem;
+  }
+
+  .budgets-empty {
+    padding: var(--space-6);
+  }
+
+  .budgets-empty-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--space-2);
+  }
+
+  .budgets-empty-icon .material-symbols-outlined {
+    font-size: 24px;
+  }
+
+  .budgets-empty-title {
+    font-size: 0.95rem;
+  }
+
+  .budgets-empty-text {
+    font-size: 0.75rem;
+  }
+
+  .budgets-tips-list li {
+    font-size: 0.75rem;
+  }
+
+  .budgets-category-btn {
+    padding: var(--space-2);
+  }
+
+  .budgets-category-btn span:first-child {
+    font-size: 1rem;
+  }
+
+  .budgets-category-btn span:last-child {
+    font-size: 0.75rem;
   }
 }
 

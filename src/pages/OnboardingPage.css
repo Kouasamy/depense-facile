@@ -452,6 +452,336 @@
   color: var(--color-text-muted);
 }
 
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .onboarding-header {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .onboarding-logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .onboarding-logo-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .onboarding-logo-text {
+    font-size: 1rem;
+  }
+
+  .onboarding-main {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  .onboarding-card {
+    max-width: 100%;
+  }
+
+  .onboarding-illustration {
+    height: 160px;
+  }
+
+  .onboarding-illustration-badge {
+    bottom: var(--space-3);
+    left: var(--space-3);
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.7rem;
+  }
+
+  .onboarding-illustration-badge .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .onboarding-content {
+    padding: var(--space-4);
+  }
+
+  .onboarding-title {
+    font-size: 1.25rem;
+  }
+
+  .onboarding-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .onboarding-features {
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .onboarding-feature {
+    padding: var(--space-2);
+  }
+
+  .onboarding-feature-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .onboarding-feature-icon .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .onboarding-feature-title {
+    font-size: 0.8rem;
+  }
+
+  .onboarding-feature-desc {
+    font-size: 0.7rem;
+  }
+
+  .onboarding-cta {
+    height: 48px;
+  }
+
+  .onboarding-form-header {
+    padding: var(--space-4) var(--space-4) var(--space-3);
+  }
+
+  .onboarding-form-body {
+    padding: var(--space-4);
+    max-height: 65vh;
+  }
+
+  .onboarding-incomes {
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .onboarding-income-entry {
+    padding: var(--space-3);
+  }
+
+  .onboarding-income-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .onboarding-income-delete {
+    width: 28px;
+    height: 28px;
+  }
+
+  .onboarding-income-delete .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .onboarding-income-types {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-1);
+  }
+
+  .onboarding-type-btn {
+    padding: var(--space-1);
+  }
+
+  .onboarding-type-btn .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .onboarding-type-btn span:last-child {
+    font-size: 0.6rem;
+  }
+
+  .onboarding-total {
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .onboarding-total-value {
+    font-size: 1.25rem;
+  }
+
+  .onboarding-total-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .onboarding-total-icon .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .onboarding-error {
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .onboarding-error .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .onboarding-error p {
+    font-size: 0.8rem;
+  }
+
+  .onboarding-footer {
+    padding: var(--space-4);
+  }
+
+  .onboarding-footer p {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .onboarding-header {
+    padding: var(--space-2);
+  }
+
+  .onboarding-logo-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .onboarding-logo-icon .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .onboarding-logo-text {
+    font-size: 0.9rem;
+  }
+
+  .onboarding-main {
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .onboarding-illustration {
+    height: 140px;
+  }
+
+  .onboarding-illustration-badge {
+    bottom: var(--space-2);
+    left: var(--space-2);
+    padding: 4px var(--space-2);
+    font-size: 0.65rem;
+  }
+
+  .onboarding-illustration-badge .material-symbols-outlined {
+    font-size: 12px;
+  }
+
+  .onboarding-content {
+    padding: var(--space-3);
+  }
+
+  .onboarding-title {
+    font-size: 1.125rem;
+  }
+
+  .onboarding-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .onboarding-feature-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .onboarding-feature-icon .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .onboarding-feature-title {
+    font-size: 0.75rem;
+  }
+
+  .onboarding-feature-desc {
+    font-size: 0.65rem;
+  }
+
+  .onboarding-cta {
+    height: 44px;
+    font-size: 0.9rem;
+  }
+
+  .onboarding-form-header {
+    padding: var(--space-3) var(--space-3) var(--space-2);
+  }
+
+  .onboarding-form-body {
+    padding: var(--space-3);
+    max-height: 70vh;
+  }
+
+  .onboarding-income-entry {
+    padding: var(--space-2);
+  }
+
+  .onboarding-income-delete {
+    width: 24px;
+    height: 24px;
+  }
+
+  .onboarding-income-delete .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .onboarding-income-types {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .onboarding-type-btn {
+    padding: 4px;
+  }
+
+  .onboarding-type-btn .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .onboarding-type-btn span:last-child {
+    font-size: 0.55rem;
+  }
+
+  .onboarding-total {
+    padding: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .onboarding-total-label {
+    font-size: 0.625rem;
+  }
+
+  .onboarding-total-value {
+    font-size: 1.125rem;
+  }
+
+  .onboarding-total-value span {
+    font-size: 0.8rem;
+  }
+
+  .onboarding-total-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .onboarding-total-icon .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .onboarding-error {
+    padding: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .onboarding-error .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .onboarding-error p {
+    font-size: 0.75rem;
+  }
+
+  .onboarding-footer {
+    padding: var(--space-3);
+  }
+
+  .onboarding-footer p {
+    font-size: 0.65rem;
+  }
+}
+
 /* Spinning animation */
 @keyframes spin {
   from { transform: rotate(0deg); }

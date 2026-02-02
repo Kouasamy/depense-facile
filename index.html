@@ -142,12 +142,22 @@
     </script>
     
     <style>
-    <style>
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
       .material-symbols-outlined.filled {
         font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      /* Mobile fix - ensure content is visible */
+      @media (max-width: 768px) {
+        body {
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+        }
+        #root {
+          min-height: 100vh;
+          min-height: -webkit-fill-available;
+        }
       }
     </style>
   </head>

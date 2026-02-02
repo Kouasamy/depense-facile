@@ -14,8 +14,10 @@ export function LandingPage() {
   const statsRef = useRef<HTMLDivElement>(null)
   
   const { scrollYProgress } = useScroll()
-  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  // Disable parallax on mobile for better performance
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '0%' : '50%'])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, isMobile ? 1 : 0])
   
   const featuresInView = useInView(featuresRef, { once: true, margin: '-100px' })
   const statsInView = useInView(statsRef, { once: true, margin: '-100px' })
@@ -487,7 +489,8 @@ export function LandingPage() {
                 details: ['Conseils personnalisés', 'Plans d\'épargne adaptés', 'Astuces quotidiennes']
               },
               {
-                icon: '💰',
+                icon: 'FCFA',
+                iconType: 'text',
                 title: 'Conseils pour Épargner',
                 description: 'Reçois des conseils personnalisés basés sur tes habitudes de dépenses. Apprends à réduire tes dépenses inutiles et à épargner efficacement.',
                 details: ['Conseils personnalisés', 'Plans d\'épargne adaptés', 'Astuces quotidiennes']
@@ -509,7 +512,11 @@ export function LandingPage() {
                 whileHover={{ y: -10, scale: 1.02 }}
               >
                 <div className="landing-benefit-icon">
-                  <AnimatedIcon emoji={benefit.icon} size={48} animation="scale" delay={index * 0.1} />
+                  {benefit.iconType === 'text' ? (
+                    <span style={{ fontSize: '48px', fontWeight: 'bold', color: 'var(--color-primary)' }}>{benefit.icon}</span>
+                  ) : (
+                    <AnimatedIcon emoji={benefit.icon} size={48} animation="scale" delay={index * 0.1} />
+                  )}
                 </div>
                 <h3 className="landing-benefit-title">{benefit.title}</h3>
                 <p className="landing-benefit-description">{benefit.description}</p>
