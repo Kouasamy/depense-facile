@@ -3,6 +3,7 @@ import { useExpenseStore } from '../stores/expenseStore'
 import { useBudgetStore } from '../stores/budgetStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
+import { BackButton } from '../components/common'
 import './BudgetsPage.css'
 
 export function BudgetsPage() {
@@ -63,6 +64,7 @@ export function BudgetsPage() {
 
   return (
     <div className="budgets-page">
+      <BackButton />
       <div className="budgets-container">
         {/* Header */}
         <header className="budgets-header animate-fade-in">

@@ -5,6 +5,8 @@ import { useAuthStore } from '../stores/authStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
 import { AddIncomeModal } from '../components/Dashboard/AddIncomeModal'
+import { BackButton } from '../components/common'
+import { SEO } from '../components/SEO'
 import './DashboardPage.css'
 
 export function DashboardPage() {
@@ -55,8 +57,15 @@ export function DashboardPage() {
   const healthStatus = getHealthStatus()
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-container">
+    <>
+      <SEO
+        title="Tableau de bord"
+        description="Visualise tes dépenses, revenus et budgets en temps réel. Suis l'évolution de tes finances avec des graphiques détaillés et des alertes intelligentes."
+        keywords="tableau de bord finances, dépenses revenus, budget ivoirien, suivi financier"
+      />
+      <div className="dashboard-page">
+        <BackButton />
+        <div className="dashboard-container">
         {/* Header */}
         <header className="dashboard-header animate-fade-in">
           <div>
@@ -267,7 +276,8 @@ export function DashboardPage() {
       {showIncomeModal && (
         <AddIncomeModal onClose={() => setShowIncomeModal(false)} />
       )}
-    </div>
+      </div>
+    </>
   )
 }
 

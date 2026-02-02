@@ -13,7 +13,8 @@ import {
   TermsPage, 
   PrivacyPage, 
   AdvisorPage, 
-  ChatBotPage 
+  ChatBotPage,
+  LandingPage
 } from './pages'
 import { useExpenseStore } from './stores/expenseStore'
 import { useThemeStore } from './stores/themeStore'
@@ -75,14 +76,15 @@ function AppContent() {
     )
   }
 
-  // Not authenticated - Show auth page
+  // Not authenticated - Show landing or auth page
   if (!isAuthenticated) {
     return (
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
         <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
-        <Route path="*" element={<Navigate to="/auth" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     )
   }

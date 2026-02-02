@@ -10,4 +10,5 @@ export { TermsPage } from './TermsPage'
 export { PrivacyPage } from './PrivacyPage'
 export { AdvisorPage } from './AdvisorPage'
 export { ChatBotPage } from './ChatBotPage'
+export { LandingPage } from './LandingPage'
 

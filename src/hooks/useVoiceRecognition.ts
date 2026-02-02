@@ -49,13 +49,17 @@ export function useVoiceRecognition() {
     try {
       await recognizerRef.current.start({
         language: 'fr-FR',
-        interimResults: true,
+        continuous: true, // Continuous mode for better capture
+        interimResults: true, // Show results as you speak
         
         onResult: (result) => {
-          setTranscript(result.transcript)
+          // Always update transcript for better UX - even for quiet speech
+          if (result.transcript && result.transcript.trim()) {
+            setTranscript(result.transcript)
+          }
           
-          // If final result, process it
-          if (result.isFinal) {
+          // Process final results immediately
+          if (result.isFinal && result.transcript.trim()) {
             processTranscript(result.transcript)
           }
         },
@@ -82,10 +86,12 @@ export function useVoiceRecognition() {
     }
     setRecording(false)
     
-    // If we have a transcript but it wasn't finalized, process it now
-    if (currentTranscript && !isProcessing) {
-      processTranscript(currentTranscript)
-    }
+    // Wait a bit for any final results, then process
+    setTimeout(() => {
+      if (currentTranscript && currentTranscript.trim() && !isProcessing) {
+        processTranscript(currentTranscript)
+      }
+    }, 500) // Give time for final results to arrive
   }, [currentTranscript, isProcessing, setRecording])
 
   // Process transcript through NLP

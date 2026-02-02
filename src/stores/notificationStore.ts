@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { emailService } from '../services/emailService'
+import { useAuthStore } from './authStore'
 
 export interface Notification {
   id: string
@@ -9,6 +11,7 @@ export interface Notification {
   time: Date
   read: boolean
   category?: 'budget' | 'savings' | 'tip' | 'achievement' | 'system'
+  emailSent?: boolean
 }
 
 interface NotificationState {
@@ -17,13 +20,13 @@ interface NotificationState {
   lastTipDate: string | null
   
   // Actions
-  addNotification: (notification: Omit<Notification, 'id' | 'time' | 'read'>) => void
+  addNotification: (notification: Omit<Notification, 'id' | 'time' | 'read' | 'emailSent'>) => Promise<void>
   markAsRead: (id: string) => void
   markAllAsRead: () => void
   removeNotification: (id: string) => void
   clearAll: () => void
   getDailyTip: () => Notification
-  checkAndAddDailyTip: () => void
+  checkAndAddDailyTip: () => Promise<void>
   initNotifications: () => void
 }
 
@@ -122,12 +125,13 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
   unreadCount: 0,
   lastTipDate: null,
 
-  addNotification: (notification) => {
+  addNotification: async (notification) => {
     const newNotification: Notification = {
       ...notification,
       id: generateId(),
       time: new Date(),
-      read: false
+      read: false,
+      emailSent: false
     }
     
     set(state => {
@@ -138,6 +142,36 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount: state.unreadCount + 1
       }
     })
+
+    // Send email notification if enabled
+    try {
+      const { user } = useAuthStore.getState()
+      if (user?.email && emailService.isConfigured()) {
+        // Check if email notifications are enabled
+        const shouldSend = shouldSendEmailNotification(notification.category)
+        
+        if (shouldSend) {
+          const result = await emailService.sendNotificationEmail(user.email, {
+            title: notification.title,
+            message: notification.message,
+            type: notification.type,
+            category: notification.category
+          })
+
+          if (result.success) {
+            // Update notification to mark email as sent
+            set(state => ({
+              notifications: state.notifications.map(n =>
+                n.id === newNotification.id ? { ...n, emailSent: true } : n
+              )
+            }))
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error sending email notification:', error)
+      // Don't block notification creation if email fails
+    }
   },
 
   markAsRead: (id) => {
@@ -202,13 +236,13 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
     }
   },
 
-  checkAndAddDailyTip: () => {
+  checkAndAddDailyTip: async () => {
     const today = getTodayString()
     const lastTipDate = localStorage.getItem(TIP_DATE_KEY)
     
     if (lastTipDate !== today) {
       const tip = get().getDailyTip()
-      get().addNotification({
+      await get().addNotification({
         type: tip.type,
         title: tip.title,
         message: tip.message,
@@ -217,6 +251,19 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
       })
       localStorage.setItem(TIP_DATE_KEY, today)
       set({ lastTipDate: today })
+
+      // Send daily tip email
+      try {
+        const { user } = useAuthStore.getState()
+        if (user?.email && emailService.isConfigured()) {
+          await emailService.sendDailyTipEmail(user.email, {
+            title: tip.title,
+            message: tip.message
+          })
+        }
+      } catch (error) {
+        console.error('Error sending daily tip email:', error)
+      }
     }
   },
 
@@ -244,13 +291,21 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
   }
 }))
 
+// Helper function to check if email should be sent
+export function shouldSendEmailNotification(category?: string): boolean {
+  // For now, send emails for important notifications
+  // You can enhance this by checking user preferences from database
+  const importantCategories = ['budget', 'savings', 'tip']
+  return !category || importantCategories.includes(category)
+}
+
 // Helper to check budget alerts
-export function checkBudgetAlerts(
+export async function checkBudgetAlerts(
   budgets: Record<string, number>,
   categoryTotals: Record<string, number>,
   categoryLabels: Record<string, string>
 ) {
-  const notifications: Omit<Notification, 'id' | 'time' | 'read'>[] = []
+  const notifications: Omit<Notification, 'id' | 'time' | 'read' | 'emailSent'>[] = []
   
   Object.entries(budgets).forEach(([category, budgetAmount]) => {
     const spent = categoryTotals[category] || 0
@@ -265,6 +320,13 @@ export function checkBudgetAlerts(
         icon: 'warning',
         category: 'budget'
       })
+
+      // Send email alert
+      const { user } = useAuthStore.getState()
+      if (user?.email && emailService.isConfigured()) {
+        emailService.sendBudgetAlertEmail(user.email, label, spent, budgetAmount, percentage)
+          .catch(error => console.error('Error sending budget alert email:', error))
+      }
     } else if (percentage >= 90) {
       notifications.push({
         type: 'warning',
@@ -273,6 +335,13 @@ export function checkBudgetAlerts(
         icon: 'trending_up',
         category: 'budget'
       })
+
+      // Send email alert
+      const { user } = useAuthStore.getState()
+      if (user?.email && emailService.isConfigured()) {
+        emailService.sendBudgetAlertEmail(user.email, label, spent, budgetAmount, percentage)
+          .catch(error => console.error('Error sending budget alert email:', error))
+      }
     }
   })
   

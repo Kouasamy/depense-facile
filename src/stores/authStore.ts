@@ -9,6 +9,7 @@ import {
   onAuthStateChange
 } from '../lib/supabase'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { emailService } from '../services/emailService'
 
 // User type for the app
 export interface User {
@@ -212,6 +213,25 @@ export const useAuthStore = create<AuthState>((set, get) => {
           isLoading: false,
           error: null 
         })
+
+        // Send welcome email IMMEDIATELY after successful registration
+        // This runs asynchronously so it doesn't block the registration process
+        if (emailService.isConfigured()) {
+          console.log('📧 Sending welcome email to:', email)
+          emailService.sendWelcomeEmail(email, name)
+            .then(result => {
+              if (result.success) {
+                console.log('✅ Welcome email sent successfully to:', email)
+              } else {
+                console.error('❌ Failed to send welcome email:', result.error)
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error sending welcome email:', error)
+            })
+        } else {
+          console.warn('⚠️ Email service not configured. Welcome email not sent.')
+        }
         
         return true
       } catch (error) {

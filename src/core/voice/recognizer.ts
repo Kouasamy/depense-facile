@@ -41,11 +41,11 @@ class WebSpeechRecognizer {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
     this.recognition = new SpeechRecognitionAPI() as SpeechRecognition
 
-    // Default configuration
-    this.recognition.continuous = false
-    this.recognition.interimResults = true
+    // Default configuration - Optimized for sensitivity
+    this.recognition.continuous = true // Continuous mode for better capture
+    this.recognition.interimResults = true // Show results as you speak
     this.recognition.lang = 'fr-FR' // French for Côte d'Ivoire
-    this.recognition.maxAlternatives = 1
+    this.recognition.maxAlternatives = 3 // More alternatives for better accuracy
   }
 
   start(options: RecognitionOptions = {}): void {
@@ -85,7 +85,7 @@ class WebSpeechRecognizer {
     this.recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       this.isListening = false
       const errorMessages: Record<string, string> = {
-        'no-speech': 'Aucune voix détectée. Parle plus fort !',
+        'no-speech': 'Je n\'ai rien entendu. Parle un peu plus fort ou rapproche-toi du micro !',
         'audio-capture': 'Problème avec le micro. Vérifie les permissions.',
         'not-allowed': 'Micro non autorisé. Active le micro dans les paramètres.',
         'network': 'Problème de connexion. Réessaie.',
@@ -97,15 +97,44 @@ class WebSpeechRecognizer {
     }
 
     this.recognition.onresult = (event: SpeechRecognitionEvent) => {
+      // Collect all results for better accuracy
+      let fullTranscript = ''
+      let maxConfidence = 0
+      let hasFinal = false
+      
+      for (let i = 0; i < event.results.length; i++) {
+        const result = event.results[i]
+        if (result[0]) {
+          fullTranscript += result[0].transcript + ' '
+          if (result[0].confidence > maxConfidence) {
+            maxConfidence = result[0].confidence
+          }
+          if (result.isFinal) {
+            hasFinal = true
+          }
+        }
+      }
+      
+      // Use the best alternative if available
       const lastResult = event.results[event.results.length - 1]
-      const transcript = lastResult[0].transcript
-      const confidence = lastResult[0].confidence
-      const isFinal = lastResult.isFinal
+      let bestTranscript = lastResult[0]?.transcript || fullTranscript.trim()
+      let bestConfidence = lastResult[0]?.confidence || maxConfidence
+      
+      // Try to get better alternative if confidence is low
+      if (bestConfidence < 0.7 && lastResult.length > 1) {
+        // Check other alternatives
+        for (let i = 1; i < lastResult.length; i++) {
+          if (lastResult[i].confidence > bestConfidence) {
+            bestTranscript = lastResult[i].transcript
+            bestConfidence = lastResult[i].confidence
+          }
+        }
+      }
 
       this.options.onResult?.({
-        transcript,
-        confidence,
-        isFinal
+        transcript: bestTranscript.trim() || fullTranscript.trim(),
+        confidence: bestConfidence || maxConfidence,
+        isFinal: hasFinal || lastResult.isFinal
       })
     }
 
@@ -149,9 +178,11 @@ class WhisperRecognizer {
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          sampleRate: 16000
+          echoCancellation: false, // Disabled for better sensitivity to quiet voices
+          noiseSuppression: false, // Disabled to capture all sounds including quiet speech
+          autoGainControl: true, // Auto gain for better volume - amplifies quiet voices
+          sampleRate: 48000, // Higher sample rate for better quality
+          channelCount: 1 // Mono for better processing
         } 
       })
 

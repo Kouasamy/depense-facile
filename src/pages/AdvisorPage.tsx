@@ -12,6 +12,7 @@ import {
   type FinancialAdvice,
   type FinancialHealth
 } from '../core/ai/advisor'
+import { BackButton } from '../components/common'
 import './AdvisorPage.css'
 
 export function AdvisorPage() {
@@ -103,6 +104,7 @@ export function AdvisorPage() {
 
   return (
     <div className="advisor-page">
+      <BackButton />
       <div className="advisor-container">
         {/* Header */}
         <header className="advisor-header animate-fade-in">

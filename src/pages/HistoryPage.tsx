@@ -3,6 +3,7 @@ import { useExpenseStore } from '../stores/expenseStore'
 import { categoryMeta, paymentMethodMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
 import { downloadExpensesPDF } from '../utils/export'
+import { BackButton } from '../components/common'
 import './HistoryPage.css'
 
 export function HistoryPage() {
@@ -76,6 +77,7 @@ export function HistoryPage() {
 
   return (
     <div className="history-page">
+      <BackButton />
       <div className="history-container">
         {/* Header */}
         <header className="history-header animate-fade-in">

@@ -42,15 +42,16 @@ export function NotificationsPanel({ isOpen, onClose }: NotificationsPanelProps)
     })
     
     // Check budget alerts
-    const budgetAlerts = checkBudgetAlerts(budgets, categoryTotals, categoryLabels)
-    budgetAlerts.forEach(alert => {
-      // Check if similar notification already exists (by title and category)
-      const exists = notifications.some(
-        n => n.title === alert.title && n.category === alert.category
-      )
-      if (!exists) {
-        addNotification(alert)
-      }
+    checkBudgetAlerts(budgets, categoryTotals, categoryLabels).then(budgetAlerts => {
+      budgetAlerts.forEach(alert => {
+        // Check if similar notification already exists (by title and category)
+        const exists = notifications.some(
+          n => n.title === alert.title && n.category === alert.category
+        )
+        if (!exists) {
+          addNotification(alert)
+        }
+      })
     })
     
     // Check savings alerts

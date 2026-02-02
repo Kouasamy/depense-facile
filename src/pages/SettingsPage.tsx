@@ -7,6 +7,7 @@ import { db } from '../db/schema'
 import { downloadExpensesPDF, downloadIncomesPDF, downloadMonthlyReportPDF } from '../utils/export'
 import { formatAmount } from '../core/nlp/parser'
 import { AddIncomeModal } from '../components/Dashboard/AddIncomeModal'
+import { BackButton } from '../components/common'
 import './SettingsPage.css'
 
 export function SettingsPage() {
@@ -75,6 +76,7 @@ export function SettingsPage() {
 
   return (
     <div className="settings-page">
+      <BackButton />
       <div className="settings-container">
         {/* Header */}
         <header className="settings-header animate-fade-in">

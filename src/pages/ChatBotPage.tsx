@@ -11,6 +11,7 @@ import {
   type RealUserData
 } from '../core/ai/chatbot'
 import { downloadSavingsPlanPDF } from '../utils/savingsPlanPdf'
+import { BackButton } from '../components/common'
 import './ChatBotPage.css'
 
 export function ChatBotPage() {
@@ -38,8 +39,8 @@ export function ChatBotPage() {
         id: crypto.randomUUID(),
         role: 'assistant',
         content: totalIncomes > 0 
-          ? `Hey, c'est **Kpata** ton conseiller !\n\nJe vois que tu gagnes environ **${formatCurrency(totalIncomes)}** par mois. Excellent !\n\nDis-moi, tu veux épargner pour quoi ? Un projet, une urgence, ou juste mieux gérer ton argent ?`
-          : `Hey, c'est **Kpata** ton conseiller !\n\nJe suis là pour t'aider à gérer ton argent comme un pro. Dis-moi combien tu gagnes par mois et quels sont tes objectifs !`,
+          ? `Hey, c'est **Woro** ton conseiller !\n\nJe vois que tu gagnes environ **${formatCurrency(totalIncomes)}** par mois. Excellent !\n\nDis-moi, tu veux épargner pour quoi ? Un projet, une urgence, ou juste mieux gérer ton argent ?`
+          : `Hey, c'est **Woro** ton conseiller !\n\nJe suis là pour t'aider à gérer ton argent comme un pro. Dis-moi combien tu gagnes par mois et quels sont tes objectifs !`,
         timestamp: new Date()
       }
       setMessages([welcomeMessage])
@@ -137,6 +138,7 @@ export function ChatBotPage() {
 
   return (
     <div className="chatbot-page">
+      <BackButton />
       {/* Header */}
       <header className="chatbot-header">
         <div className="chatbot-header-content">
@@ -147,7 +149,7 @@ export function ChatBotPage() {
             </div>
             <div>
               <h1 className="chatbot-title">
-                Conseiller Kpata
+                Conseiller Woro
                 <span className="badge badge-primary">IA</span>
               </h1>
               <p className="chatbot-subtitle">Ton coach financier personnel</p>

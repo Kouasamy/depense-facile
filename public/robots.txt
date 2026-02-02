@@ -1,0 +1,52 @@
+# robots.txt for GèreTonDjai
+# https://geretondjai.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://geretondjai.com/sitemap.xml
+
+# Disallow admin and private areas (if any)
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
+
+# Allow important pages
+Allow: /
+Allow: /auth
+Allow: /dashboard
+Allow: /history
+Allow: /budgets
+Allow: /analytics
+Allow: /advisor
+Allow: /chatbot
+Allow: /settings
+
+# Crawl-delay (optional, be nice to servers)
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots (optional)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+

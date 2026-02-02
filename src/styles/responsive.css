@@ -1,0 +1,169 @@
+/* ==================== RESPONSIVE UTILITIES ==================== */
+
+/* Mobile First Approach */
+/* Base styles are for mobile (320px+) */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  /* Improve spacing on tablets */
+  .page-container {
+    padding: var(--space-6);
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+  
+  .page-container {
+    padding: var(--space-8);
+  }
+}
+
+/* Extra large devices (large desktops, 1280px and up) */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+/* ==================== RESPONSIVE TYPOGRAPHY ==================== */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+/* ==================== RESPONSIVE GRID ==================== */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==================== RESPONSIVE CARDS ==================== */
+.card {
+  width: 100%;
+  padding: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--space-6);
+  }
+}
+
+/* ==================== RESPONSIVE BUTTONS ==================== */
+.btn {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    padding: var(--space-3) var(--space-6);
+    font-size: 1rem;
+  }
+}
+
+/* ==================== RESPONSIVE MODALS ==================== */
+.modal {
+  width: 95%;
+  max-width: 500px;
+  margin: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .modal {
+    width: 90%;
+    max-width: 600px;
+    margin: var(--space-8);
+  }
+}
+
+/* ==================== RESPONSIVE NAVIGATION ==================== */
+@media (max-width: 1023px) {
+  .app-main {
+    padding-bottom: 80px; /* Space for bottom navigation */
+  }
+}
+
+/* ==================== RESPONSIVE TABLES ==================== */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: var(--space-2);
+  }
+}
+
+/* ==================== RESPONSIVE FORMS ==================== */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: block;
+  }
+  
+  .hide-desktop {
+    display: none;
+  }
+}
+
+/* ==================== TOUCH FRIENDLY ==================== */
+@media (max-width: 768px) {
+  button, a, .clickable {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+  }
+}
+

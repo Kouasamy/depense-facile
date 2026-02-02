@@ -6,6 +6,31 @@
   padding-bottom: 120px;
 }
 
+@media (max-width: 480px) {
+  .settings-page {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+  
+  .settings-container {
+    padding: 0 var(--space-3);
+  }
+  
+  .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .settings-section {
+    padding: var(--space-4);
+  }
+  
+  .settings-item {
+    padding: var(--space-3);
+  }
+}
+
 @media (min-width: 1024px) {
   .settings-page {
     padding-top: var(--space-8);

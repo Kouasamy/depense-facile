@@ -6,6 +6,37 @@
   padding-bottom: 120px;
 }
 
+@media (max-width: 480px) {
+  .analytics-page {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+  
+  .analytics-container {
+    padding: 0 var(--space-3);
+  }
+  
+  .analytics-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .analytics-title {
+    font-size: 1.125rem;
+  }
+  
+  .analytics-period-selector {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .analytics-period-btn {
+    flex: 1;
+    font-size: 0.7rem;
+    padding: var(--space-2) var(--space-2);
+  }
+}
+
 @media (min-width: 1024px) {
   .analytics-page {
     padding-top: var(--space-8);

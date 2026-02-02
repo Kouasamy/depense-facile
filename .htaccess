@@ -51,7 +51,7 @@
   ExpiresByType application/json "access plus 0 seconds"
 </IfModule>
 
-# Headers de sécurité
+# Headers de sécurité et SEO
 <IfModule mod_headers.c>
   # Protection XSS
   Header set X-XSS-Protection "1; mode=block"
@@ -67,6 +67,15 @@
   
   # Permissions Policy
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  
+  # SEO Headers
+  Header set X-Robots-Tag "index, follow"
+  
+  # Preload critical resources
+  <FilesMatch "\.(css|js|woff2)$">
+    Header set Link "</assets/index.css>; rel=preload; as=style"
+    Header set Link "</assets/index.js>; rel=preload; as=script"
+  </FilesMatch>
 </IfModule>
 
 # Désactiver l'affichage des répertoires

@@ -6,6 +6,25 @@
   padding-bottom: 120px;
 }
 
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+  
+  .dashboard-container {
+    padding: 0 var(--space-3);
+  }
+  
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-stats-row .stat-card {
+    min-width: 100%;
+  }
+}
+
 @media (min-width: 1024px) {
   .dashboard-page {
     padding-top: var(--space-8);

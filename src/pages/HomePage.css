@@ -18,6 +18,35 @@
   }
 }
 
+@media (max-width: 480px) {
+  .home-page {
+    padding-top: 60px;
+    padding-bottom: 140px;
+  }
+  
+  .home-container {
+    padding: 0 var(--space-3);
+  }
+  
+  .home-header-title {
+    font-size: 1.75rem;
+  }
+  
+  .home-stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .home-quick-actions {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .home-recent-expenses {
+    padding: var(--space-4);
+  }
+}
+
 @media (min-width: 1024px) {
   .home-page {
     padding-top: var(--space-8);

@@ -6,6 +6,35 @@
   padding-bottom: 120px;
 }
 
+@media (max-width: 480px) {
+  .history-page {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+  
+  .history-container {
+    padding: 0 var(--space-3);
+  }
+  
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .history-filters {
+    width: 100%;
+  }
+  
+  .expense-card {
+    padding: var(--space-3);
+  }
+  
+  .expense-card-amount {
+    font-size: 1.25rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .history-page {
     padding-top: var(--space-8);

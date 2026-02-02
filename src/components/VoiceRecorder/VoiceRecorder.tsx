@@ -43,12 +43,17 @@ export function VoiceRecorder({
             <div className="flex items-center justify-center gap-2 mb-2">
               <span className="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
               <p className="text-primary font-bold text-lg">
-                J'écoute...
+                J'écoute... (parle normalement ou doucement)
               </p>
             </div>
             {currentTranscript && (
               <p className="text-xl text-white max-w-sm font-medium">
                 "{currentTranscript}"
+              </p>
+            )}
+            {!currentTranscript && (
+              <p className="text-sm text-text-muted mt-2">
+                Le micro est très sensible, parle normalement
               </p>
             )}
           </div>

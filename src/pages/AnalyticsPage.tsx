@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useExpenseStore } from '../stores/expenseStore'
 import { categoryMeta, type ExpenseCategory } from '../db/schema'
 import { formatAmount } from '../core/nlp/parser'
+import { BackButton } from '../components/common'
 import './AnalyticsPage.css'
 
 type Period = '3m' | '6m' | '12m'
@@ -76,6 +77,7 @@ export function AnalyticsPage() {
 
   return (
     <div className="analytics-page">
+      <BackButton />
       <div className="analytics-container">
         {/* Header */}
         <header className="analytics-header animate-fade-in">
