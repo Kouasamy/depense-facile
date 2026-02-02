@@ -290,6 +290,8 @@ export async function signUp(email: string, password: string, name: string) {
     email,
     password,
     options: {
+      // Désactiver l'email de confirmation Supabase (on utilise Resend pour les emails personnalisés)
+      emailRedirectTo: undefined,
       data: {
         name
       }
