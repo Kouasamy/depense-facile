@@ -63,9 +63,9 @@ export function DashboardPage() {
         description="Visualise tes dépenses, revenus et budgets en temps réel. Suis l'évolution de tes finances avec des graphiques détaillés et des alertes intelligentes."
         keywords="tableau de bord finances, dépenses revenus, budget ivoirien, suivi financier"
       />
-      <div className="dashboard-page">
+    <div className="dashboard-page">
         <BackButton />
-        <div className="dashboard-container">
+      <div className="dashboard-container">
         {/* Header */}
         <header className="dashboard-header animate-fade-in">
           <div>
@@ -276,7 +276,7 @@ export function DashboardPage() {
       {showIncomeModal && (
         <AddIncomeModal onClose={() => setShowIncomeModal(false)} />
       )}
-      </div>
+    </div>
     </>
   )
 }
