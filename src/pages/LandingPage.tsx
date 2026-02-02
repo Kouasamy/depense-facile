@@ -21,9 +21,14 @@ export function LandingPage() {
   const statsInView = useInView(statsRef, { once: true, margin: '-100px' })
 
   // Redirect if already authenticated (but only after auth check is complete)
+  // Add a small delay to ensure auth check is complete
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard')
+      // Small delay to ensure smooth transition
+      const timer = setTimeout(() => {
+        navigate('/dashboard')
+      }, 100)
+      return () => clearTimeout(timer)
     }
   }, [isAuthenticated, navigate])
 

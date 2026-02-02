@@ -81,7 +81,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
 
   return {
     user: null,
-    isLoading: true,
+    isLoading: false, // Start as false to show landing page immediately
     isAuthenticated: false,
     error: null,
     

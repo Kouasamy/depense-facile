@@ -23,7 +23,7 @@ import { useNotificationStore } from './stores/notificationStore'
 import './index.css'
 
 function AppContent() {
-  const { isAuthenticated, isLoading, checkAuth } = useAuthStore()
+  const { isAuthenticated, checkAuth } = useAuthStore()
   const { initializeStore, hasCompletedOnboarding, isLoadingOnboarding } = useExpenseStore()
   const { theme, initTheme } = useThemeStore()
   const { initNotifications } = useNotificationStore()
@@ -57,10 +57,10 @@ function AppContent() {
     }
   }, [theme])
 
-  // During initial auth check, show landing page to avoid flash of auth page
   // Not authenticated - Show landing or auth page
-  // Always show landing page first, even during auth check to avoid redirect to auth
-  if (!isAuthenticated || isLoading) {
+  // Always show landing page first at root path, auth page only when explicitly navigating to /auth
+  // This ensures landing page is shown first, not auth page
+  if (!isAuthenticated) {
     return (
       <Routes>
         <Route path="/" element={<LandingPage />} />
