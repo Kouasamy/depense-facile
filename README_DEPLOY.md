@@ -26,7 +26,7 @@ VITE_EMAIL_SERVER_URL=https://geretondjai.com:3001
 EMAIL_FROM=contact@gèretondjai.com
 EMAIL_FROM_NAME=GèreTonDjai-CI
 SMTP_HOST=smtp.hostinger.com
-SMTP_PORT=465
+SMTP_PORT=587
 SMTP_USER=contact@gèretondjai.com
 SMTP_PASSWORD=15044245Fd@
 EMAIL_SERVER_PORT=3001
@@ -36,6 +36,34 @@ NODE_ENV=production
 3. **Copiez aussi ces fichiers** dans le dossier `server/` depuis votre projet local :
    - `server/email-server.js`
    - `server/package.json`
+
+4. **Installer les dépendances et démarrer le serveur** :
+
+   **Solution la plus simple : Utiliser le gestionnaire Node.js de Hostinger**
+   
+   1. Allez dans **Node.js** dans hPanel
+   2. Cliquez sur **"Créer une application"** ou **"Add Application"**
+   3. Configurez :
+      - **Nom** : `email-server`
+      - **Dossier** : `server/` (ou le chemin complet vers le dossier server)
+      - **Version Node.js** : `20.x` (ou la plus récente)
+      - **Start Command** : `node email-server.js`
+      - **Port** : `3001`
+   4. **Variables d'environnement** : Ajoutez toutes les variables du fichier `server/.env` :
+      - `EMAIL_FROM=contact@gèretondjai.com`
+      - `EMAIL_FROM_NAME=GèreTonDjai-CI`
+      - `SMTP_HOST=smtp.hostinger.com`
+      - `SMTP_PORT=587`
+      - `SMTP_USER=contact@gèretondjai.com`
+      - `SMTP_PASSWORD=15044245Fd@`
+      - `EMAIL_SERVER_PORT=3001`
+      - `NODE_ENV=production`
+   5. Cliquez sur **"Créer"** ou **"Create"**
+   
+   **Hostinger va automatiquement :**
+   - Installer les dépendances (`npm install`)
+   - Démarrer le serveur
+   - Le maintenir actif
 
 ### 4. Démarrer le serveur email (Cron Job)
 - **Commande** : `cd /home/votre-utilisateur/public_html/server && node email-server.js > /dev/null 2>&1 &`

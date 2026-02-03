@@ -45,8 +45,9 @@ function toPunycode(email) {
 
 // Configuration du transporteur SMTP Hostinger
 const createTransporter = () => {
-  const port = parseInt(process.env.SMTP_PORT || '465')
-  const secure = port === 465 // SSL pour 465, TLS pour 587
+  // Essayer d'abord le port 587 (TLS) comme recommandé par Hostinger
+  const port = parseInt(process.env.SMTP_PORT || '587')
+  const secure = port === 465 // SSL pour 465, TLS (false) pour 587
   
   // Récupérer l'utilisateur SMTP (utiliser le format Punycode si nécessaire)
   let smtpUser = process.env.SMTP_USER || process.env.EMAIL_FROM
@@ -56,7 +57,7 @@ const createTransporter = () => {
     console.log(`📧 Email converti en Punycode pour SMTP: ${smtpUser}`)
   }
   
-  return nodemailer.createTransport({
+  const config = {
     host: process.env.SMTP_HOST || 'smtp.hostinger.com',
     port: port,
     secure: secure, // true pour le port 465 (SSL), false pour 587 (TLS)
@@ -69,7 +70,22 @@ const createTransporter = () => {
     },
     debug: true, // Activer les logs de débogage
     logger: true // Logger les opérations
+  }
+  
+  // Pour le port 587, s'assurer que STARTTLS est activé
+  if (port === 587) {
+    config.requireTLS = true
+  }
+  
+  console.log('📧 Configuration SMTP:', {
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    user: smtpUser ? `${smtpUser.substring(0, 3)}***` : 'Non configuré',
+    password: process.env.SMTP_PASSWORD ? '✅ Configuré' : '❌ Non configuré'
   })
+  
+  return nodemailer.createTransport(config)
 }
 
 // Route de santé
@@ -117,11 +133,18 @@ app.post('/api/send-email', async (req, res) => {
     console.log('   Vers:', mailOptions.to)
     console.log('   Sujet:', mailOptions.subject)
 
+    // Tester la connexion SMTP avant d'envoyer
+    console.log('🔍 Vérification de la connexion SMTP...')
+    await transporter.verify()
+    console.log('✅ Connexion SMTP vérifiée avec succès!')
+
     // Envoyer l'email
+    console.log('📤 Envoi de l\'email...')
     const info = await transporter.sendMail(mailOptions)
 
     console.log('✅ Email envoyé avec succès!')
     console.log('   Message ID:', info.messageId)
+    console.log('   Réponse:', info.response)
 
     res.json({
       success: true,
@@ -129,9 +152,27 @@ app.post('/api/send-email', async (req, res) => {
     })
   } catch (error) {
     console.error('❌ Erreur lors de l\'envoi de l\'email:', error)
+    console.error('   Code:', error.code)
+    console.error('   Command:', error.command)
+    console.error('   Response:', error.response)
+    console.error('   Stack:', error.stack)
+    
+    // Messages d'erreur plus détaillés
+    let errorMessage = error.message || 'Erreur lors de l\'envoi de l\'email'
+    
+    if (error.code === 'EAUTH') {
+      errorMessage = 'Erreur d\'authentification SMTP. Vérifiez SMTP_USER et SMTP_PASSWORD.'
+    } else if (error.code === 'ECONNECTION') {
+      errorMessage = 'Impossible de se connecter au serveur SMTP. Vérifiez SMTP_HOST et SMTP_PORT.'
+    } else if (error.code === 'ETIMEDOUT') {
+      errorMessage = 'Timeout de connexion SMTP. Le serveur ne répond pas.'
+    }
+    
     res.status(500).json({
       success: false,
-      error: error.message || 'Erreur lors de l\'envoi de l\'email'
+      error: errorMessage,
+      code: error.code,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     })
   }
 })
