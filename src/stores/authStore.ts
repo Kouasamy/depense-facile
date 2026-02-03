@@ -178,11 +178,10 @@ export const useAuthStore = create<AuthState>((set, get) => {
         const { user: supabaseUser, error } = await supabaseSignUp(email, password, name)
         
         if (error) {
+          console.error('❌ Registration error:', error)
           set({ 
             isLoading: false, 
-            error: error.includes('already registered') 
-              ? 'Cet email est déjà utilisé' 
-              : error 
+            error: error 
           })
           return false
         }

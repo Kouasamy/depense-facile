@@ -286,23 +286,55 @@ export async function signUp(email: string, password: string, name: string) {
     return { user: null, error: 'Supabase not configured' }
   }
 
-  const { data, error } = await client.auth.signUp({
-    email,
-    password,
-    options: {
-      // Désactiver l'email de confirmation Supabase (on utilise Resend pour les emails personnalisés)
-      emailRedirectTo: undefined,
-      data: {
-        name
-      }
-    }
-  })
-
-  if (error) {
-    return { user: null, error: error.message }
+  // Validation basique
+  if (!email || !email.includes('@')) {
+    return { user: null, error: 'Email invalide' }
   }
 
-  return { user: data.user, error: null }
+  if (!password || password.length < 6) {
+    return { user: null, error: 'Le mot de passe doit contenir au moins 6 caractères' }
+  }
+
+  try {
+    const { data, error } = await client.auth.signUp({
+      email: email.trim().toLowerCase(),
+      password,
+      options: {
+        // Désactiver l'email de confirmation Supabase (on utilise SMTP pour les emails personnalisés)
+        emailRedirectTo: undefined,
+        data: {
+          name: name.trim()
+        }
+      }
+    })
+
+    if (error) {
+      console.error('❌ Supabase signup error:', error)
+      
+      // Messages d'erreur plus clairs
+      let errorMessage = error.message
+      
+      if (error.status === 422) {
+        errorMessage = 'Erreur de validation. Vérifie que l\'inscription email est activée dans Supabase Dashboard → Authentication → Providers'
+      } else if (error.message.includes('already registered') || error.message.includes('already exists')) {
+        errorMessage = 'Cet email est déjà utilisé'
+      } else if (error.message.includes('Email rate limit')) {
+        errorMessage = 'Trop de tentatives. Réessaie dans quelques minutes'
+      } else if (error.message.includes('signup is disabled')) {
+        errorMessage = 'L\'inscription est désactivée. Active-la dans Supabase Dashboard → Authentication → Providers'
+      }
+      
+      return { user: null, error: errorMessage }
+    }
+
+    return { user: data.user, error: null }
+  } catch (err) {
+    console.error('❌ Signup exception:', err)
+    return { 
+      user: null, 
+      error: err instanceof Error ? err.message : 'Erreur lors de l\'inscription' 
+    }
+  }
 }
 
 // Sign in with email

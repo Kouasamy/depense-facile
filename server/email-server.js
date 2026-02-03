@@ -122,11 +122,23 @@ app.post('/api/send-email', async (req, res) => {
   }
 })
 
-// Démarrer le serveur
-app.listen(PORT, () => {
+// Démarrer le serveur avec gestion du port occupé
+const server = app.listen(PORT, () => {
   console.log(`🚀 Serveur email démarré sur le port ${PORT}`)
   console.log(`📧 SMTP Host: ${process.env.SMTP_HOST || 'smtp.hostinger.com'}`)
   console.log(`📧 SMTP User: ${process.env.SMTP_USER || process.env.EMAIL_FROM || 'Non configuré'}`)
   console.log(`📧 SMTP Password: ${process.env.SMTP_PASSWORD ? '✅ Configuré' : '❌ Non configuré'}`)
+})
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`❌ Le port ${PORT} est déjà utilisé`)
+    console.error(`💡 Solution: Tue le processus qui utilise le port ${PORT}`)
+    console.error(`   Windows: netstat -ano | findstr :${PORT}`)
+    console.error(`   Puis: taskkill /PID <PID> /F`)
+    process.exit(1)
+  } else {
+    throw error
+  }
 })
 
