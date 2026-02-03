@@ -120,14 +120,30 @@ app.post('/api/send-email', async (req, res) => {
     // Créer le transporteur
     const transporter = createTransporter()
 
-    // Préparer l'email
+    // Préparer l'email avec en-têtes anti-spam
+    const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER
+    const fromName = process.env.EMAIL_FROM_NAME || 'GèreTonDjai-CI'
+    
     const mailOptions = {
-      from: from || `${process.env.EMAIL_FROM_NAME || 'GèreTonDjai'} <${process.env.EMAIL_FROM || process.env.SMTP_USER}>`,
+      from: from || `${fromName} <${fromEmail}>`,
       to: Array.isArray(to) ? to.join(', ') : to,
       subject: subject,
       html: html,
       text: text || html.replace(/<[^>]*>/g, ''), // Convertir HTML en texte si pas fourni
-      ...(replyTo && { replyTo: replyTo })
+      ...(replyTo && { replyTo: replyTo }),
+      // En-têtes pour éviter les spams
+      headers: {
+        'X-Mailer': 'GèreTonDjai Email Service',
+        'X-Priority': '3',
+        'List-Unsubscribe': `<mailto:${fromEmail}?subject=unsubscribe>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        'Precedence': 'bulk',
+        // Authentification
+        'Message-ID': `<${Date.now()}-${Math.random().toString(36).substring(7)}@geretondjai.com>`,
+        'Date': new Date().toUTCString()
+      },
+      // Priorité normale
+      priority: 'normal'
     }
 
     console.log('📧 Envoi email via SMTP Hostinger...')
