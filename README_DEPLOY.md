@@ -11,9 +11,9 @@ npm install && npm run build
 ```
 VITE_SUPABASE_URL=votre_url_supabase
 VITE_SUPABASE_ANON_KEY=votre_cle_supabase
-VITE_EMAIL_FROM=contact@gèretondjai.com
+VITE_EMAIL_FROM=contact@xn--gretondjai-z6a.com
 VITE_EMAIL_FROM_NAME=GèreTonDjai-CI
-VITE_EMAIL_SERVER_URL=https://geretondjai.com:3001
+VITE_EMAIL_SERVER_URL=https://geretondjai.com
 ```
 
 ### 3. Créer le dossier `server/` et le fichier `.env`
@@ -23,11 +23,11 @@ VITE_EMAIL_SERVER_URL=https://geretondjai.com:3001
 1. Dans **File Manager** sur Hostinger, créez un nouveau dossier nommé `server`
 2. Dans ce dossier, créez un fichier `.env` avec ce contenu :
 ```
-EMAIL_FROM=contact@gèretondjai.com
+EMAIL_FROM=contact@xn--gretondjai-z6a.com
 EMAIL_FROM_NAME=GèreTonDjai-CI
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=587
-SMTP_USER=contact@gèretondjai.com
+SMTP_USER=contact@xn--gretondjai-z6a.com
 SMTP_PASSWORD=15044245Fd@
 EMAIL_SERVER_PORT=3001
 NODE_ENV=production
@@ -50,11 +50,11 @@ NODE_ENV=production
       - **Start Command** : `node email-server.js`
       - **Port** : `3001`
    4. **Variables d'environnement** : Ajoutez toutes les variables du fichier `server/.env` :
-      - `EMAIL_FROM=contact@gèretondjai.com`
+      - `EMAIL_FROM=contact@xn--gretondjai-z6a.com`
       - `EMAIL_FROM_NAME=GèreTonDjai-CI`
       - `SMTP_HOST=smtp.hostinger.com`
       - `SMTP_PORT=587`
-      - `SMTP_USER=contact@gèretondjai.com`
+      - `SMTP_USER=contact@xn--gretondjai-z6a.com`
       - `SMTP_PASSWORD=15044245Fd@`
       - `EMAIL_SERVER_PORT=3001`
       - `NODE_ENV=production`
@@ -69,7 +69,26 @@ NODE_ENV=production
 - **Commande** : `cd /home/votre-utilisateur/public_html/server && node email-server.js > /dev/null 2>&1 &`
 - **Fréquence** : `@reboot`
 
-### 5. Vérification
+### 5. Configuration Reverse Proxy Hostinger
+
+**⚠️ IMPORTANT : Hostinger utilise un reverse proxy !**
+
+1. Dans les **Variables d'environnement**, utilisez :
+   ```
+   VITE_EMAIL_SERVER_URL=https://geretondjai.com
+   ```
+   (SANS le port 3001)
+
+2. Dans hPanel, allez dans **Sites Web** → **Gérer** → **Avancé** → **Node.js**
+3. Créez/Configurez l'application Node.js :
+   - **Chemin** : `server/`
+   - **Fichier d'entrée** : `email-server.js`
+   - **Port interne** : `3001` (dans le code, pas dans l'URL publique)
+   - Ajoutez toutes les variables d'environnement du fichier `server/.env`
+4. Redémarrez l'application
+
+### 6. Vérification
 - Frontend : `https://geretondjai.com`
-- Serveur email : `https://geretondjai.com:3001/health` → `{"status":"ok","service":"email-server"}`
+- Serveur email : `https://geretondjai.com/health` → `{"status":"ok","service":"email-server"}`
+- Endpoint email : `https://geretondjai.com/api/send-email` (appelé automatiquement par le frontend)
 

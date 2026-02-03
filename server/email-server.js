@@ -56,6 +56,8 @@ const createTransporter = () => {
     smtpUser = toPunycode(smtpUser)
     console.log(`📧 Email converti en Punycode pour SMTP: ${smtpUser}`)
   }
+  // Si l'email est déjà en format Punycode, l'utiliser tel quel
+  // Le format Punycode est déjà correct pour SMTP Hostinger
   
   const config = {
     host: process.env.SMTP_HOST || 'smtp.hostinger.com',

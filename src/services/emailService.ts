@@ -27,7 +27,7 @@ class EmailService {
 
   constructor() {
     // Configuration pour SMTP Hostinger
-    this.fromEmail = import.meta.env.VITE_EMAIL_FROM || 'contact@gèretondjai.com'
+    this.fromEmail = import.meta.env.VITE_EMAIL_FROM || 'contact@xn--gretondjai-z6a.com'
     this.fromName = import.meta.env.VITE_EMAIL_FROM_NAME || 'GèreTonDjai'
     
     // URL du serveur backend email
