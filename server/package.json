@@ -1,0 +1,21 @@
+{
+  "name": "email-server",
+  "version": "1.0.0",
+  "description": "Serveur backend pour l'envoi d'emails via SMTP Hostinger",
+  "type": "module",
+  "main": "email-server.js",
+  "scripts": {
+    "start": "node email-server.js",
+    "dev": "node email-server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "cors": "^2.8.5",
+    "nodemailer": "^6.9.16",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

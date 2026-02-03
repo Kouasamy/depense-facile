@@ -10,7 +10,9 @@
     "build": "tsc && vite build",
     "build:prod": "vite build --mode production",
     "preview": "vite preview",
-    "check:config": "node -e \"console.log('Supabase URL:', process.env.VITE_SUPABASE_URL ? '✅ Configured' : '❌ Missing'); console.log('Supabase Key:', process.env.VITE_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Missing')\""
+    "check:config": "node -e \"console.log('Supabase URL:', process.env.VITE_SUPABASE_URL ? '✅ Configured' : '❌ Missing'); console.log('Supabase Key:', process.env.VITE_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Missing')\"",
+    "postinstall": "cd server && npm install",
+    "start:email": "cd server && node email-server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.93.3",

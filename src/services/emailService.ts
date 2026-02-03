@@ -29,18 +29,27 @@ class EmailService {
     // Configuration pour SMTP Hostinger
     this.fromEmail = import.meta.env.VITE_EMAIL_FROM || 'contact@gèretondjai.com'
     this.fromName = import.meta.env.VITE_EMAIL_FROM_NAME || 'GèreTonDjai'
-    // URL du serveur backend email (par défaut localhost:3001 en dev)
-    this.emailServerUrl = import.meta.env.VITE_EMAIL_SERVER_URL || 'http://localhost:3001'
+    
+    // URL du serveur backend email
+    // En production, doit pointer vers l'URL du serveur déployé
+    // En développement, utilise localhost
+    const isProduction = import.meta.env.PROD || window.location.hostname !== 'localhost'
+    this.emailServerUrl = import.meta.env.VITE_EMAIL_SERVER_URL || 
+      (isProduction ? '' : 'http://localhost:3001')
     
     // Log pour debug
     if (this.isConfigured()) {
       console.log('✅ Email service configured (SMTP Hostinger):', {
         fromEmail: this.fromEmail,
         fromName: this.fromName,
-        serverUrl: this.emailServerUrl
+        serverUrl: this.emailServerUrl,
+        environment: isProduction ? 'production' : 'development'
       })
     } else {
-      console.warn('⚠️ Email service not configured. Vérifiez que le serveur email est démarré.')
+      const errorMsg = isProduction 
+        ? '⚠️ Email service not configured for production. Définissez VITE_EMAIL_SERVER_URL avec l\'URL de votre serveur email déployé.'
+        : '⚠️ Email service not configured. Vérifiez que le serveur email est démarré (npm run dev:email).'
+      console.warn(errorMsg)
     }
   }
 
@@ -84,12 +93,32 @@ class EmailService {
         body: JSON.stringify(emailData)
       })
 
-      const data = await response.json()
-
+      // Gérer les erreurs réseau (serveur non accessible)
       if (!response.ok) {
-        console.error('❌ Email send failed:', data)
-        throw new Error(data.error || `HTTP error! status: ${response.status}`)
+        const errorText = await response.text()
+        let errorData
+        try {
+          errorData = JSON.parse(errorText)
+        } catch {
+          errorData = { error: errorText || `HTTP error! status: ${response.status}` }
+        }
+        
+        console.error('❌ Email send failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorData.error,
+          serverUrl: this.emailServerUrl
+        })
+        
+        // Message d'erreur plus explicite
+        if (response.status === 0 || response.status >= 500) {
+          throw new Error(`Le serveur email n'est pas accessible. Vérifiez que le serveur est déployé et que VITE_EMAIL_SERVER_URL est correctement configuré.`)
+        }
+        
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
+
+      const data = await response.json()
 
       console.log('✅ Email sent successfully via SMTP! Message ID:', data.messageId)
       return {

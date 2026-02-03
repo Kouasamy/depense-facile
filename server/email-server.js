@@ -7,9 +7,23 @@ import express from 'express'
 import cors from 'cors'
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
+import { mkdir } from 'fs/promises'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
 // Charger les variables d'environnement
 dotenv.config()
+
+// Créer le dossier logs s'il n'existe pas
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const logsDir = join(__dirname, 'logs')
+
+mkdir(logsDir, { recursive: true }).catch(err => {
+  if (err.code !== 'EEXIST') {
+    console.warn('⚠️ Impossible de créer le dossier logs:', err.message)
+  }
+})
 
 const app = express()
 const PORT = process.env.EMAIL_SERVER_PORT || 3001
@@ -123,11 +137,18 @@ app.post('/api/send-email', async (req, res) => {
 })
 
 // Démarrer le serveur avec gestion du port occupé
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Serveur email démarré sur le port ${PORT}`)
+// En production, écouter sur 0.0.0.0 pour accepter les connexions externes
+const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost'
+const server = app.listen(PORT, HOST, () => {
+  console.log(`🚀 Serveur email démarré sur ${HOST}:${PORT}`)
   console.log(`📧 SMTP Host: ${process.env.SMTP_HOST || 'smtp.hostinger.com'}`)
   console.log(`📧 SMTP User: ${process.env.SMTP_USER || process.env.EMAIL_FROM || 'Non configuré'}`)
   console.log(`📧 SMTP Password: ${process.env.SMTP_PASSWORD ? '✅ Configuré' : '❌ Non configuré'}`)
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`)
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`✅ Serveur prêt à recevoir des requêtes en production`)
+  }
 })
 
 server.on('error', (error) => {
