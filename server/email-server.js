@@ -12,11 +12,12 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 // Charger les variables d'environnement
-dotenv.config()
-
-// Créer le dossier logs s'il n'existe pas
+// Chercher le fichier .env dans le dossier server/
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+dotenv.config({ path: join(__dirname, '.env') })
+
+// Créer le dossier logs s'il n'existe pas
 const logsDir = join(__dirname, 'logs')
 
 mkdir(logsDir, { recursive: true }).catch(err => {
