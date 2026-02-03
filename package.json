@@ -5,31 +5,39 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:email": "node server/email-server.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:email\"",
     "build": "tsc && vite build",
     "build:prod": "vite build --mode production",
     "preview": "vite preview",
-    "check:config": "node -e \"console.log('Supabase URL:', process.env.VITE_SUPABASE_URL ? '✅ Configured' : '❌ Missing'); console.log('Supabase Key:', process.env.VITE_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Missing')\""
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^5.1.2",
-    "autoprefixer": "^10.4.24",
-    "postcss": "^8.5.6",
-    "typescript": "~5.9.3",
-    "vite": "^7.2.4",
-    "vite-plugin-pwa": "^1.2.0"
+    "check:config": "node -e \"console.log('Supabase URL:', process.env.VITE_SUPABASE_URL ? '✅ Configured' : '❌ Missing'); console.log('Supabase Key:', process.env.VITE_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Missing')\"",
+    "test:smtp": "node test-smtp.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.93.3",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
+    "cors": "^2.8.5",
     "dexie": "^4.3.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "framer-motion": "^12.29.2",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.563.0",
+    "nodemailer": "^6.9.16",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.2.0",
     "zustand": "^5.0.10"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.24",
+    "concurrently": "^9.1.0",
+    "postcss": "^8.5.6",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
