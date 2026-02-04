@@ -4,12 +4,16 @@
 # Activer le moteur de réécriture
 RewriteEngine On
 
-# Si la requête est pour /api/send-email, rediriger vers le serveur email
-# (Uniquement si le serveur email est sur le même domaine)
-# RewriteRule ^api/send-email$ http://localhost:3001/api/send-email [P,L]
+# Reverse proxy pour le serveur Node.js
+# Activer mod_proxy et mod_proxy_http si nécessaire
 
-# Si la requête est pour /health (vérification du serveur email)
-# RewriteRule ^health$ http://localhost:3001/health [P,L]
+# Route /health vers le serveur Node.js
+RewriteCond %{REQUEST_URI} ^/health$
+RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
+
+# Route /api vers le serveur Node.js
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
 
 # Configuration pour SPA (Single Page Application)
 <IfModule mod_rewrite.c>
