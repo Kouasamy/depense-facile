@@ -13,7 +13,7 @@ VITE_SUPABASE_URL=votre_url_supabase
 VITE_SUPABASE_ANON_KEY=votre_cle_supabase
 VITE_EMAIL_FROM=contact@xn--gretondjai-z6a.com
 VITE_EMAIL_FROM_NAME=GereTonDjai
-VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com
+VITE_EMAIL_SERVER_URL=https://geretondjai.com
 ```
 
 ### 3. Créer le dossier `server/` et le fichier `.env`
@@ -75,9 +75,9 @@ NODE_ENV=production
 
 1. Dans les **Variables d'environnement**, utilisez :
    ```
-   VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com
+   VITE_EMAIL_SERVER_URL=https://geretondjai.com
    ```
-   (Utilise le domaine en format Punycode, SANS le port 3001)
+   (SANS le port 3001, utilise le domaine principal qui fonctionne)
 
 2. Dans hPanel, allez dans **Sites Web** → **Gérer** → **Avancé** → **Node.js**
 3. Créez/Configurez l'application Node.js :
@@ -88,7 +88,7 @@ NODE_ENV=production
 4. Redémarrez l'application
 
 ### 6. Vérification
-- Frontend : `https://xn--gretondjai-z6a.com` (ou `https://geretondjai.com`)
-- Serveur email : `https://xn--gretondjai-z6a.com/health` → `{"status":"ok","service":"email-server"}`
-- Endpoint email : `https://xn--gretondjai-z6a.com/api/send-email` (appelé automatiquement par le frontend)
+- Frontend : `https://geretondjai.com`
+- Serveur email : `https://geretondjai.com/health` → `{"status":"ok","service":"email-server"}`
+- Endpoint email : `https://geretondjai.com/api/send-email` (appelé automatiquement par le frontend)
 

@@ -12,7 +12,15 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 // Charger les variables d'environnement
-dotenv.config()
+// Chercher le fichier .env dans le dossier server/ d'abord, puis à la racine
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const envPath = join(__dirname, '.env')
+dotenv.config({ path: envPath })
+// Si le fichier .env n'existe pas dans server/, essayer à la racine
+if (!process.env.SMTP_USER) {
+  dotenv.config()
+}
 
 // Créer le dossier logs s'il n'existe pas
 const __filename = fileURLToPath(import.meta.url)
