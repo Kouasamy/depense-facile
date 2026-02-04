@@ -23,8 +23,6 @@ if (!process.env.SMTP_USER) {
 }
 
 // Créer le dossier logs s'il n'existe pas
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
 const logsDir = join(__dirname, 'logs')
 
 mkdir(logsDir, { recursive: true }).catch(err => {
