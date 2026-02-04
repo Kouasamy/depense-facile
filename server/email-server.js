@@ -32,7 +32,8 @@ mkdir(logsDir, { recursive: true }).catch(err => {
 })
 
 const app = express()
-const PORT = process.env.EMAIL_SERVER_PORT || 3001
+// Railway utilise PORT par défaut, sinon utilise EMAIL_SERVER_PORT ou 3001
+const PORT = process.env.PORT || process.env.EMAIL_SERVER_PORT || 3001
 
 // Middleware
 // CORS configuré pour accepter toutes les origines (en production, restreindre si nécessaire)

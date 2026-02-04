@@ -13,7 +13,7 @@ VITE_SUPABASE_URL=votre_url_supabase
 VITE_SUPABASE_ANON_KEY=votre_cle_supabase
 VITE_EMAIL_FROM=contact@xn--gretondjai-z6a.com
 VITE_EMAIL_FROM_NAME=GereTonDjai
-VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com/api
+VITE_EMAIL_SERVER_URL=https://depense-facile-production.up.railway.app
 ```
 
 ### 3. Créer le dossier `server/` et le fichier `.env`
@@ -75,7 +75,7 @@ NODE_ENV=production
 
 1. Dans les **Variables d'environnement**, utilisez :
    ```
-   VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com/api
+   VITE_EMAIL_SERVER_URL=https://depense-facile-production.up.railway.app
    ```
    (SANS le port 3001, utilise le domaine principal qui fonctionne)
 
