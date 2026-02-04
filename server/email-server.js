@@ -114,12 +114,16 @@ app.get('/health', (req, res) => {
 
 // Route pour envoyer un email
 app.post('/api/send-email', async (req, res) => {
-  console.log('[/api/send-email] body =', req.body)
+  console.log('========================================')
+  console.log('[/api/send-email] REQUÊTE REÇUE')
+  console.log('Body:', JSON.stringify(req.body, null, 2))
+  console.log('========================================')
   
   const { to, subject, html } = req.body
 
   // Validation
   if (!to || !subject || !html) {
+    console.error('❌ VALIDATION ÉCHOUÉE - Champs manquants')
     return res.status(400).json({
       success: false,
       error: 'Les champs to, subject et html sont requis'
@@ -127,15 +131,20 @@ app.post('/api/send-email', async (req, res) => {
   }
 
   // Vérifier que SMTP est configuré
+  console.log('🔍 Vérification SMTP...')
+  console.log('SMTP_USER:', process.env.SMTP_USER ? '✅ Configuré' : '❌ MANQUANT')
+  console.log('SMTP_PASSWORD:', process.env.SMTP_PASSWORD ? '✅ Configuré' : '❌ MANQUANT')
+  
   if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
-    console.error('❌ SMTP non configuré. Vérifiez SMTP_USER et SMTP_PASSWORD dans .env')
+    console.error('❌ SMTP NON CONFIGURÉ')
     return res.status(500).json({
       success: false,
-      error: 'Service email non configuré'
+      error: 'Service email non configuré. Vérifiez SMTP_USER et SMTP_PASSWORD dans server/.env'
     })
   }
 
   // Créer le transporteur
+  console.log('🔍 Création du transporteur SMTP...')
   const transporter = createTransporter()
 
   // Préparer l'email
@@ -146,15 +155,39 @@ app.post('/api/send-email', async (req, res) => {
     html
   }
 
+  console.log('📧 Email préparé:', {
+    from: mailOptions.from,
+    to: mailOptions.to,
+    subject: mailOptions.subject
+  })
+
   try {
+    console.log('🔍 Vérification connexion SMTP...')
     await transporter.verify()
-    console.log('SMTP verify OK')
+    console.log('✅ SMTP verify OK')
+    
+    console.log('📤 Envoi de l\'email...')
     const info = await transporter.sendMail(mailOptions)
-    console.log('Mail sent OK:', info.messageId)
+    console.log('✅ Mail sent OK!')
+    console.log('Message ID:', info.messageId)
+    console.log('Response:', info.response)
+    console.log('========================================')
+    
     res.json({ success: true, messageId: info.messageId })
   } catch (err) {
-    console.error('Mail error:', err)
-    res.status(500).json({ success: false, error: err.message })
+    console.error('========================================')
+    console.error('❌ ERREUR LORS DE L\'ENVOI')
+    console.error('Message:', err.message)
+    console.error('Code:', err.code)
+    console.error('Response:', err.response)
+    console.error('Stack:', err.stack)
+    console.error('========================================')
+    
+    res.status(500).json({ 
+      success: false, 
+      error: err.message,
+      code: err.code
+    })
   }
 })
 
