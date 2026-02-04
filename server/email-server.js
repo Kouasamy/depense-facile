@@ -35,6 +35,11 @@ const app = express()
 // Railway utilise PORT par défaut, sinon utilise EMAIL_SERVER_PORT ou 3001
 const PORT = process.env.PORT || process.env.EMAIL_SERVER_PORT || 3001
 
+// Log pour debug
+console.log('🔍 PORT from env:', process.env.PORT)
+console.log('🔍 EMAIL_SERVER_PORT from env:', process.env.EMAIL_SERVER_PORT)
+console.log('🔍 Using PORT:', PORT)
+
 // Middleware
 // CORS configuré pour accepter toutes les origines (en production, restreindre si nécessaire)
 app.use(cors({
