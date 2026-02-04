@@ -174,8 +174,8 @@ export function TermsPage({ onBack }: TermsPageProps) {
             <p>
               Pour toute question concernant ces conditions d'utilisation, 
               vous pouvez nous contacter à : 
-              <a href="mailto:contact@depensefacile.ci" className="legal-email">
-                contact@depensefacile.ci
+              <a href="mailto:contact@gèretondjai.com" className="legal-email">
+                contact@gèretondjai.com
               </a>
             </p>
           </div>

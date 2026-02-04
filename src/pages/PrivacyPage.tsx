@@ -242,7 +242,7 @@ export function PrivacyPage({ onBack }: PrivacyPageProps) {
               contactez-nous :
             </p>
             <div className="legal-info-box">
-              <p><strong>Email :</strong> <a href="mailto:privacy@depensefacile.ci" className="legal-email">privacy@depensefacile.ci</a></p>
+              <p><strong>Email :</strong> <a href="mailto:privacy@gèretondjai.com" className="legal-email">privacy@gèretondjai.com</a></p>
               <p><strong>Délai de réponse :</strong> Sous 48 heures ouvrées</p>
             </div>
           </div>

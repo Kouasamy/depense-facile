@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useExpenseStore } from '../stores/expenseStore'
 import { useThemeStore } from '../stores/themeStore'
 import { useAuthStore } from '../stores/authStore'
-import { db } from '../db/schema'
 import { downloadExpensesPDF, downloadIncomesPDF, downloadMonthlyReportPDF } from '../utils/export'
 import { formatAmount } from '../core/nlp/parser'
 import { AddIncomeModal } from '../components/Dashboard/AddIncomeModal'
@@ -15,8 +14,6 @@ export function SettingsPage() {
   const { totalIncomes, refreshData, resetStore } = useExpenseStore()
   const { theme, setTheme } = useThemeStore()
   const { user, logout } = useAuthStore()
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
-  const [pendingSync, setPendingSync] = useState(0)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
@@ -24,24 +21,7 @@ export function SettingsPage() {
 
   useEffect(() => {
     refreshData()
-    checkPendingSync()
-    
-    const handleOnline = () => setIsOnline(true)
-    const handleOffline = () => setIsOnline(false)
-    
-    window.addEventListener('online', handleOnline)
-    window.addEventListener('offline', handleOffline)
-    
-    return () => {
-      window.removeEventListener('online', handleOnline)
-      window.removeEventListener('offline', handleOffline)
-    }
   }, [refreshData])
-
-  const checkPendingSync = async () => {
-    const pending = await db.syncQueue.count()
-    setPendingSync(pending)
-  }
 
   const handleExport = async (type: 'expenses' | 'incomes' | 'report') => {
     setExportStatus('Génération du PDF...')
@@ -191,27 +171,8 @@ export function SettingsPage() {
           </div>
         </section>
 
-        {/* Sync Status */}
-        <section className="settings-section card animate-fade-in-up delay-3">
-          <div className="settings-section-header">
-            <span className="material-symbols-outlined">cloud_sync</span>
-            <h2>Synchronisation</h2>
-          </div>
-          <div className="settings-sync">
-            <div className="settings-sync-status">
-              <div className={`settings-sync-indicator ${isOnline ? 'online' : 'offline'}`}></div>
-              <div>
-                <p className="font-bold">{isOnline ? 'En ligne' : 'Hors ligne'}</p>
-                <p className="text-small text-muted">
-                  {pendingSync > 0 ? `${pendingSync} élément(s) en attente` : 'Tout est synchronisé'}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Legal Section */}
-        <section className="settings-section card animate-fade-in-up delay-4">
+        <section className="settings-section card animate-fade-in-up delay-3">
           <div className="settings-section-header">
             <span className="material-symbols-outlined">gavel</span>
             <h2>Légal</h2>
@@ -231,7 +192,7 @@ export function SettingsPage() {
         </section>
 
         {/* Danger Zone */}
-        <section className="settings-danger animate-fade-in-up delay-5">
+        <section className="settings-danger animate-fade-in-up delay-4">
           <div className="settings-danger-content">
             <div>
               <h3>Réinitialiser les données</h3>
@@ -245,7 +206,7 @@ export function SettingsPage() {
         </section>
 
         {/* Logout Section */}
-        <section className="settings-logout card animate-fade-in-up delay-6">
+        <section className="settings-logout card animate-fade-in-up delay-5">
           <div className="settings-logout-content">
             <div>
               <h3>Déconnexion</h3>
