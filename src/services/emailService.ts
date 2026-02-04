@@ -37,15 +37,18 @@ class EmailService {
     this.emailServerUrl = import.meta.env.VITE_EMAIL_SERVER_URL || 
       (isProduction ? '' : 'http://localhost:3001')
     
-    // Log pour debug
-    if (this.isConfigured()) {
-      console.log('✅ Email service configured (SMTP Hostinger):', {
-        fromEmail: this.fromEmail,
-        fromName: this.fromName,
-        serverUrl: this.emailServerUrl,
-        environment: isProduction ? 'production' : 'development'
-      })
-    } else {
+    // Log pour debug - TOUJOURS afficher pour diagnostiquer
+    console.log('🔍 Email Service Configuration:', {
+      fromEmail: this.fromEmail,
+      fromName: this.fromName,
+      serverUrl: this.emailServerUrl,
+      envVar: import.meta.env.VITE_EMAIL_SERVER_URL,
+      isProduction: isProduction,
+      isConfigured: this.isConfigured(),
+      hostname: window.location.hostname
+    })
+    
+    if (!this.isConfigured()) {
       const errorMsg = isProduction 
         ? '⚠️ Email service not configured for production. Définissez VITE_EMAIL_SERVER_URL avec l\'URL de votre serveur email déployé.'
         : '⚠️ Email service not configured. Vérifiez que le serveur email est démarré (npm run dev:email).'
@@ -84,11 +87,14 @@ class EmailService {
       }
 
       console.log('📧 Sending email via SMTP Hostinger to:', emailData.to, 'Subject:', emailData.subject)
+      console.log('🔍 Email Server URL:', this.emailServerUrl)
 
       // Construire l'URL complète : si emailServerUrl contient déjà /api, ne pas l'ajouter
       const endpoint = this.emailServerUrl.endsWith('/api') 
         ? `${this.emailServerUrl}/send-email`
         : `${this.emailServerUrl}/api/send-email`
+      
+      console.log('🔍 Calling endpoint:', endpoint)
       
       const response = await fetch(endpoint, {
         method: 'POST',
