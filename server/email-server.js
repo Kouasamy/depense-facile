@@ -32,13 +32,7 @@ mkdir(logsDir, { recursive: true }).catch(err => {
 })
 
 const app = express()
-// Railway utilise PORT par défaut, sinon utilise EMAIL_SERVER_PORT ou 3001
-const PORT = process.env.PORT || process.env.EMAIL_SERVER_PORT || 3001
-
-// Log pour debug
-console.log('🔍 PORT from env:', process.env.PORT)
-console.log('🔍 EMAIL_SERVER_PORT from env:', process.env.EMAIL_SERVER_PORT)
-console.log('🔍 Using PORT:', PORT)
+const PORT = process.env.EMAIL_SERVER_PORT || 3001
 
 // Middleware
 // CORS configuré pour accepter toutes les origines (en production, restreindre si nécessaire)
@@ -116,14 +110,9 @@ const createTransporter = () => {
   return nodemailer.createTransport(config)
 }
 
-// Route de santé (pour Railway health check)
+// Route de santé
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', service: 'email-server' })
-})
-
-// Route racine pour Railway
-app.get('/', (req, res) => {
-  res.status(200).json({ status: 'ok', service: 'email-server', message: 'Email server is running' })
+  res.json({ status: 'ok', service: 'email-server' })
 })
 
 // Route pour envoyer un email
