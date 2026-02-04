@@ -95,14 +95,18 @@ class EmailService {
         : `${this.emailServerUrl}/api/send-email`
       
       console.log('🔍 Calling endpoint:', endpoint)
+      console.log('🔍 Request body:', JSON.stringify(emailData, null, 2))
       
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify(emailData)
       })
+      
+      console.log('🔍 Response status:', response.status, response.statusText)
 
       // Gérer les erreurs réseau (serveur non accessible)
       if (!response.ok) {

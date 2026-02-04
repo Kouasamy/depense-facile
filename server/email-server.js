@@ -35,8 +35,19 @@ const app = express()
 const PORT = process.env.EMAIL_SERVER_PORT || 3001
 
 // Middleware
-app.use(cors())
+// CORS configuré pour accepter toutes les origines (en production, restreindre si nécessaire)
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 app.use(express.json())
+
+// Log toutes les requêtes pour debug
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`)
+  next()
+})
 
 // Convertir l'email en format Punycode si nécessaire (pour Hostinger avec caractères spéciaux)
 function toPunycode(email) {
