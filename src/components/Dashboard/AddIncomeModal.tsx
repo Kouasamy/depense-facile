@@ -1,39 +1,64 @@
 import { useState } from 'react'
 import { useExpenseStore } from '../../stores/expenseStore'
 import { formatAmount } from '../../core/nlp/parser'
-import {
-  X,
-  Briefcase,
-  Store,
-  Gift,
-  MoreHorizontal,
-  Check
-} from 'lucide-react'
+import '../../pages/OnboardingPage.css'
 
 interface AddIncomeModalProps {
   onClose: () => void
 }
 
+interface IncomeEntry {
+  id: string
+  type: string
+  description: string
+  amount: string
+}
+
 const incomeTypes = [
-  { id: 'salary', icon: Briefcase, label: 'Salaire', color: 'var(--color-primary)' },
-  { id: 'business', icon: Store, label: 'Commerce', color: 'var(--color-success)' },
-  { id: 'gift', icon: Gift, label: 'Don/Cadeau', color: 'var(--color-warning)' },
-  { id: 'other', icon: MoreHorizontal, label: 'Autre', color: 'var(--color-secondary)' },
+  { id: 'salary', icon: 'work', label: 'Salaire' },
+  { id: 'business', icon: 'store', label: 'Commerce' },
+  { id: 'gift', icon: 'redeem', label: 'Don/Cadeau' },
+  { id: 'other', icon: 'more_horiz', label: 'Autre' },
 ]
 
 export function AddIncomeModal({ onClose }: AddIncomeModalProps) {
   const { addNewIncome, refreshData } = useExpenseStore()
-  const [selectedType, setSelectedType] = useState('salary')
-  const [description, setDescription] = useState('')
-  const [amount, setAmount] = useState('')
+  const [incomes, setIncomes] = useState<IncomeEntry[]>([
+    { id: '1', type: 'salary', description: '', amount: '' }
+  ])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  const addIncomeEntry = () => {
+    setIncomes([
+      ...incomes,
+      { id: Date.now().toString(), type: 'salary', description: '', amount: '' }
+    ])
+  }
+
+  const removeIncomeEntry = (id: string) => {
+    if (incomes.length > 1) {
+      setIncomes(incomes.filter(i => i.id !== id))
+    }
+  }
+
+  const updateIncomeEntry = (id: string, field: keyof IncomeEntry, value: string) => {
+    setIncomes(incomes.map(i =>
+      i.id === id ? { ...i, [field]: value } : i
+    ))
+    setError('')
+  }
+
+  const totalIncome = incomes.reduce((sum, i) => {
+    const amount = parseInt(i.amount.replace(/\s/g, ''), 10) || 0
+    return sum + amount
+  }, 0)
+
   const handleSubmit = async () => {
-    const numAmount = parseInt(amount.replace(/\s/g, ''), 10)
-    
-    if (!numAmount || numAmount <= 0) {
-      setError('Ajoute un montant valide')
+    const validIncomes = incomes.filter(i => i.amount && parseInt(i.amount.replace(/\s/g, ''), 10) > 0)
+
+    if (validIncomes.length === 0) {
+      setError('Ajoute au moins un revenu pour continuer')
       return
     }
 
@@ -41,13 +66,15 @@ export function AddIncomeModal({ onClose }: AddIncomeModalProps) {
     setError('')
 
     try {
-      const typeLabel = incomeTypes.find(t => t.id === selectedType)?.label || selectedType
-      await addNewIncome({
-        source: typeLabel,
-        description: description || typeLabel,
-        amount: numAmount,
-        date: new Date(),
-      })
+      for (const income of validIncomes) {
+        const typeLabel = incomeTypes.find(t => t.id === income.type)?.label || income.type
+        await addNewIncome({
+          source: typeLabel,
+          description: income.description || typeLabel,
+          amount: parseInt(income.amount.replace(/\s/g, ''), 10),
+          date: new Date(),
+        })
+      }
       await refreshData()
       onClose()
     } catch (err) {
@@ -58,117 +85,121 @@ export function AddIncomeModal({ onClose }: AddIncomeModalProps) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal p-6" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-[var(--color-text-primary)]">
-            Ajouter un revenu
-          </h2>
-          <button onClick={onClose} className="btn btn-ghost btn-icon">
-            <X className="w-5 h-5" />
-          </button>
+      <div className="modal onboarding-card-form" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px', width: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
+        <div className="onboarding-form-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h1 className="onboarding-title">Ajouter des revenus</h1>
+            <button onClick={onClose} className="btn btn-ghost btn-icon">
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <p className="onboarding-subtitle">
+            Ajoutez vos sources de revenus mensuels
+          </p>
         </div>
 
-        {/* Income Type Selection */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-3">
-            Type de revenu
-          </label>
-          <div className="grid grid-cols-2 gap-3">
-            {incomeTypes.map(({ id, icon: Icon, label, color }) => (
-              <button
-                key={id}
-                onClick={() => setSelectedType(id)}
-                className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all ${
-                  selectedType === id
-                    ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/10'
-                    : 'border-[var(--color-border)] hover:border-[var(--color-border-light)]'
-                }`}
-              >
-                <div 
-                  className="w-10 h-10 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: `${color}15` }}
-                >
-                  <Icon className="w-5 h-5" style={{ color }} />
+        <div className="onboarding-form-body">
+          {/* Income Entries */}
+          <div className="onboarding-incomes">
+            {incomes.map((income, index) => (
+              <div key={income.id} className="onboarding-income-entry animate-scale-in">
+                <div className="onboarding-income-header">
+                  <span className="onboarding-income-number">Revenu #{index + 1}</span>
+                  {incomes.length > 1 && (
+                    <button
+                      onClick={() => removeIncomeEntry(income.id)}
+                      className="onboarding-income-delete"
+                    >
+                      <span className="material-symbols-outlined">delete</span>
+                    </button>
+                  )}
                 </div>
-                <span className={`font-medium ${
-                  selectedType === id ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-primary)]'
-                }`}>
-                  {label}
-                </span>
-              </button>
+
+                {/* Type Selection */}
+                <div className="onboarding-income-types">
+                  {incomeTypes.map(({ id, icon, label }) => (
+                    <button
+                      key={id}
+                      onClick={() => updateIncomeEntry(income.id, 'type', id)}
+                      className={`onboarding-type-btn ${income.type === id ? 'active' : ''}`}
+                    >
+                      <span className="material-symbols-outlined">{icon}</span>
+                      <span>{label}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Description */}
+                <div className="form-input-wrapper">
+                  <span className="material-symbols-outlined form-input-icon">description</span>
+                  <input
+                    type="text"
+                    value={income.description}
+                    onChange={(e) => updateIncomeEntry(income.id, 'description', e.target.value)}
+                    placeholder="Description (optionnel)"
+                    className="form-input form-input-with-icon"
+                  />
+                </div>
+
+                {/* Amount */}
+                <div className="onboarding-amount-wrapper">
+                  <span className="material-symbols-outlined form-input-icon">payments</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={income.amount}
+                    onChange={(e) => updateIncomeEntry(income.id, 'amount', e.target.value.replace(/[^0-9]/g, ''))}
+                    placeholder="Montant mensuel"
+                    className="form-input form-input-with-icon onboarding-amount-input"
+                  />
+                  <span className="onboarding-currency">FCFA</span>
+                </div>
+              </div>
             ))}
-          </div>
-        </div>
 
-        {/* Description */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-            Description (optionnel)
-          </label>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Ex: Salaire janvier 2026"
-            className="input"
-          />
-        </div>
-
-        {/* Amount */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-            Montant
-          </label>
-          <div className="relative">
-            <input
-              type="text"
-              inputMode="numeric"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value.replace(/[^0-9]/g, ''))
-                setError('')
-              }}
-              placeholder="0"
-              className="input text-2xl font-bold pr-20"
-            />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] font-medium">
-              FCFA
-            </span>
+            {/* Add Income Button */}
+            <button onClick={addIncomeEntry} className="onboarding-add-income">
+              <span className="material-symbols-outlined">add_circle</span>
+              <span>Ajouter une source de revenu</span>
+            </button>
           </div>
-          {amount && (
-            <p className="text-sm text-[var(--color-success)] mt-2">
-              = {formatAmount(parseInt(amount) || 0)} F
-            </p>
+
+          {/* Total Card */}
+          <div className="onboarding-total">
+            <div className="onboarding-total-info">
+              <p className="onboarding-total-label">Total mensuel</p>
+              <p className="onboarding-total-value">
+                {formatAmount(totalIncome)} <span>FCFA</span>
+              </p>
+            </div>
+            <div className="onboarding-total-icon">
+              <span className="material-symbols-outlined">savings</span>
+            </div>
+          </div>
+
+          {/* Error */}
+          {error && (
+            <div className="onboarding-error animate-scale-in">
+              <span className="material-symbols-outlined">error</span>
+              <p>{error}</p>
+            </div>
           )}
-        </div>
 
-        {/* Error */}
-        {error && (
-          <div className="p-3 rounded-lg bg-[var(--color-danger)]/10 border border-[var(--color-danger)]/20 mb-6">
-            <p className="text-sm text-[var(--color-danger)]">{error}</p>
-          </div>
-        )}
-
-        {/* Actions */}
-        <div className="flex gap-3">
-          <button onClick={onClose} className="btn btn-secondary flex-1">
-            Annuler
-          </button>
+          {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            disabled={isSubmitting || !amount}
-            className="btn btn-success flex-1"
+            disabled={isSubmitting}
+            className="btn btn-primary btn-lg onboarding-cta"
           >
             {isSubmitting ? (
               <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Ajout...
+                <span className="material-symbols-outlined spinning">progress_activity</span>
+                <span>Enregistrement...</span>
               </>
             ) : (
               <>
-                <Check className="w-4 h-4" />
-                Ajouter
+                <span>Enregistrer les revenus</span>
+                <span className="material-symbols-outlined">check_circle</span>
               </>
             )}
           </button>
