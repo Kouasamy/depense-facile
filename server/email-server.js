@@ -103,85 +103,47 @@ app.get('/health', (req, res) => {
 
 // Route pour envoyer un email
 app.post('/api/send-email', async (req, res) => {
-  try {
-    const { to, subject, html, text, from, replyTo } = req.body
+  console.log('[/api/send-email] body =', req.body)
+  
+  const { to, subject, html } = req.body
 
-    // Validation
-    if (!to || !subject || !html) {
-      return res.status(400).json({
-        success: false,
-        error: 'Les champs to, subject et html sont requis'
-      })
-    }
-
-    // Vérifier que SMTP est configuré
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
-      console.error('❌ SMTP non configuré. Vérifiez SMTP_USER et SMTP_PASSWORD dans .env')
-      return res.status(500).json({
-        success: false,
-        error: 'Service email non configuré'
-      })
-    }
-
-    // Créer le transporteur
-    const transporter = createTransporter()
-
-    // Préparer l'email
-    const mailOptions = {
-      from: from || `${process.env.EMAIL_FROM_NAME || 'GèreTonDjai'} <${process.env.EMAIL_FROM || process.env.SMTP_USER}>`,
-      to: Array.isArray(to) ? to.join(', ') : to,
-      subject: subject,
-      html: html,
-      text: text || html.replace(/<[^>]*>/g, ''), // Convertir HTML en texte si pas fourni
-      ...(replyTo && { replyTo: replyTo })
-    }
-
-    console.log('📧 Envoi email via SMTP Hostinger...')
-    console.log('   De:', mailOptions.from)
-    console.log('   Vers:', mailOptions.to)
-    console.log('   Sujet:', mailOptions.subject)
-
-    // Tester la connexion SMTP avant d'envoyer
-    console.log('🔍 Vérification de la connexion SMTP...')
-    await transporter.verify()
-    console.log('✅ Connexion SMTP vérifiée avec succès!')
-
-    // Envoyer l'email
-    console.log('📤 Envoi de l\'email...')
-    const info = await transporter.sendMail(mailOptions)
-
-    console.log('✅ Email envoyé avec succès!')
-    console.log('   Message ID:', info.messageId)
-    console.log('   Réponse:', info.response)
-
-    res.json({
-      success: true,
-      messageId: info.messageId
-    })
-  } catch (error) {
-    console.error('❌ Erreur lors de l\'envoi de l\'email:', error)
-    console.error('   Code:', error.code)
-    console.error('   Command:', error.command)
-    console.error('   Response:', error.response)
-    console.error('   Stack:', error.stack)
-    
-    // Messages d'erreur plus détaillés
-    let errorMessage = error.message || 'Erreur lors de l\'envoi de l\'email'
-    
-    if (error.code === 'EAUTH') {
-      errorMessage = 'Erreur d\'authentification SMTP. Vérifiez SMTP_USER et SMTP_PASSWORD.'
-    } else if (error.code === 'ECONNECTION') {
-      errorMessage = 'Impossible de se connecter au serveur SMTP. Vérifiez SMTP_HOST et SMTP_PORT.'
-    } else if (error.code === 'ETIMEDOUT') {
-      errorMessage = 'Timeout de connexion SMTP. Le serveur ne répond pas.'
-    }
-    
-    res.status(500).json({
+  // Validation
+  if (!to || !subject || !html) {
+    return res.status(400).json({
       success: false,
-      error: errorMessage,
-      code: error.code,
-      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      error: 'Les champs to, subject et html sont requis'
     })
+  }
+
+  // Vérifier que SMTP est configuré
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+    console.error('❌ SMTP non configuré. Vérifiez SMTP_USER et SMTP_PASSWORD dans .env')
+    return res.status(500).json({
+      success: false,
+      error: 'Service email non configuré'
+    })
+  }
+
+  // Créer le transporteur
+  const transporter = createTransporter()
+
+  // Préparer l'email
+  const mailOptions = {
+    from: 'GereTonDjai <contact@xn--gretondjai-z6a.com>',
+    to,
+    subject,
+    html
+  }
+
+  try {
+    await transporter.verify()
+    console.log('SMTP verify OK')
+    const info = await transporter.sendMail(mailOptions)
+    console.log('Mail sent OK:', info.messageId)
+    res.json({ success: true, messageId: info.messageId })
+  } catch (err) {
+    console.error('Mail error:', err)
+    res.status(500).json({ success: false, error: err.message })
   }
 })
 
