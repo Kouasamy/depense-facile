@@ -19,6 +19,16 @@ export interface RecognitionOptions {
 
 // Check if Web Speech API is available
 export function isWebSpeechAvailable(): boolean {
+  // Web Speech API requires HTTPS in production (except localhost)
+  const isSecure = window.location.protocol === 'https:' || 
+                   window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1'
+  
+  if (!isSecure) {
+    console.warn('Web Speech API requires HTTPS in production')
+    return false
+  }
+  
   return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window
 }
 
@@ -86,13 +96,20 @@ class WebSpeechRecognizer {
       this.isListening = false
       const errorMessages: Record<string, string> = {
         'no-speech': 'Je n\'ai rien entendu. Parle un peu plus fort ou rapproche-toi du micro !',
-        'audio-capture': 'Problème avec le micro. Vérifie les permissions.',
-        'not-allowed': 'Micro non autorisé. Active le micro dans les paramètres.',
-        'network': 'Problème de connexion. Réessaie.',
+        'audio-capture': 'Problème avec le micro. Vérifie les permissions du navigateur.',
+        'not-allowed': 'Micro non autorisé. Active le micro dans les paramètres du navigateur.',
+        'network': 'Problème de connexion. Vérifie ta connexion internet.',
         'aborted': 'Annulé',
-        'language-not-supported': 'Langue non supportée'
+        'language-not-supported': 'Langue non supportée',
+        'service-not-allowed': 'Service non autorisé. Vérifie que tu es en HTTPS.'
       }
-      const message = errorMessages[event.error] || `Erreur: ${event.error}`
+      let message = errorMessages[event.error] || `Erreur: ${event.error}`
+      
+      // Add helpful hint for HTTPS issues
+      if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+        message += ' (La reconnaissance vocale nécessite HTTPS en production)'
+      }
+      
       this.options.onError?.(message)
     }
 

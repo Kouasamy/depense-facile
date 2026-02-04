@@ -40,7 +40,7 @@ export function ChatBotPage() {
         role: 'assistant',
         content: totalIncomes > 0 
           ? `Hey, c'est **Woro** ton conseiller !\n\nJe vois que tu gagnes environ **${formatCurrency(totalIncomes)}** par mois. Excellent !\n\nDis-moi, tu veux épargner pour quoi ? Un projet, une urgence, ou juste mieux gérer ton argent ?`
-          : `Hey, c'est **Woro** ton conseiller !\n\nJe suis là pour t'aider à gérer ton argent comme un pro. Dis-moi combien tu gagnes par mois et quels sont tes objectifs !`,
+          : `Hey, c'est **Woro** ton conseiller !\n\nJe suis là pour t'aider à mieux gérer ton argent et atteindre tes objectifs d'épargne.\n\nDis-moi :\n• Quelles sont tes difficultés pour épargner ?\n• As-tu un objectif particulier (mariage, voiture, urgence...) ?\n\nPlus tu me donnes de détails, plus je pourrai t'aider avec un plan personnalisé !`,
         timestamp: new Date()
       }
       setMessages([welcomeMessage])
@@ -65,8 +65,28 @@ export function ChatBotPage() {
     setInputValue('')
     setIsTyping(true)
 
-    const { context: newContext } = analyzeMessage(inputValue, context)
-    setContext(newContext)
+    // Always merge with real data from the app
+    const enrichedContext: ConversationContext = {
+      ...context,
+      // Use real income from app if available, otherwise keep context income
+      income: totalIncomes > 0 ? totalIncomes : (context.income || undefined),
+      // Use real expenses from app if available
+      expenses: totalExpenses > 0 ? totalExpenses : (context.expenses || undefined),
+      // Always use real category spending if available
+      categorySpending: Object.keys(categoryTotals).length > 0 ? categoryTotals : context.categorySpending
+    }
+
+    const { context: newContext } = analyzeMessage(inputValue, enrichedContext)
+    
+    // Ensure real data is always preserved
+    const finalContext: ConversationContext = {
+      ...newContext,
+      income: totalIncomes > 0 ? totalIncomes : newContext.income,
+      expenses: totalExpenses > 0 ? totalExpenses : newContext.expenses,
+      categorySpending: Object.keys(categoryTotals).length > 0 ? categoryTotals : newContext.categorySpending
+    }
+    
+    setContext(finalContext)
 
     await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 700))
     
@@ -74,7 +94,7 @@ export function ChatBotPage() {
 
     const { response, shouldGeneratePlan } = generateResponse(
       inputValue,
-      newContext,
+      finalContext,
       [...messages, userMessage],
       hasPreviousPlan
     )
@@ -82,11 +102,11 @@ export function ChatBotPage() {
     let plan: SavingsPlan | undefined
     if (shouldGeneratePlan) {
       const realUserData: RealUserData = {
-        actualIncome: totalIncomes > 0 ? totalIncomes : (newContext.income || 150000),
-        actualExpenses: totalExpenses > 0 ? totalExpenses : (newContext.expenses || 0),
+        actualIncome: totalIncomes > 0 ? totalIncomes : (finalContext.income || 150000),
+        actualExpenses: totalExpenses > 0 ? totalExpenses : (finalContext.expenses || 0),
         categorySpending: Object.keys(categoryTotals).length > 0 ? categoryTotals : undefined
       }
-      plan = generateSavingsPlan(newContext, realUserData)
+      plan = generateSavingsPlan(finalContext, realUserData)
       setCurrentPlan(plan)
     }
 
@@ -127,7 +147,9 @@ export function ChatBotPage() {
       const welcomeMessage: ChatMessage = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: `Ok, on recommence !\n\nDis-moi:\n- Ton salaire mensuel\n- Ton objectif d'épargne\n- Tes difficultés actuelles`,
+        content: totalIncomes > 0
+          ? `Ok, on recommence !\n\nJe vois que tu gagnes **${formatCurrency(totalIncomes)}** par mois.\n\nDis-moi :\n• Ton objectif d'épargne\n• Tes difficultés actuelles\n• Pour quoi tu veux épargner ?`
+          : `Ok, on recommence !\n\nDis-moi :\n• Quelles sont tes difficultés pour épargner ?\n• As-tu un objectif particulier (mariage, voiture, urgence...) ?\n• Combien voudrais-tu économiser ?`,
         timestamp: new Date()
       }
       setMessages([welcomeMessage])

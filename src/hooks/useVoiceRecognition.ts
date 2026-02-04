@@ -22,11 +22,19 @@ export function useVoiceRecognition() {
   useEffect(() => {
     const hasWebSpeech = isWebSpeechAvailable()
     const hasMediaDevices = 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices
+    const isSecure = window.location.protocol === 'https:' || 
+                     window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1'
     
-    setIsAvailable(hasWebSpeech || hasMediaDevices)
+    // Check availability
+    const available = hasWebSpeech || (hasMediaDevices && isSecure)
+    setIsAvailable(available)
     
-    if (hasWebSpeech || hasMediaDevices) {
+    if (available) {
       recognizerRef.current = new VoiceRecognizer(false) // Prefer Web Speech
+    } else if (!isSecure && window.location.hostname !== 'localhost') {
+      // Log warning for HTTPS requirement
+      console.warn('Reconnaissance vocale nécessite HTTPS en production')
     }
 
     return () => {
@@ -39,7 +47,15 @@ export function useVoiceRecognition() {
   // Start recording
   const startRecording = useCallback(async () => {
     if (!recognizerRef.current) {
-      setAiMessage('Reconnaissance vocale non disponible sur cet appareil.')
+      const isSecure = window.location.protocol === 'https:' || 
+                       window.location.hostname === 'localhost' || 
+                       window.location.hostname === '127.0.0.1'
+      
+      if (!isSecure && window.location.hostname !== 'localhost') {
+        setAiMessage('La reconnaissance vocale nécessite HTTPS. Assure-toi que le site utilise https://')
+      } else {
+        setAiMessage('Reconnaissance vocale non disponible sur cet appareil. Vérifie les permissions du micro.')
+      }
       return
     }
 
@@ -66,7 +82,14 @@ export function useVoiceRecognition() {
         
         onError: (error) => {
           setRecording(false)
-          setAiMessage(error)
+          // Provide more helpful error messages
+          let errorMessage = error
+          if (error.includes('not-allowed') || error.includes('non autorisé')) {
+            errorMessage = 'Micro non autorisé. Clique sur l\'icône de cadenas dans la barre d\'adresse et autorise le micro.'
+          } else if (error.includes('HTTPS') || error.includes('service-not-allowed')) {
+            errorMessage = 'La reconnaissance vocale nécessite HTTPS. Le site doit être en https:// pour fonctionner.'
+          }
+          setAiMessage(errorMessage)
         },
         
         onEnd: () => {
@@ -75,7 +98,8 @@ export function useVoiceRecognition() {
       })
     } catch (error) {
       setRecording(false)
-      setAiMessage('Erreur au démarrage du micro.')
+      const errorMsg = error instanceof Error ? error.message : 'Erreur au démarrage du micro.'
+      setAiMessage(`Erreur : ${errorMsg}. Vérifie les permissions du navigateur.`)
     }
   }, [setRecording, setTranscript, setAiMessage])
 
