@@ -12,8 +12,8 @@ npm install && npm run build
 VITE_SUPABASE_URL=votre_url_supabase
 VITE_SUPABASE_ANON_KEY=votre_cle_supabase
 VITE_EMAIL_FROM=contact@xn--gretondjai-z6a.com
-VITE_EMAIL_FROM_NAME=GèreTonDjai-CI
-VITE_EMAIL_SERVER_URL=https://geretondjai.com
+VITE_EMAIL_FROM_NAME=GereTonDjai
+VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com
 ```
 
 ### 3. Créer le dossier `server/` et le fichier `.env`
@@ -24,11 +24,11 @@ VITE_EMAIL_SERVER_URL=https://geretondjai.com
 2. Dans ce dossier, créez un fichier `.env` avec ce contenu :
 ```
 EMAIL_FROM=contact@xn--gretondjai-z6a.com
-EMAIL_FROM_NAME=GèreTonDjai-CI
+EMAIL_FROM_NAME=GereTonDjai
 SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=587
 SMTP_USER=contact@xn--gretondjai-z6a.com
-SMTP_PASSWORD=15044245Fd@
+SMTP_PASSWORD=LE_VRAI_MDP_DE_CETTE_BOITE
 EMAIL_SERVER_PORT=3001
 NODE_ENV=production
 ```
@@ -51,11 +51,11 @@ NODE_ENV=production
       - **Port** : `3001`
    4. **Variables d'environnement** : Ajoutez toutes les variables du fichier `server/.env` :
       - `EMAIL_FROM=contact@xn--gretondjai-z6a.com`
-      - `EMAIL_FROM_NAME=GèreTonDjai-CI`
+      - `EMAIL_FROM_NAME=GereTonDjai`
       - `SMTP_HOST=smtp.hostinger.com`
       - `SMTP_PORT=587`
       - `SMTP_USER=contact@xn--gretondjai-z6a.com`
-      - `SMTP_PASSWORD=15044245Fd@`
+      - `SMTP_PASSWORD=LE_VRAI_MDP_DE_CETTE_BOITE`
       - `EMAIL_SERVER_PORT=3001`
       - `NODE_ENV=production`
    5. Cliquez sur **"Créer"** ou **"Create"**
@@ -75,9 +75,9 @@ NODE_ENV=production
 
 1. Dans les **Variables d'environnement**, utilisez :
    ```
-   VITE_EMAIL_SERVER_URL=https://geretondjai.com
+   VITE_EMAIL_SERVER_URL=https://xn--gretondjai-z6a.com
    ```
-   (SANS le port 3001)
+   (Utilise le domaine en format Punycode, SANS le port 3001)
 
 2. Dans hPanel, allez dans **Sites Web** → **Gérer** → **Avancé** → **Node.js**
 3. Créez/Configurez l'application Node.js :
@@ -88,7 +88,7 @@ NODE_ENV=production
 4. Redémarrez l'application
 
 ### 6. Vérification
-- Frontend : `https://geretondjai.com`
-- Serveur email : `https://geretondjai.com/health` → `{"status":"ok","service":"email-server"}`
-- Endpoint email : `https://geretondjai.com/api/send-email` (appelé automatiquement par le frontend)
+- Frontend : `https://xn--gretondjai-z6a.com` (ou `https://geretondjai.com`)
+- Serveur email : `https://xn--gretondjai-z6a.com/health` → `{"status":"ok","service":"email-server"}`
+- Endpoint email : `https://xn--gretondjai-z6a.com/api/send-email` (appelé automatiquement par le frontend)
 
