@@ -12,12 +12,11 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 // Charger les variables d'environnement
-// Chercher le fichier .env dans le dossier server/
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-dotenv.config({ path: join(__dirname, '.env') })
+dotenv.config()
 
 // Créer le dossier logs s'il n'existe pas
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const logsDir = join(__dirname, 'logs')
 
 mkdir(logsDir, { recursive: true }).catch(err => {
@@ -121,30 +120,14 @@ app.post('/api/send-email', async (req, res) => {
     // Créer le transporteur
     const transporter = createTransporter()
 
-    // Préparer l'email avec en-têtes anti-spam
-    const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER
-    const fromName = process.env.EMAIL_FROM_NAME || 'GèreTonDjai-CI'
-    
+    // Préparer l'email
     const mailOptions = {
-      from: from || `${fromName} <${fromEmail}>`,
+      from: from || `${process.env.EMAIL_FROM_NAME || 'GèreTonDjai'} <${process.env.EMAIL_FROM || process.env.SMTP_USER}>`,
       to: Array.isArray(to) ? to.join(', ') : to,
       subject: subject,
       html: html,
       text: text || html.replace(/<[^>]*>/g, ''), // Convertir HTML en texte si pas fourni
-      ...(replyTo && { replyTo: replyTo }),
-      // En-têtes pour éviter les spams
-      headers: {
-        'X-Mailer': 'GèreTonDjai Email Service',
-        'X-Priority': '3',
-        'List-Unsubscribe': `<mailto:${fromEmail}?subject=unsubscribe>`,
-        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
-        'Precedence': 'bulk',
-        // Authentification
-        'Message-ID': `<${Date.now()}-${Math.random().toString(36).substring(7)}@geretondjai.com>`,
-        'Date': new Date().toUTCString()
-      },
-      // Priorité normale
-      priority: 'normal'
+      ...(replyTo && { replyTo: replyTo })
     }
 
     console.log('📧 Envoi email via SMTP Hostinger...')

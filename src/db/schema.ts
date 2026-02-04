@@ -483,6 +483,28 @@ export async function clearUserData(userId: string): Promise<void> {
   await db.syncQueue.where('userId').equals(userId).delete()
 }
 
+// Clear ALL local data (all users, all tables)
+export async function clearAllLocalData(): Promise<void> {
+  console.log('🗑️ Suppression de toutes les données locales...')
+  
+  // Clear all tables
+  await db.expenses.clear()
+  await db.incomes.clear()
+  await db.budgets.clear()
+  await db.userOnboarding.clear()
+  await db.userAccounts.clear()
+  await db.userSessions.clear()
+  await db.syncQueue.clear()
+  
+  // Clear localStorage
+  localStorage.clear()
+  
+  // Clear sessionStorage
+  sessionStorage.clear()
+  
+  console.log('✅ Toutes les données locales ont été supprimées')
+}
+
 export async function getSyncQueueCount(userId: string): Promise<number> {
   return db.syncQueue.where('userId').equals(userId).count()
 }
