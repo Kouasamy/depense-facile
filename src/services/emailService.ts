@@ -85,7 +85,12 @@ class EmailService {
 
       console.log('📧 Sending email via SMTP Hostinger to:', emailData.to, 'Subject:', emailData.subject)
 
-      const response = await fetch(`${this.emailServerUrl}/api/send-email`, {
+      // Construire l'URL complète : si emailServerUrl contient déjà /api, ne pas l'ajouter
+      const endpoint = this.emailServerUrl.endsWith('/api') 
+        ? `${this.emailServerUrl}/send-email`
+        : `${this.emailServerUrl}/api/send-email`
+      
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
