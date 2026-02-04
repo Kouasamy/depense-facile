@@ -116,9 +116,14 @@ const createTransporter = () => {
   return nodemailer.createTransport(config)
 }
 
-// Route de santé
+// Route de santé (pour Railway health check)
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'email-server' })
+  res.status(200).json({ status: 'ok', service: 'email-server' })
+})
+
+// Route racine pour Railway
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'ok', service: 'email-server', message: 'Email server is running' })
 })
 
 // Route pour envoyer un email
