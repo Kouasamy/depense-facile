@@ -1,12 +1,9 @@
 # Configuration Apache pour Hostinger
-# Redirection vers le serveur email si nécessaire
-
 # Activer le moteur de réécriture
 RewriteEngine On
+RewriteBase /
 
-# Reverse proxy pour le serveur Node.js
-# Activer mod_proxy et mod_proxy_http si nécessaire
-
+# 1. D'abord, gérer les routes API et health (reverse proxy vers Node.js)
 # Route /health vers le serveur Node.js
 RewriteCond %{REQUEST_URI} ^/health$
 RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
@@ -15,14 +12,18 @@ RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
 RewriteCond %{REQUEST_URI} ^/api/
 RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
 
-# Configuration pour SPA (Single Page Application)
-<IfModule mod_rewrite.c>
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
-</IfModule>
+# 2. Ensuite, gérer les fichiers statiques (ne pas les réécrire)
+# Si le fichier existe, le servir directement
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Si le dossier existe, le servir directement
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3. Enfin, pour toutes les autres routes, rediriger vers index.html (SPA routing)
+# Cela permet à React Router de gérer le routing côté client
+RewriteRule ^ index.html [L]
 
 # Headers de sécurité
 <IfModule mod_headers.c>
