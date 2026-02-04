@@ -45,7 +45,10 @@ app.use(express.json())
 
 // Log toutes les requêtes pour debug
 app.use((req, res, next) => {
+  console.log(`========================================`)
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`)
+  console.log(`Headers:`, req.headers)
+  console.log(`========================================`)
   next()
 })
 

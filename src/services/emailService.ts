@@ -89,11 +89,19 @@ class EmailService {
       console.log('📧 Sending email via SMTP Hostinger to:', emailData.to, 'Subject:', emailData.subject)
       console.log('🔍 Email Server URL:', this.emailServerUrl)
 
-      // Construire l'URL complète : si emailServerUrl contient déjà /api, ne pas l'ajouter
-      const endpoint = this.emailServerUrl.endsWith('/api') 
-        ? `${this.emailServerUrl}/send-email`
-        : `${this.emailServerUrl}/api/send-email`
+      // Construire l'URL complète
+      // Si emailServerUrl se termine par /api, on ajoute juste /send-email
+      // Sinon, on ajoute /api/send-email
+      let endpoint
+      if (this.emailServerUrl.endsWith('/api')) {
+        endpoint = `${this.emailServerUrl}/send-email`
+      } else if (this.emailServerUrl.endsWith('/api/')) {
+        endpoint = `${this.emailServerUrl}send-email`
+      } else {
+        endpoint = `${this.emailServerUrl}/api/send-email`
+      }
       
+      console.log('🔍 Email Server URL:', this.emailServerUrl)
       console.log('🔍 Calling endpoint:', endpoint)
       console.log('🔍 Request body:', JSON.stringify(emailData, null, 2))
       
