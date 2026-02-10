@@ -31,16 +31,15 @@
 .onboarding-logo-icon {
   width: 32px;
   height: 32px;
-  background-color: var(--color-primary);
-  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 
-.onboarding-logo-icon .material-symbols-outlined {
-  font-size: 18px;
+.onboarding-logo-icon .app-logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
 }
 
 .onboarding-logo-text {

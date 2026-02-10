@@ -61,8 +61,12 @@ export function SettingsPage() {
         {/* Header */}
         <header className="settings-header animate-fade-in">
           <div className="settings-header-info">
-            <div className="settings-icon">
-              <span className="material-symbols-outlined">settings</span>
+            <div className="settings-logo">
+              <img
+                src="/logo-gtd.png"
+                alt="Logo GèreTonDjai"
+                className="app-logo-image"
+              />
             </div>
             <div>
               <h1 className="settings-title">Paramètres</h1>

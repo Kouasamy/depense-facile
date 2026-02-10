@@ -90,7 +90,11 @@ export function OnboardingPage() {
         <header className="onboarding-header">
           <div className="onboarding-logo">
             <div className="onboarding-logo-icon">
-              <span className="material-symbols-outlined">payments</span>
+              <img
+                src="/logo-gtd.png"
+                alt="Logo GèreTonDjai"
+                className="app-logo-image"
+              />
             </div>
             <span className="onboarding-logo-text">GèreTonDjai</span>
           </div>
@@ -169,7 +173,11 @@ export function OnboardingPage() {
       <header className="onboarding-header">
         <div className="onboarding-logo">
           <div className="onboarding-logo-icon">
-            <span className="material-symbols-outlined">payments</span>
+            <img
+              src="/logo-gtd.png"
+              alt="Logo GèreTonDjai"
+              className="app-logo-image"
+            />
           </div>
           <span className="onboarding-logo-text">GèreTonDjai</span>
         </div>
