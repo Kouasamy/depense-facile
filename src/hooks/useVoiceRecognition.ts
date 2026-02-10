@@ -27,8 +27,8 @@ export function useVoiceRecognition() {
                      window.location.hostname === 'localhost' || 
                      window.location.hostname === '127.0.0.1'
     
-    // Check availability
-    const available = hasWebSpeech || (hasMediaDevices && isSecure)
+    // Désormais on ne considère disponible que si l'API Web Speech existe
+    const available = hasWebSpeech
     setIsAvailable(available)
     
     if (available) {
@@ -41,7 +41,7 @@ export function useVoiceRecognition() {
         setUnavailableReason('La reconnaissance vocale nécessite HTTPS. Assure-toi que le site utilise https://')
       } else if (!hasWebSpeech) {
         // Navigateur sans Web Speech
-        setUnavailableReason('Ton navigateur ne supporte pas encore la saisie vocale. Utilise Chrome ou Edge, ou saisis ta dépense en texte.')
+        setUnavailableReason('Ton navigateur ne supporte pas encore la saisie vocale. Utilise la dernière version de Chrome ou Edge, ou saisis ta dépense en texte.')
       } else if (!hasMediaDevices) {
         // Pas d’accès micro
         setUnavailableReason('Micro non disponible sur cet appareil. Vérifie le matériel ou les permissions.')

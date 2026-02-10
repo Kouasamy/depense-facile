@@ -1,5 +1,5 @@
 // Voice Recognition Module
-// Uses Web Speech API with fallback to OpenAI Whisper
+// Utilise uniquement l'API Web Speech du navigateur (100% gratuit)
 
 export interface RecognitionResult {
   transcript: string
@@ -181,164 +181,17 @@ class WebSpeechRecognizer {
   }
 }
 
-// Whisper API Recognition (fallback)
-class WhisperRecognizer {
-  private mediaRecorder: MediaRecorder | null = null
-  private audioChunks: Blob[] = []
-  private isRecording = false
-  private options: RecognitionOptions = {}
-  private stream: MediaStream | null = null
-
-  async start(options: RecognitionOptions = {}): Promise<void> {
-    this.options = options
-
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: false, // Disabled for better sensitivity to quiet voices
-          noiseSuppression: false, // Disabled to capture all sounds including quiet speech
-          autoGainControl: true, // Auto gain for better volume - amplifies quiet voices
-          sampleRate: 48000, // Higher sample rate for better quality
-          channelCount: 1 // Mono for better processing
-        } 
-      })
-
-      this.mediaRecorder = new MediaRecorder(this.stream, {
-        mimeType: this.getSupportedMimeType()
-      })
-
-      this.audioChunks = []
-
-      this.mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          this.audioChunks.push(event.data)
-        }
-      }
-
-      this.mediaRecorder.onstop = async () => {
-        await this.processAudio()
-      }
-
-      this.mediaRecorder.start()
-      this.isRecording = true
-      this.options.onStart?.()
-
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Erreur micro'
-      this.options.onError?.(message)
-    }
-  }
-
-  private getSupportedMimeType(): string {
-    const types = [
-      'audio/webm;codecs=opus',
-      'audio/webm',
-      'audio/ogg;codecs=opus',
-      'audio/mp4'
-    ]
-    
-    for (const type of types) {
-      if (MediaRecorder.isTypeSupported(type)) {
-        return type
-      }
-    }
-    
-    return 'audio/webm'
-  }
-
-  stop(): void {
-    if (this.mediaRecorder && this.isRecording) {
-      this.mediaRecorder.stop()
-      this.isRecording = false
-      
-      // Stop all audio tracks
-      if (this.stream) {
-        this.stream.getTracks().forEach(track => track.stop())
-        this.stream = null
-      }
-    }
-  }
-
-  abort(): void {
-    this.stop()
-    this.audioChunks = []
-    this.options.onEnd?.()
-  }
-
-  private async processAudio(): Promise<void> {
-    if (this.audioChunks.length === 0) {
-      this.options.onError?.('Aucun audio enregistré')
-      this.options.onEnd?.()
-      return
-    }
-
-    const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' })
-    
-    // Check if Whisper API is configured
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY
-    
-    if (!apiKey) {
-      // No API key - try to handle locally or show error
-      this.options.onError?.('Whisper API non configurée. Active le mode en ligne.')
-      this.options.onEnd?.()
-      return
-    }
-
-    try {
-      const formData = new FormData()
-      formData.append('file', audioBlob, 'audio.webm')
-      formData.append('model', 'whisper-1')
-      formData.append('language', 'fr')
-      formData.append('response_format', 'json')
-
-      const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: formData
-      })
-
-      if (!response.ok) {
-        throw new Error(`Whisper API error: ${response.statusText}`)
-      }
-
-      const result = await response.json()
-      
-      this.options.onResult?.({
-        transcript: result.text,
-        confidence: 0.9, // Whisper doesn't return confidence
-        isFinal: true
-      })
-
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Erreur transcription'
-      this.options.onError?.(message)
-    }
-
-    this.options.onEnd?.()
-  }
-
-  getIsRecording(): boolean {
-    return this.isRecording
-  }
-}
-
 // Main Voice Recognizer - automatically selects best available method
 export class VoiceRecognizer {
   private webSpeech: WebSpeechRecognizer | null = null
-  private whisper: WhisperRecognizer | null = null
-  private useWhisper = false
   private isActive = false
 
   constructor(preferWhisper = false) {
-    this.useWhisper = preferWhisper
-
-    if (isWebSpeechAvailable() && !preferWhisper) {
+    // On ne supporte que Web Speech (pas Whisper) pour rester 100% gratuit
+    if (isWebSpeechAvailable()) {
       this.webSpeech = new WebSpeechRecognizer()
     } else {
-      this.whisper = new WhisperRecognizer()
-      this.useWhisper = true
+      console.warn('Aucune API de reconnaissance vocale disponible dans ce navigateur.')
     }
   }
 
@@ -362,9 +215,7 @@ export class VoiceRecognizer {
       }
     }
 
-    if (this.useWhisper && this.whisper) {
-      await this.whisper.start(wrappedOptions)
-    } else if (this.webSpeech) {
+    if (this.webSpeech) {
       this.webSpeech.start(wrappedOptions)
     } else {
       options.onError?.('Aucune méthode de reconnaissance disponible')
@@ -375,18 +226,12 @@ export class VoiceRecognizer {
     if (this.webSpeech) {
       this.webSpeech.stop()
     }
-    if (this.whisper) {
-      this.whisper.stop()
-    }
     this.isActive = false
   }
 
   abort(): void {
     if (this.webSpeech) {
       this.webSpeech.abort()
-    }
-    if (this.whisper) {
-      this.whisper.abort()
     }
     this.isActive = false
   }
@@ -395,19 +240,13 @@ export class VoiceRecognizer {
     return this.isActive
   }
 
-  // Switch between Web Speech and Whisper
-  setUseWhisper(use: boolean): void {
-    if (use && !this.whisper) {
-      this.whisper = new WhisperRecognizer()
-    }
-    if (!use && !this.webSpeech && isWebSpeechAvailable()) {
-      this.webSpeech = new WebSpeechRecognizer()
-    }
-    this.useWhisper = use
+  // API conservée pour compatibilité, mais ne fait plus rien (Whisper désactivé)
+  setUseWhisper(_use: boolean): void {
+    // noop
   }
 
   isUsingWhisper(): boolean {
-    return this.useWhisper
+    return false
   }
 }
 
