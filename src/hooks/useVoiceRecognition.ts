@@ -32,7 +32,7 @@ export function useVoiceRecognition() {
     setIsAvailable(available)
     
     if (available) {
-      recognizerRef.current = new VoiceRecognizer(false) // Prefer Web Speech
+      recognizerRef.current = new VoiceRecognizer()
       setUnavailableReason(null)
     } else {
       if (!isSecure && window.location.hostname !== 'localhost') {

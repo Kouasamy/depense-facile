@@ -186,7 +186,7 @@ export class VoiceRecognizer {
   private webSpeech: WebSpeechRecognizer | null = null
   private isActive = false
 
-  constructor(preferWhisper = false) {
+  constructor() {
     // On ne supporte que Web Speech (pas Whisper) pour rester 100% gratuit
     if (isWebSpeechAvailable()) {
       this.webSpeech = new WebSpeechRecognizer()
@@ -253,9 +253,9 @@ export class VoiceRecognizer {
 // Singleton instance
 let recognizerInstance: VoiceRecognizer | null = null
 
-export function getVoiceRecognizer(preferWhisper = false): VoiceRecognizer {
+export function getVoiceRecognizer(): VoiceRecognizer {
   if (!recognizerInstance) {
-    recognizerInstance = new VoiceRecognizer(preferWhisper)
+    recognizerInstance = new VoiceRecognizer()
   }
   return recognizerInstance
 }
