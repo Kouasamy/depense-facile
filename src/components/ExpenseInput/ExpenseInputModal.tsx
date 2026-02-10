@@ -18,7 +18,15 @@ interface ExpenseInputModalProps {
 
 export function ExpenseInputModal({ isOpen, onClose }: ExpenseInputModalProps) {
   const { addNewExpense, refreshData } = useExpenseStore()
-  const { isRecording, transcript, startRecording, stopRecording, resetTranscript, isAvailable } = useVoiceRecognition()
+  const { 
+    isRecording, 
+    transcript, 
+    startRecording, 
+    stopRecording, 
+    resetTranscript, 
+    isAvailable,
+    unavailableReason 
+  } = useVoiceRecognition()
 
   // Form state
   const [mode, setMode] = useState<'manual' | 'voice'>('manual')
@@ -182,24 +190,33 @@ export function ExpenseInputModal({ isOpen, onClose }: ExpenseInputModalProps) {
             {/* Voice Mode */}
             {mode === 'voice' && (
               <div className="expense-voice-section">
-                <div className="expense-voice-container">
-                  <button 
-                    onClick={handleVoiceToggle}
-                    className={`expense-voice-btn ${isRecording ? 'recording' : ''}`}
-                  >
-                    <span className="material-symbols-outlined">
-                      {isRecording ? 'stop' : 'mic'}
-                    </span>
-                  </button>
-                  <p className="expense-voice-status">
-                    {isRecording 
-                      ? 'Parlez maintenant...' 
-                      : transcript 
-                        ? 'Dépense détectée !' 
-                        : 'Appuyez et dites votre dépense'}
-                  </p>
-                </div>
-                
+                {isAvailable ? (
+                  <div className="expense-voice-container">
+                    <button 
+                      onClick={handleVoiceToggle}
+                      className={`expense-voice-btn ${isRecording ? 'recording' : ''}`}
+                    >
+                      <span className="material-symbols-outlined">
+                        {isRecording ? 'stop' : 'mic'}
+                      </span>
+                    </button>
+                    <p className="expense-voice-status">
+                      {isRecording 
+                        ? 'Parlez maintenant...' 
+                        : transcript 
+                          ? 'Dépense détectée !' 
+                          : 'Appuyez et dites votre dépense'}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="expense-voice-unavailable">
+                    <span className="material-symbols-outlined">mic_off</span>
+                    <p>
+                      {unavailableReason || 'La saisie vocale n’est pas disponible sur ce navigateur. Utilise Chrome ou Edge, ou saisis ta dépense en texte.'}
+                    </p>
+                  </div>
+                )}
+
                 {transcript && (
                   <div className="expense-voice-result">
                     <p className="expense-voice-transcript">"{transcript}"</p>

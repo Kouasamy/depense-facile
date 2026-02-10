@@ -5,6 +5,7 @@ import { useExpenseStore } from '../stores/expenseStore'
 
 export function useVoiceRecognition() {
   const [isAvailable, setIsAvailable] = useState(false)
+  const [unavailableReason, setUnavailableReason] = useState<string | null>(null)
   const recognizerRef = useRef<VoiceRecognizer | null>(null)
   
   const {
@@ -32,9 +33,21 @@ export function useVoiceRecognition() {
     
     if (available) {
       recognizerRef.current = new VoiceRecognizer(false) // Prefer Web Speech
-    } else if (!isSecure && window.location.hostname !== 'localhost') {
-      // Log warning for HTTPS requirement
-      console.warn('Reconnaissance vocale nécessite HTTPS en production')
+      setUnavailableReason(null)
+    } else {
+      if (!isSecure && window.location.hostname !== 'localhost') {
+        // HTTPS manquant
+        console.warn('Reconnaissance vocale nécessite HTTPS en production')
+        setUnavailableReason('La reconnaissance vocale nécessite HTTPS. Assure-toi que le site utilise https://')
+      } else if (!hasWebSpeech) {
+        // Navigateur sans Web Speech
+        setUnavailableReason('Ton navigateur ne supporte pas encore la saisie vocale. Utilise Chrome ou Edge, ou saisis ta dépense en texte.')
+      } else if (!hasMediaDevices) {
+        // Pas d’accès micro
+        setUnavailableReason('Micro non disponible sur cet appareil. Vérifie le matériel ou les permissions.')
+      } else {
+        setUnavailableReason('Reconnaissance vocale non disponible sur cet appareil.')
+      }
     }
 
     return () => {
@@ -47,14 +60,18 @@ export function useVoiceRecognition() {
   // Start recording
   const startRecording = useCallback(async () => {
     if (!recognizerRef.current) {
-      const isSecure = window.location.protocol === 'https:' || 
-                       window.location.hostname === 'localhost' || 
-                       window.location.hostname === '127.0.0.1'
-      
-      if (!isSecure && window.location.hostname !== 'localhost') {
-        setAiMessage('La reconnaissance vocale nécessite HTTPS. Assure-toi que le site utilise https://')
+      if (unavailableReason) {
+        setAiMessage(unavailableReason)
       } else {
-        setAiMessage('Reconnaissance vocale non disponible sur cet appareil. Vérifie les permissions du micro.')
+        const isSecure = window.location.protocol === 'https:' || 
+                         window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1'
+        
+        if (!isSecure && window.location.hostname !== 'localhost') {
+          setAiMessage('La reconnaissance vocale nécessite HTTPS. Assure-toi que le site utilise https://')
+        } else {
+          setAiMessage('Reconnaissance vocale non disponible sur cet appareil. Vérifie les permissions du micro.')
+        }
       }
       return
     }
@@ -159,6 +176,7 @@ export function useVoiceRecognition() {
 
   return {
     isAvailable,
+    unavailableReason,
     isRecording,
     isProcessing,
     transcript: currentTranscript,
