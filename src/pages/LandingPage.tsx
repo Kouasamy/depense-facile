@@ -150,7 +150,11 @@ export function LandingPage() {
       >
         <div className="landing-nav-container">
           <div className="landing-logo">
-            <span className="material-symbols-outlined">account_balance_wallet</span>
+            <img
+              src="/logo-gtd.png"
+              alt="Logo GèreTonDjai"
+              className="landing-logo-image"
+            />
             <span className="landing-logo-text">GèreTonDjai</span>
           </div>
           <div className="landing-nav-links">

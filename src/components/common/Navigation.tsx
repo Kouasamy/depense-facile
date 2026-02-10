@@ -36,7 +36,11 @@ export function Navigation() {
       {/* Desktop Sidebar */}
       <aside className="nav-sidebar">
         <div className="nav-sidebar-logo">
-          <span className="material-symbols-outlined">payments</span>
+          <img
+            src="/logo-gtd.png"
+            alt="Logo GèreTonDjai"
+            className="nav-logo-image"
+          />
         </div>
 
         <nav className="nav-sidebar-menu">
@@ -85,7 +89,11 @@ export function Navigation() {
       <header className="nav-mobile-header">
         <div className="nav-mobile-logo">
           <div className="nav-mobile-logo-icon">
-            <span className="material-symbols-outlined">payments</span>
+            <img
+              src="/logo-gtd.png"
+              alt="Logo GèreTonDjai"
+              className="nav-logo-image"
+            />
           </div>
           <span className="nav-mobile-logo-text">GèreTonDjai</span>
         </div>
