@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import './AuthPage.css'
 
@@ -13,6 +13,16 @@ export function AuthPage() {
 
   const { login, register } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Si on arrive avec ?mode=register depuis la landing, ouvrir directement l'onglet inscription
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const mode = params.get('mode')
+    if (mode === 'register') {
+      setIsLogin(false)
+    }
+  }, [location.search])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

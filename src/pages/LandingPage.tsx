@@ -159,7 +159,7 @@ export function LandingPage() {
           </div>
           <div className="landing-nav-links">
             <Link to="/auth" className="landing-nav-link">Connexion</Link>
-            <Link to="/auth" className="landing-btn landing-btn-primary">
+            <Link to="/auth?mode=register" className="landing-btn landing-btn-primary">
               Commencer
             </Link>
           </div>
@@ -231,7 +231,7 @@ export function LandingPage() {
             variants={itemVariants}
           >
             <Link
-              to="/auth"
+              to="/auth?mode=register"
               className="landing-btn landing-btn-hero"
             >
               <span>Commencer gratuitement</span>
@@ -624,7 +624,7 @@ export function LandingPage() {
               Rejoins des milliers d'Ivoiriens qui utilisent GèreTonDjai pour mieux gérer leurs finances grâce à des conseils personnalisés
             </p>
             <Link
-              to="/auth"
+              to="/auth?mode=register"
               className="landing-btn landing-btn-cta"
             >
               <span>Commencer maintenant - C'est gratuit !</span>
