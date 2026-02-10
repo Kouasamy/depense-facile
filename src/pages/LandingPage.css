@@ -470,6 +470,11 @@
   overflow: hidden;
 }
 
+.landing-feature-card-disabled {
+  opacity: 0.6;
+  filter: grayscale(0.4);
+}
+
 .landing-feature-card::before {
   content: '';
   position: absolute;
@@ -675,6 +680,11 @@
   border-radius: var(--radius-2xl);
   border: 1px solid var(--color-border);
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.landing-benefit-card-disabled {
+  opacity: 0.6;
+  filter: grayscale(0.4);
 }
 
 .landing-benefit-card:hover {

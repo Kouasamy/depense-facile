@@ -93,9 +93,10 @@ export function LandingPage() {
     },
     {
       icon: '💳',
-      title: 'Mobile Money Intégré',
-      description: 'Support complet pour Orange Money, MTN Money, Moov Money et Wave. Gère tous tes moyens de paiement en un seul endroit.',
-      color: '#45b7d1'
+      title: 'Coffre-fort d\'épargne (à venir)',
+      description: 'Fonctionnalité en préparation : un coffre-fort où tu pourras mettre de côté une somme à épargner, séparée de tes dépenses quotidiennes. Non disponible dans cette version.',
+      color: '#45b7d1',
+      comingSoon: true
     },
     {
       icon: '🔒',
@@ -120,8 +121,7 @@ export function LandingPage() {
   const stats = [
     { number: '100%', label: 'Gratuit', icon: 'FCFA', iconType: 'text' },
     { number: '24/7', label: 'Disponible', icon: '⏰' },
-    { number: '100%', label: 'Hors ligne', icon: '📱' },
-    { number: '∞', label: 'Illimité', icon: '♾️' }
+    { number: '100%', label: 'Hors ligne', icon: '📱' }
   ]
 
   return (
@@ -341,7 +341,7 @@ export function LandingPage() {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="landing-feature-card"
+                className={`landing-feature-card ${feature.comingSoon ? 'landing-feature-card-disabled' : ''}`}
                 variants={itemVariants}
                 whileHover={{ y: -10, scale: 1.02 }}
                 style={{
@@ -497,9 +497,14 @@ export function LandingPage() {
               },
               {
                 icon: '💳',
-                title: 'Tous les Mobile Money',
-                description: 'Support complet pour Orange Money, MTN Money, Moov Money et Wave. Gère tous tes moyens de paiement en un seul endroit.',
-                details: ['Orange Money', 'MTN Money', 'Moov Money', 'Wave']
+                title: 'Coffre-fort d\'épargne (à venir)',
+                description: 'Fonctionnalité à venir dans les prochaines mises à jour : un espace sécurisé pour mettre de côté une somme à épargner, non disponible dans la version actuelle.',
+                details: [
+                  'Bientôt : transférer une partie de ton argent dans un coffre-fort dédié',
+                  'Bientôt : suivre séparément ce que tu as mis de côté',
+                  'Bientôt : alimenter ton coffre-fort avec Wave et Orange Money dans les prochaines mises à jour'
+                ],
+                comingSoon: true
               },
               {
                 icon: '🤖',
@@ -523,7 +528,7 @@ export function LandingPage() {
             ].map((benefit, index) => (
               <motion.div
                 key={index}
-                className="landing-benefit-card"
+                className={`landing-benefit-card ${benefit.comingSoon ? 'landing-benefit-card-disabled' : ''}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
@@ -576,7 +581,7 @@ export function LandingPage() {
               },
               {
                 question: 'Mes données sont-elles sécurisées ?',
-                answer: 'Absolument ! Tes données sont stockées dans une base de données sécurisée Supabase avec chiffrement. Seul toi peux accéder à tes informations.'
+                answer: 'Absolument ! Tes données sont stockées dans une base de données sécurisée avec chiffrement. Seul toi peux accéder à tes informations.'
               },
               {
                 question: 'L\'application fonctionne-t-elle sans internet ?',
