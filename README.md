@@ -144,7 +144,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 Ce projet a été conçu pour offrir une solution de gestion financière simple, sécurisée et adaptée au contexte local ivoirien.
 
 **Développé par : Kouat Ekra Samuel**
-*Mars 2026*
+*Fevrier 2026*
 
 ## Licence
 
