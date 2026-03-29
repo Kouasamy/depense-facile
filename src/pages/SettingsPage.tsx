@@ -13,7 +13,7 @@ export function SettingsPage() {
   const navigate = useNavigate()
   const { totalIncomes, refreshData, resetStore } = useExpenseStore()
   const { theme, setTheme } = useThemeStore()
-  const { user, logout } = useAuthStore()
+  const { user, logout, isPremium } = useAuthStore()
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
@@ -103,6 +103,38 @@ export function SettingsPage() {
               <span className="material-symbols-outlined">edit</span>
               Modifier
             </button>
+          </div>
+        </section>
+
+        {/* Premium & Coffre-fort Section */}
+        <section className="settings-section card animate-fade-in-up delay-1">
+          <div className="settings-section-header">
+            <span className="material-symbols-outlined">workspace_premium</span>
+            <h2>Premium & Coffre-fort d&apos;épargne</h2>
+          </div>
+          <p className="settings-subtitle" style={{ marginBottom: '1rem' }}>
+            Gère ton abonnement Premium (1 500 XOF / mois) et accède à ton Coffre-fort d&apos;épargne
+            avec badges et bonus automatiques.
+          </p>
+          <div className="settings-export-grid">
+            <button
+              onClick={() => navigate('/premium')}
+              className="settings-export-btn"
+              type="button"
+            >
+              <span className="material-symbols-outlined">workspace_premium</span>
+              <span>Gérer mon abonnement Premium</span>
+            </button>
+            {isPremium && (
+              <button
+                onClick={() => navigate('/coffre-fort')}
+                className="settings-export-btn"
+                type="button"
+              >
+                <span className="material-symbols-outlined">savings</span>
+                <span>Ouvrir mon Coffre-fort</span>
+              </button>
+            )}
           </div>
         </section>
 
@@ -222,6 +254,43 @@ export function SettingsPage() {
             </button>
           </div>
         </section>
+
+        {/* Admin Quick Links (visible uniquement pour l'admin) */}
+        {user?.email === import.meta.env.VITE_ADMIN_EMAIL && (
+          <section className="settings-section card animate-fade-in-up delay-5">
+            <div className="settings-section-header">
+              <span className="material-symbols-outlined">admin_panel_settings</span>
+              <h2>Zone Admin (tests)</h2>
+            </div>
+            <p className="settings-subtitle" style={{ marginBottom: '1rem' }}>
+              Accès rapide aux pages de test pour l’abonnement Premium et le Coffre-fort d’épargne.
+            </p>
+            <div className="settings-export-grid">
+              <button
+                type="button"
+                className="settings-export-btn"
+                onClick={() =>
+                  navigate(
+                    `/admin?secret=${encodeURIComponent(
+                      import.meta.env.VITE_ADMIN_SECRET_KEY || ''
+                    )}`
+                  )
+                }
+              >
+                <span className="material-symbols-outlined">dashboard</span>
+                <span>Panneau Admin</span>
+              </button>
+              <button
+                type="button"
+                className="settings-export-btn"
+                onClick={() => navigate('/admin/subscriptions')}
+              >
+                <span className="material-symbols-outlined">list</span>
+                <span>Abonnements en attente (JSON)</span>
+              </button>
+            </div>
+          </section>
+        )}
 
         {/* Footer */}
         <footer className="settings-footer">

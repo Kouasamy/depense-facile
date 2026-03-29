@@ -21,6 +21,14 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ defa
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })))
 const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })))
+const PremiumPage = lazy(() => import('./pages/PremiumPage').then(m => ({ default: m.PremiumPage })))
+const AdminSubscriptionsPage = lazy(() =>
+  import('./pages/AdminSubscriptionsPage').then(m => ({ default: m.AdminSubscriptionsPage }))
+)
+const CoffreFortPage = lazy(() =>
+  import('./pages/CoffreFort').then(m => ({ default: m.CoffreFortPage }))
+)
+const AdminPage = lazy(() => import('./pages/Admin').then(m => ({ default: m.AdminPage })))
 
 // Loading component optimisé pour mobile
 const PageLoader = () => (
@@ -124,6 +132,10 @@ function AppContent() {
             <Route path="/advisor" element={<AdvisorPage />} />
             <Route path="/chatbot" element={<ChatBotPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/premium" element={<PremiumPage />} />
+            <Route path="/admin/subscriptions" element={<AdminSubscriptionsPage />} />
+            <Route path="/coffre-fort" element={<CoffreFortPage />} />
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="/terms" element={<TermsPage onBack={() => window.history.back()} />} />
             <Route path="/privacy" element={<PrivacyPage onBack={() => window.history.back()} />} />
             <Route path="*" element={<Navigate to="/" replace />} />

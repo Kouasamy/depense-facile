@@ -12,7 +12,8 @@
     "express": "^4.21.1",
     "cors": "^2.8.5",
     "nodemailer": "^6.9.16",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "@supabase/supabase-js": "^2.93.3"
   },
   "engines": {
     "node": ">=18.0.0"

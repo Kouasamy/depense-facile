@@ -1,15 +1,15 @@
-# Gère Ton Djai 💰
+# Gère Ton Djai
 
 Application Web Progressive (PWA) de gestion de dépenses pour les Ivoiriens, avec saisie vocale intelligente et compréhension du Nouchi.
 
 ## Fonctionnalités
 
-- 🎤 **Saisie vocale** - Enregistrez vos dépenses en parlant naturellement
-- 🇨🇮 **Compréhension locale** - Reconnaissance du Nouchi et du français ivoirien (Gbaka, Garba, Woro-woro...)
-- 📱 **PWA installable** - Utilisable hors ligne, installable sur mobile
-- 📊 **Tableau de bord** - Visualisez vos dépenses par catégorie
-- 💳 **Mobile Money** - Support Orange Money, MTN Money, Moov Money, Wave
-- 🔄 **Sync cloud** - Synchronisation optionnelle avec Supabase
+- **Saisie vocale** - Enregistrez vos dépenses en parlant naturellement
+- **Compréhension locale** - Reconnaissance du Nouchi et du français ivoirien (Gbaka, Garba, Woro-woro...)
+- **PWA installable** - Utilisable hors ligne, installable sur mobile
+- **Tableau de bord** - Visualisez vos dépenses par catégorie
+- **Mobile Money** - Support Orange Money, MTN Money, Moov Money, Wave
+- **Sync cloud** - Synchronisation optionnelle avec Supabase
 
 ## Technologies
 
@@ -70,16 +70,16 @@ VITE_SUPABASE_ANON_KEY=votre-clé-anon-ici
 
 ### Fonctionnalités de synchronisation
 
-- ✅ **Synchronisation automatique** : Les données sont synchronisées automatiquement avec Supabase
-- ✅ **Mode hors ligne** : Fonctionne hors ligne avec IndexedDB, synchronise quand la connexion revient
-- ✅ **Sécurité** : Toutes les données sont protégées par RLS
-- ✅ **Authentification sécurisée** : Utilise Supabase Auth avec gestion de session
+- **Synchronisation automatique** : Les données sont synchronisées automatiquement avec Supabase
+- **Mode hors ligne** : Fonctionne hors ligne avec IndexedDB, synchronise quand la connexion revient
+- **Sécurité** : Toutes les données sont protégées par RLS
+- **Authentification sécurisée** : Utilise Supabase Auth avec gestion de session
 
 ## Utilisation
 
 ### Enregistrer une dépense
 
-1. Appuyez sur le bouton micro 🎤
+1. Appuyez sur le bouton micro
 2. Dites votre dépense naturellement :
    - "Gbaka 500"
    - "J'ai payé 1500 pour le garba avec Orange"
@@ -139,7 +139,13 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 - Améliorer la reconnaissance vocale
 - Proposer de nouvelles fonctionnalités
 
+## Développement
+
+Ce projet a été conçu pour offrir une solution de gestion financière simple, sécurisée et adaptée au contexte local ivoirien.
+
+**Développé par : Kouat Ekra Samuel**
+*Mars 2026*
+
 ## Licence
 
 MIT
-

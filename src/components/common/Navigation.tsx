@@ -20,7 +20,7 @@ const navItems: NavItem[] = [
 ]
 
 export function Navigation() {
-  const { isAuthenticated, user, logout } = useAuthStore()
+  const { isAuthenticated, user, logout, isPremium } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
   const navigate = useNavigate()
 
@@ -56,6 +56,17 @@ export function Navigation() {
               <span className="material-symbols-outlined">{item.icon}</span>
             </NavLink>
           ))}
+          {isPremium && (
+            <NavLink
+              to="/coffre-fort"
+              className={({ isActive }) =>
+                `nav-sidebar-item ${isActive ? 'active' : ''}`
+              }
+              title="Coffre-fort"
+            >
+              <span className="material-symbols-outlined">savings</span>
+            </NavLink>
+          )}
         </nav>
 
         <div className="nav-sidebar-footer">
@@ -123,6 +134,18 @@ export function Navigation() {
             <span className="nav-bottom-label">{item.label}</span>
           </NavLink>
         ))}
+        
+        {isPremium && (
+          <NavLink
+            to="/coffre-fort"
+            className={({ isActive }) =>
+              `nav-bottom-item ${isActive ? 'active' : ''}`
+            }
+          >
+            <span className="material-symbols-outlined">savings</span>
+            <span className="nav-bottom-label">Coffre-fort</span>
+          </NavLink>
+        )}
         
         {/* Paramètres */}
         <NavLink

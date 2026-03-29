@@ -93,15 +93,16 @@ export function LandingPage() {
     },
     {
       icon: '💳',
-      title: 'Coffre-fort d\'épargne (à venir)',
-      description: 'Fonctionnalité en préparation : un coffre-fort où tu pourras mettre de côté une somme à épargner, séparée de tes dépenses quotidiennes. Non disponible dans cette version.',
-      color: '#45b7d1',
-      comingSoon: true
+      title: 'Coffre-fort d\'épargne Premium',
+      description:
+        'Active l’abonnement Premium pour accéder à un coffre-fort dédié, gagner des badges d’épargne et recevoir des bonus automatiques sur ton épargne.',
+      color: '#45b7d1'
     },
     {
       icon: '🔒',
       title: 'Sécurisé & Privé',
-      description: 'Tes données sont protégées dans une base de données sécurisée Supabase. Synchronisation automatique avec sauvegarde cloud.',
+      description:
+        'Tes données sont protégées dans une base de données sécurisée avec chiffrement et sauvegarde cloud automatique.',
       color: '#96ceb4'
     },
     {
@@ -184,7 +185,7 @@ export function LandingPage() {
             whileHover={{ scale: 1.05 }}
           >
             <span>✨ Nouveau</span>
-            <span>Conseiller IA Woro disponible</span>
+            <span>Coffre-fort d&apos;épargne Premium + badges</span>
           </motion.div>
 
           <motion.h1
@@ -221,9 +222,10 @@ export function LandingPage() {
             className="landing-hero-subtitle"
             variants={itemVariants}
           >
-            La plateforme qui t'aide à maîtriser tes dépenses par des conseils personnalisés.
+            La plateforme qui t&apos;aide à maîtriser tes dépenses avec la voix, un conseiller IA
+            et un Coffre-fort d&apos;épargne Premium.
             <br />
-            Épargne plus, dépense mieux. C'est ton coach financier ivoirien.
+            Épargne plus, dépense mieux. C&apos;est ton coach financier ivoirien.
           </motion.p>
 
           <motion.div
@@ -497,14 +499,14 @@ export function LandingPage() {
               },
               {
                 icon: '💳',
-                title: 'Coffre-fort d\'épargne (à venir)',
-                description: 'Fonctionnalité à venir dans les prochaines mises à jour : un espace sécurisé pour mettre de côté une somme à épargner, non disponible dans la version actuelle.',
+                title: 'Coffre-fort d\'épargne Premium',
+                description:
+                  'Un espace dédié pour mettre de côté ton épargne, débloquer des badges et recevoir des bonus automatiques sur tes paliers atteints (réservé aux comptes Premium).',
                 details: [
-                  'Bientôt : transférer une partie de ton argent dans un coffre-fort dédié',
-                  'Bientôt : suivre séparément ce que tu as mis de côté',
-                  'Bientôt : alimenter ton coffre-fort avec Wave et Orange Money dans les prochaines mises à jour'
-                ],
-                comingSoon: true
+                  'Sépare ton épargne de tes dépenses quotidiennes',
+                  'Gagne des badges à chaque gros palier atteint',
+                  'Reçois des bonus en XOF directement dans ton Coffre-fort'
+                ]
               },
               {
                 icon: '🤖',
@@ -522,7 +524,8 @@ export function LandingPage() {
               {
                 icon: '🔒',
                 title: '100% Sécurisé',
-                description: 'Tes données sont protégées dans une base de données sécurisée Supabase avec chiffrement et sauvegarde cloud automatique.',
+                description:
+                  'Tes données sont protégées dans une base de données sécurisée avec chiffrement et sauvegarde cloud automatique.',
                 details: ['Base de données sécurisée', 'Chiffrement des données', 'Sauvegarde cloud']
               }
             ].map((benefit, index) => (
@@ -577,7 +580,8 @@ export function LandingPage() {
             {[
               {
                 question: 'GèreTonDjai est-il vraiment gratuit ?',
-                answer: 'Oui, la version actuelle (V1) est 100% gratuite ! Aucun abonnement, aucune carte bancaire requise. Toutes les fonctionnalités sont disponibles gratuitement. La version 2 (V2) sera payante mais pas chère, avec des fonctionnalités premium supplémentaires.'
+                answer:
+                  'Oui, le cœur de l’application est 100% gratuit : tu peux suivre tes dépenses, tes revenus et utiliser la saisie vocale sans payer. Un abonnement Premium optionnel (1 500 XOF / mois) débloque le Coffre-fort d’épargne avec badges et bonus.'
               },
               {
                 question: 'Mes données sont-elles sécurisées ?',
